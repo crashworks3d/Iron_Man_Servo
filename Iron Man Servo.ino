@@ -2,7 +2,7 @@
  
 MIT License
 
-Copyright (c) 2020 Crashworks
+Copyright (c) 2020 Crash Works 3D
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -26,7 +26,7 @@ DESCRIPTION
   ====================
   The purpose of this code is to automate the servos and LED eyes for the Iron Man helmet
 
-  We hope you find this useful and can learn something about programming micro-controllers as well.
+  Motivation and inspiration comes from the early work by "XL97" of The RPF Community
 
 DEVELOPED BY
   ====================
@@ -53,13 +53,15 @@ VarSpeedServo servo1; // create servo object to control servo 1
 VarSpeedServo servo2; // create servo object to control servo 2
 
 // Declare variables for servo control
-// TODO: change the angles to start then tweak as needed
-const int servoCloseSpeed = 80; // set the speed of the servo when closing 
-// The servos will be in opposition to each other
-const int servo1_OpenPos = 0; // 20 // set the open position of servo 1
-const int servo2_OpenPos = 178; // 160
-const int servo1_ClosePos = 178; // 160 // set the closed position of servo 2
-const int servo2_ClosePos = 0; // 20
+const int servoCloseSpeed = 100; // set the speed of the servo close function
+const int servoOpenSpeed = 255; // set the speed of the servo opening recommend set to max speed to aid in lift
+// In Dual Servo Configuration the servos move in opposing directions, so the angles of the servos will be opposite to each other. 
+// Normal Servo range is 0° ~ 180°, for initial setup the range has been adjusted to 20° ~ 160°, this allows for a 20° adjustment at both ends of the servo range.
+// See Helmet tutorial for further information on servo setup.
+const int servo1_OpenPos = 20; // set the open position of servo 1
+const int servo2_OpenPos = 160; // set the open position of servo 2
+const int servo1_ClosePos = 160; // set the closed position of servo 1
+const int servo2_ClosePos = 20; // set the closed position of servo 2
 
 // Declare variables for button control
 int buttonState = 0; // current state of the button
@@ -155,19 +157,14 @@ void setup() {
   servo1.attach(servo1Pin); // attaches the servo on pin 9 to the servo object
   servo2.attach(servo2Pin); // attaches the 2nd servo on pin 10 to the servo object
 
-  servo1.write(servo1_ClosePos, servoCloseSpeed); // sets intial position for 1st servo
-  servo2.write(servo2_ClosePos, servoCloseSpeed); // sets intial position for 2nd servo
+  servo1.write(servo1_ClosePos, servoSpeed); // sets intial position for 1st servo
+  servo2.write(servo2_ClosePos, servoSpeed); // sets intial position for 2nd servo
 
   pinMode(buttonPin, INPUT); // initialize the button pin as a input
   digitalWrite(buttonPin, HIGH); //use interal pull up resistors
 }
 
-/**
- * Main program exeucution
- * This method will run perpetually on the board
- */ 
 void loop() { 
-  // TODO: Get rid of various states and simplify code
   switch(state)
   {
   case S_IDLE:
@@ -204,7 +201,7 @@ void loop() {
     break;
 
   case S_BLINKON:
-    blinkOn(); // Call the method to simulate the eyes blinking on
+    // blinkOn(); // Call the method to simulate the eyes blinking on
     break;
 
   case S_LEDON:
@@ -254,8 +251,8 @@ void loop() {
 
   case S_SERVOUP:
     Serial.println("servo up........."); 
-    servo1.write(servo1_OpenPos);
-    servo2.write(servo2_OpenPos);
+    servo1.write(servo1_OpenPos, servoOpenSpeed);
+    servo2.write(servo2_OpenPos, servoOpenSpeed);
     state = S_IDLE;    
     break;
 
