@@ -85,5 +85,6 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 ## Acknowledgments/ Hat Tip
 * [XL97](https://www.therpf.com/forums/members/xl97.9819/)
 * [i3 Creations, LLC](https://github.com/i3creations)
+* [Dropwire](https://github.com/Acollazo7)
 * [Arduino](https://www.arduino.cc/)
 
