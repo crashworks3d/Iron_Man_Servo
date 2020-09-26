@@ -1,6 +1,6 @@
 # Iron Man Servo Controller for Arduino Nano
 
-![Iron Man Mark 85 Avengers End Game - Marvel](images/Iron_Man_Mark_85_End_Game.jpg)
+![Iron Man Mark 85 Avengers End Game - Marvel](images/DSC01481.png)
 
 The purpose of this project is to automate features of the various models of the Iron Man 3D printed helmet.  This project was created with the purpose of enabling fans like you to be able to more easily make your own automated helmet. I encourage you to learn from this as well as provide feedback for us to improve upon it.
 
