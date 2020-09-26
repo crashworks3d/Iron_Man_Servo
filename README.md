@@ -1,8 +1,8 @@
-# Iron Man Servo Controller for Arduino Nano
+# Iron Man Helmet Servo Controller for Arduino Nano
 
-![Iron Man Mark 85 Avengers End Game - Marvel](images/Iron_Man_Mark_85_End_Game.jpg)
+![Iron Man Mark 85 Avengers End Game - Marvel](images/DSC01481.png)
 
-The purpose of this project is to automate features of the various models of the Iron Man 3D printed helmet.  This project was created with the purpose of enabling fans like you to be able to more easily make your own automated helmet. I encourage you to learn from this as well as provide feedback for us to improve upon it.
+The purpose of this project is to automate features of the various models of the Iron Man 3D printed helmet.  This project was created with the purpose of enabling fans like you to be able to more easily make your own automated helmet. We encourage you to learn from this as well as provide feedback for us to improve upon it.
 
 ## Follow Me
 
@@ -47,7 +47,7 @@ Link: [Thingiverse Iron Man Servo Kit](https://www.thingiverse.com/crashworks3d/
 1.  In the Arduino IDE be sure to set the appropriate board (Arduino Nano) and ports to match your environment.
 2. Complile and load onto your Arduino Nano following the Arduino IDE [instructions(https://www.arduino.cc/en/Guide)].
 
-Successful installation will result in the servos moving the faceplate into the "closed" or "down" position.  When the button is pushed, the servos will move to the "open" or "up" position.
+Successful installation will result in the servos moving the faceplate into the "closed" or "down" position and the activation of the LED (eyes).  When the button is pushed, the servos will move to the "open" or "up" position and the LED (eyes) will turn off.
 
 ## Wiring Diagram
 ![Wiring diagram](images/wiring_diagram_1.jpg)
@@ -85,5 +85,6 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 ## Acknowledgments/ Hat Tip
 * [XL97](https://www.therpf.com/forums/members/xl97.9819/)
 * [i3 Creations, LLC](https://github.com/i3creations)
+* [Dropwire](https://github.com/Acollazo7)
 * [Arduino](https://www.arduino.cc/)
 
