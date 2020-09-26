@@ -47,7 +47,7 @@ Link: [Thingiverse Iron Man Servo Kit](https://www.thingiverse.com/crashworks3d/
 1.  In the Arduino IDE be sure to set the appropriate board (Arduino Nano) and ports to match your environment.
 2. Complile and load onto your Arduino Nano following the Arduino IDE [instructions(https://www.arduino.cc/en/Guide)].
 
-Successful installation will result in the servos moving the faceplate into the "closed" or "down" position.  When the button is pushed, the servos will move to the "open" or "up" position.
+Successful installation will result in the servos moving the faceplate into the "closed" or "down" position and the activation of the LED (eyes).  When the button is pushed, the servos will move to the "open" or "up" position and the LED (eyes) will turn off.
 
 ## Wiring Diagram
 ![Wiring diagram](images/wiring_diagram_1.jpg)
