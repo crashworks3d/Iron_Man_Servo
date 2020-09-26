@@ -87,4 +87,5 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 * [i3 Creations, LLC](https://github.com/i3creations)
 * [Dropwire](https://github.com/Acollazo7)
 * [Arduino](https://www.arduino.cc/)
+* [Fritzing](https://fritzing.org/)
 
