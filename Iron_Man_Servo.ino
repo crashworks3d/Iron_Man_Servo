@@ -157,8 +157,8 @@ void setup() {
   servo1.attach(servo1Pin); // attaches the servo on pin 9 to the servo object
   servo2.attach(servo2Pin); // attaches the 2nd servo on pin 10 to the servo object
 
-  servo1.write(servo1_ClosePos, servoSpeed); // sets intial position for 1st servo
-  servo2.write(servo2_ClosePos, servoSpeed); // sets intial position for 2nd servo
+  servo1.write(servo1_ClosePos, servoCloseSpeed); // sets intial position for 1st servo
+  servo2.write(servo2_ClosePos, servoCloseSpeed); // sets intial position for 2nd servo
 
   pinMode(buttonPin, INPUT); // initialize the button pin as a input
   digitalWrite(buttonPin, HIGH); //use interal pull up resistors
@@ -251,16 +251,46 @@ void loop() {
 
   case S_SERVOUP:
     Serial.println("servo up........."); 
+
+    // Re-attach the servos to their pins
+    servo1.attach(servo1Pin);
+    servo2.attach(servo2Pin);
+
+    // Send data to the servos for movement
     servo1.write(servo1_OpenPos, servoOpenSpeed);
     servo2.write(servo2_OpenPos, servoOpenSpeed);
+
+    // Wait until the servos are done moving
+    servo1.wait();
+    servo2.wait();
+
+    // Detach so motors don't "idle"
+    servo1.detach();
+    servo2.detach();
+
     state = S_IDLE;    
     break;
 
   case S_SERVODOWN:
     lastTime = millis();  // Remember the current time
-    Serial.println("servo down.........");   
+    Serial.println("servo down.........");  
+
+    // Re-attach the servos to their pins
+    servo1.attach(servo1Pin);
+    servo2.attach(servo2Pin);
+
+    // Send data to the servos for movement 
     servo1.write(servo1_ClosePos, servoCloseSpeed);
     servo2.write(servo2_ClosePos, servoCloseSpeed);
+
+    // Wait until the servos are done moving
+    servo1.wait();
+    servo2.wait();
+
+    // Detach so motors don't "idle"
+    servo1.detach();
+    servo2.detach();
+    
     state = S_SERVOWAIT;    
     break;
 
