@@ -112,7 +112,7 @@ void simDelay(long period){
  * Simulate the eyes slowly blinking until fully lit
  */ 
 void blinkOn(){
-  Serial.println("init blink.........");   
+  Serial.println("Initial Blink");   
 
   // define the different levels of led brightness
   int pwmUpper = 155;
@@ -151,7 +151,7 @@ void setup() {
   Serial.begin(9600);  
   //start it off
   //state = S_BLINKON; 
-  Serial.print("INTIT STATE: ");
+  Serial.print("Initial State: ");
   Serial.println(state);
 
   servo1.attach(servo1Pin); // attaches the servo on pin 9 to the servo object
@@ -205,7 +205,7 @@ void loop() {
     break;
 
   case S_LEDON:
-    Serial.println("increase........");    
+    Serial.println("Increase");    
     lastTime = millis();  // Remember the current time
     analogWrite(leftEyePin, currentPWM);
     analogWrite(rightEyePin, currentPWM);
@@ -220,7 +220,7 @@ void loop() {
         state = S_LEDON;        
       }
       else{
-        Serial.println("@ 255 done........");
+        Serial.println("@ 255 done");
         state = S_IDLE;
         //state = S_LEDOFF; //no auto turn off.. set to idle state
       }
@@ -243,14 +243,15 @@ void loop() {
         state = S_LEDOFF;        
       }
       else{
-        Serial.println("@ 0 done........");
+        Serial.println("Done");
         state = S_SERVOUP; //leds off..raise faceplate
       }
     }
     break; 
 
   case S_SERVOUP:
-    Serial.println("servo up........."); 
+    lastTime = millis();  // Remember the current time
+    Serial.println("Servo Up"); 
 
     // Re-attach the servos to their pins
     servo1.attach(servo1Pin);
@@ -273,7 +274,7 @@ void loop() {
 
   case S_SERVODOWN:
     lastTime = millis();  // Remember the current time
-    Serial.println("servo down.........");  
+    Serial.println("Servo Down");  
 
     // Re-attach the servos to their pins
     servo1.attach(servo1Pin);
@@ -297,11 +298,11 @@ void loop() {
   case S_SERVOWAIT:
     // If enough time has passed, call the eye flicker routine
     if(millis() > (lastTime + callDelay)){   
-      Serial.println("start eye flicker routine");
-      state = S_BLINKON;        
+      Serial.println("start eye routine");
+      state = S_LEDON;        
     }
     else{
-      Serial.println("waiting........");
+      Serial.println("Waiting");
     }
     break;
 
