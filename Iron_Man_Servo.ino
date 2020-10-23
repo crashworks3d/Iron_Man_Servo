@@ -32,6 +32,7 @@ DEVELOPED BY
   ====================
   Dropwire
   Cranshark
+  Taff
 
   Original code created by xl97
 */
@@ -66,11 +67,13 @@ const int servo2_ClosePos = 20; // set the closed position of servo 2
 // Declare variables for button control
 int buttonState = 0; // current state of the button
 int lastButtonState = 0; // previous state of the button
+boolean movieblinkOnSetup = false; //Blink LEDs on setup, Sequence based on Avengers Movie
+boolean movieblinkOnClose = false; //Blink LEDs on close of faceplate, Sequence based on Avengers Movie
 
 // Declare variables for LED control
 unsigned long fadeDelay = .1; //speed of the eye 'fade'
-unsigned long callDelay = 100; //length to wait to start eye flicker after face plate comes down
-unsigned long blinkSpeed = 50; //delay between init blink on/off
+unsigned long callDelay = 10; //length to wait to start eye flicker after face plate comes down
+unsigned long blinkSpeed = 60; //delay between init blink on/off
 unsigned long currentPWM = 0; // keep track of where the current PWM level is at
 boolean isOpen = true; // keep track of whether or not the faceplate is open
 
@@ -81,7 +84,7 @@ boolean isOpen = true; // keep track of whether or not the faceplate is open
 #define S_WAITOFF 5
 #define S_INITON 6
 #define S_INITWAIT 7
-#define S_BLINKON 8
+#define S_MOVIEBLINK 8
 #define S_SERVOUP 9
 #define S_SERVODOWN 0
 #define S_SERVOWAIT 10
@@ -89,7 +92,7 @@ boolean isOpen = true; // keep track of whether or not the faceplate is open
 
 
 //FSM init vars
-static int state = S_IDLE; // initial state is 1, the "idle" state.
+static int state = S_LEDON; // initial state is 1, the "idle" state.
 static unsigned long lastTime;  // To store the "current" time in for delays.
 
 /**
@@ -111,46 +114,67 @@ void simDelay(long period){
 /**
  * Simulate the eyes slowly blinking until fully lit
  */ 
-void blinkOn(){
-  Serial.println("Initial Blink");   
 
-  // define the different levels of led brightness
-  int pwmUpper = 155;
-  int pwmLower = 70;
-  int delayInterval[] = {350, 300, 250, 200, 150, 100, 50, 25, 5}; // define the time delay intervals between "blinks"
+void movieblink(){
+  Serial.println("Start Movie Blink..");
 
-  // Keep track of what lower level you want for the LEDs to be
-  // Start "off" and then go to the lower level after so many delay intervals
-  int curPwmLow = 0; 
+  // pause for effect...
+  simDelay(300);
 
-  // loop through the time intervals
-  for(int i = 0; i < 9; i++){
-    // Ternary operator to set the current pwm lower level
-    curPwmLow = i > 5 ? 0 : pwmLower; 
+  int lowValue = 21;
+  int delayInterval[] = { 210, 126, 84 };
+  int delayVal = 0;
 
-    // Light up the LEDs to the upper level
-    analogWrite(leftEyePin, pwmUpper);
-    analogWrite(rightEyePin, pwmUpper);
-    // wait for a short period
-    simDelay(blinkSpeed);
-    // Drop the LEDs down to the lower level
-    analogWrite(leftEyePin, curPwmLow);
-    analogWrite(rightEyePin, curPwmLow);
-    // wait for a period defined in the delay interval
-    simDelay(delayInterval[i]);
+  // First blink on
+  for (int i = 0; i <= lowValue; i++){
+    analogWrite(rightEyePin, i);
+    analogWrite(leftEyePin, i);
+
+    delayVal = delayInterval[0]/lowValue;
+    simDelay(delayVal);
   }
+
+  // Turn off
+  analogWrite(rightEyePin, 0);
+  analogWrite(leftEyePin, 0);
+  simDelay(delayInterval[0]);
+
+  // Second blink on
+  for (int i = 0; i <= lowValue; i++){
+    analogWrite(rightEyePin, i);
+    analogWrite(leftEyePin, i);
+
+    delayVal = delayInterval[1]/lowValue;
+    simDelay(delayVal);
+  }
+
+  // Turn off
+  analogWrite(rightEyePin, 0);
+  analogWrite(leftEyePin, 0);
+  simDelay(delayInterval[1]);
+
+  // Third blink on
+  analogWrite(rightEyePin, lowValue);
+  analogWrite(leftEyePin, lowValue);
+  simDelay(delayInterval[2]);
+
+  // Turn off
+  analogWrite(rightEyePin, 0);
+  analogWrite(leftEyePin, 0);
+  simDelay(delayInterval[2]);
+
+  // All on
+  analogWrite(rightEyePin, 255);
+  analogWrite(leftEyePin, 255);
 
   state = S_LEDON;    
 }
-
 /**
  * Initialization method called by the Arduino library when the board boots up
  */
 void setup() {
   // Set up serial port
   Serial.begin(9600);  
-  //start it off
-  //state = S_BLINKON; 
   Serial.print("Initial State: ");
   Serial.println(state);
 
@@ -160,11 +184,24 @@ void setup() {
   servo1.write(servo1_ClosePos, servoCloseSpeed); // sets intial position for 1st servo
   servo2.write(servo2_ClosePos, servoCloseSpeed); // sets intial position for 2nd servo
 
+  simDelay(1000); // wait for servos to complete range of motion
+
+  // Detach so motors don't "idle"
+    servo1.detach();
+    servo2.detach();  
+
   pinMode(buttonPin, INPUT); // initialize the button pin as a input
   digitalWrite(buttonPin, HIGH); //use interal pull up resistors
-}
 
+  //start with blinking LEDs if flag is turned on
+  if( movieblinkOnSetup )
+  {
+    Serial.print("Blink on Setup Running");
+    movieblink(); // Call the method to simulate Avengers Movie Blink Sequence
+  }
+}
 void loop() { 
+  
   switch(state)
   {
   case S_IDLE:
@@ -200,12 +237,13 @@ void loop() {
     lastButtonState = buttonState;
     break;
 
-  case S_BLINKON:
-    // blinkOn(); // Call the method to simulate the eyes blinking on
+  case S_MOVIEBLINK:
+    Serial.println("Movie Blink State");   
+    movieblink(); // Call the method to simulate the eyes blinking on
     break;
 
   case S_LEDON:
-    Serial.println("Increase");    
+    //Serial.println("Increase");    
     lastTime = millis();  // Remember the current time
     analogWrite(leftEyePin, currentPWM);
     analogWrite(rightEyePin, currentPWM);
@@ -228,7 +266,7 @@ void loop() {
     break;
 
   case S_LEDOFF:
-    Serial.println("........decrease");     
+    //Serial.println("........decrease");     
     lastTime = millis();  // Remember the current time
     analogWrite(leftEyePin, currentPWM);
     analogWrite(rightEyePin, currentPWM);
@@ -261,9 +299,7 @@ void loop() {
     servo1.write(servo1_OpenPos, servoOpenSpeed);
     servo2.write(servo2_OpenPos, servoOpenSpeed);
 
-    // Wait until the servos are done moving
-    servo1.wait();
-    servo2.wait();
+    simDelay(1000); // wait doesn't wait long enough for servos to fully complete...
 
     // Detach so motors don't "idle"
     servo1.detach();
@@ -284,15 +320,17 @@ void loop() {
     servo1.write(servo1_ClosePos, servoCloseSpeed);
     servo2.write(servo2_ClosePos, servoCloseSpeed);
 
-    // Wait until the servos are done moving
-    servo1.wait();
-    servo2.wait();
+    simDelay(1000); // wait doesn't wait long enough for servos to fully complete...
 
     // Detach so motors don't "idle"
     servo1.detach();
     servo2.detach();
-    
-    state = S_SERVOWAIT;    
+
+    if( movieblinkOnClose ) {
+      Serial.println("Blink on Close Running");
+      movieblink(); // Call the method to simulate Avengers Movie Blink Sequence
+    }
+    state = S_LEDON;    
     break;
 
   case S_SERVOWAIT:
