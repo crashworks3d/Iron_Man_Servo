@@ -30,8 +30,9 @@ It will be helpful but not necessary if you have a basic level of programming ex
 
 You can download the 3D printable servo kit from Thingiverse:
 
-Link: [Thingiverse Iron Man Servo Kit](https://www.thingiverse.com/thing:4607836)
-Link: [Thingiverse Iron Man Servo Kit](https://www.thingiverse.com/thing:4630066)
+Link: [Thingiverse MK85 Iron Man Servo Kit](https://www.thingiverse.com/thing:4607836)
+
+Link: [Thingiverse MK7 Iron Man Servo Kit](https://www.thingiverse.com/thing:4630066)
 
 ### Prerequisites
 
