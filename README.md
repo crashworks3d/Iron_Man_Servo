@@ -12,7 +12,7 @@ The purpose of this project is to automate features of the various models of the
 [2.1]: images/youtube.png (YouTube - Dropwire)
 [3.1]: images/github.png (Github - Crash Works)
 [4.1]: images/youtube-preview.jpg (Crash Works 3d - Helmet Motorization Kit Test v1)
-[5.1]: images/youtube-preview_MK7.jpg (Crash Works 3d - Helmet Motorization Kit Test v1)
+[5.1]: images/youtube-preview_MK7.JPG (Crash Works 3d - Helmet Motorization Kit Test v1)
 [1]: https://www.instagram.com/dropwire/
 [2]: https://www.youtube.com/channel/UCxbZNWPNsDoVIHJfYZQF2Jw
 [3]: https://github.com/
