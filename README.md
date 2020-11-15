@@ -34,7 +34,7 @@ Link: [Thingiverse MK85 Iron Man Servo Kit](https://www.thingiverse.com/thing:46
 
 Link: [Thingiverse MK7 Iron Man Servo Kit](https://www.thingiverse.com/thing:4630066)
 
-You can purchase an easy to install and use Arduino shield made specifically for this project:
+You can purchase an easy to install and use Arduino shield (Nano included) designed specifically for this project:
 
 ***A.L.I.S.H.A. Arduino nano Led & Integrated Servo Helmet Actuator for 3D Printed Helmets***
 
