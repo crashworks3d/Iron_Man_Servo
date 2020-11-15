@@ -48,6 +48,7 @@ const int buttonPin = 2; // the pin that the pushbutton is attached to
 // led control pins (need to be PWM enabled pins for fading)
 const int leftEyePin =  6;  // left eye LEDs
 const int rightEyePin =  3;  // right eye LEDs
+const int AuxLED = 4; // Aux LED non-PWM
 
 // Declare servo objects
 VarSpeedServo servo1; // create servo object to control servo 1
@@ -67,7 +68,7 @@ const int servo2_ClosePos = 20; // set the closed position of servo 2
 // Declare variables for button control
 int buttonState = 0; // current state of the button
 int lastButtonState = 0; // previous state of the button
-boolean movieblinkOnSetup = false; //Blink LEDs on setup, Sequence based on Avengers Movie
+boolean movieblinkOnSetup = true; //Blink LEDs on setup, Sequence based on Avengers Movie
 boolean movieblinkOnClose = false; //Blink LEDs on close of faceplate, Sequence based on Avengers Movie
 
 // Declare variables for LED control
@@ -129,7 +130,7 @@ void movieblink(){
   for (int i = 0; i <= lowValue; i++){
     analogWrite(rightEyePin, i);
     analogWrite(leftEyePin, i);
-
+    digitalWrite(AuxLED, LOW);
     delayVal = delayInterval[0]/lowValue;
     simDelay(delayVal);
   }
@@ -137,13 +138,14 @@ void movieblink(){
   // Turn off
   analogWrite(rightEyePin, 0);
   analogWrite(leftEyePin, 0);
+  digitalWrite(AuxLED, HIGH);
   simDelay(delayInterval[0]);
 
   // Second blink on
   for (int i = 0; i <= lowValue; i++){
     analogWrite(rightEyePin, i);
     analogWrite(leftEyePin, i);
-
+    digitalWrite(AuxLED, LOW);
     delayVal = delayInterval[1]/lowValue;
     simDelay(delayVal);
   }
@@ -151,22 +153,26 @@ void movieblink(){
   // Turn off
   analogWrite(rightEyePin, 0);
   analogWrite(leftEyePin, 0);
+  digitalWrite(AuxLED, HIGH);
   simDelay(delayInterval[1]);
 
   // Third blink on
   analogWrite(rightEyePin, lowValue);
   analogWrite(leftEyePin, lowValue);
+  digitalWrite(AuxLED, LOW);
   simDelay(delayInterval[2]);
 
   // Turn off
   analogWrite(rightEyePin, 0);
   analogWrite(leftEyePin, 0);
+  digitalWrite(AuxLED, HIGH);
   simDelay(delayInterval[2]);
 
   // All on
   analogWrite(rightEyePin, 255);
   analogWrite(leftEyePin, 255);
-
+  digitalWrite(AuxLED, LOW);
+  
   state = S_LEDON;    
 }
 /**
@@ -192,7 +198,8 @@ void setup() {
 
   pinMode(buttonPin, INPUT); // initialize the button pin as a input
   digitalWrite(buttonPin, HIGH); //use interal pull up resistors
-
+  pinMode(AuxLED, OUTPUT); // set output for AUX LED
+  
   //start with blinking LEDs if flag is turned on
   if( movieblinkOnSetup )
   {
@@ -245,8 +252,9 @@ void loop() {
   case S_LEDON:
     //Serial.println("Increase");    
     lastTime = millis();  // Remember the current time
-    analogWrite(leftEyePin, currentPWM);
-    analogWrite(rightEyePin, currentPWM);
+    analogWrite(leftEyePin, currentPWM); // Turn on Left LED
+    analogWrite(rightEyePin, currentPWM); // Turn on Right LED
+    digitalWrite(AuxLED, HIGH); // Turn on AUX LED
     state = S_WAITON;  // Move to the next state
     break;
 
@@ -268,8 +276,9 @@ void loop() {
   case S_LEDOFF:
     //Serial.println("........decrease");     
     lastTime = millis();  // Remember the current time
-    analogWrite(leftEyePin, currentPWM);
-    analogWrite(rightEyePin, currentPWM);
+    analogWrite(leftEyePin, currentPWM); // Turn off Left LED
+    analogWrite(rightEyePin, currentPWM); // Turn off Right LED
+    digitalWrite(AuxLED, LOW); // Turn off AUX LED
     state = S_WAITOFF;
     break;
 
