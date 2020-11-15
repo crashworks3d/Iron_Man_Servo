@@ -18,11 +18,13 @@ The purpose of this project is to automate features of the various models of the
 [3]: https://github.com/
 [4]: https://www.youtube.com/watch?v=dDsZCZuzkQU
 [5]: https://www.youtube.com/watch?v=P-p2FFcd4s8&feature=emb_logo
+[6]: https://www.youtube.com/watch?v=9Ue6Bggzcgk&feature=emb_logo
 
 ### Actual Use:
 
 [![alt text][4.1]][4]
 [![alt text][5.1]][5]
+[![alt text][5.1]][6]
 
 ## Getting Started
 
@@ -33,6 +35,8 @@ You can download the 3D printable servo kit from Thingiverse:
 Link: [Thingiverse MK85 Iron Man Servo Kit](https://www.thingiverse.com/thing:4607836)
 
 Link: [Thingiverse MK7 Iron Man Servo Kit](https://www.thingiverse.com/thing:4630066)
+
+Link: [Thingiverse MK46 Iron Man Servo Kit](https://www.thingiverse.com/thing:4640029)
 
 You can purchase an easy to install and use Arduino shield (Nano included) designed specifically for this project:
 
