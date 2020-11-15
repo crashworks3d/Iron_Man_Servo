@@ -25,7 +25,7 @@ The purpose of this project is to automate features of the various models of the
 
 [![alt text][4.1]][4]
 [![alt text][5.1]][5]
-[![alt text][5.1]][6]
+[![alt text][6.1]][6]
 
 ## Getting Started
 
