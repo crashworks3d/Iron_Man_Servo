@@ -74,7 +74,7 @@ Successful installation will result in the servos moving the faceplate into the 
 ![Breadboard example](images/Iron_Man_Servo_Sketch_bb.jpg)
 
 ## BOM
-Most components can be found on [Amazon](https://www.amazon.com) or [AliExpress](https://www.aliexpress.com)
+Most components can be found on Link:[Amazon](https://www.amazon.com) or Link:[AliExpress](https://www.aliexpress.com)
 * Arduino Nano
 * MG90S Servo (metal gear only!)
 * Cosplay Iron Man/Batman LEDs (can be found on eBay or AliExpress)
