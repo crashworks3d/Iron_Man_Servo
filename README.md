@@ -39,7 +39,7 @@ You can download the 3D printable servo kit from Thingiverse:
 
 [Thingiverse MK46 Iron Man Servo Kit](https://www.thingiverse.com/thing:4640029)
 
-You can purchase an easy to install and use Arduino shield (Nano included) designed specifically for this project:
+### You can purchase an easy to install and use Arduino shield (Nano included) designed specifically for this project:
 
 ***A.L.I.S.H.A. Arduino nano Led & Integrated Servo Helmet Actuator for 3D Printed Helmets***
 
@@ -110,4 +110,3 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 * [Dropwire](https://github.com/Acollazo7)
 * [Arduino](https://www.arduino.cc/)
 * [Fritzing](https://fritzing.org/)
-
