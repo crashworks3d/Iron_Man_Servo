@@ -43,9 +43,13 @@ You can purchase an easy to install and use Arduino shield (Nano included) desig
 
 ***A.L.I.S.H.A. Arduino nano Led & Integrated Servo Helmet Actuator for 3D Printed Helmets***
 
-[eBay - A.L.I.S.H.A. SMT](https://www.ebay.com/itm/402549198649)  ![SMT Board](images/SMT.jpg)
+[eBay - A.L.I.S.H.A. SMT](https://www.ebay.com/itm/402549198649)  
+
+![SMT Board](images/SMT.jpg)
 
 [eBay - A.L.I.S.H.A. Through-Hole](https://www.ebay.com/itm/402549215661)
+
+![THB Board](images/THB.jpg)
 
 ### Prerequisites
 
