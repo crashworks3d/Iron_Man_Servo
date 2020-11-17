@@ -14,8 +14,6 @@ The purpose of this project is to automate features of the various models of the
 [4.1]: images/youtube-preview.jpg (Crash Works 3d - MK85 Helmet Motorization Kit Test v1)
 [5.1]: images/youtube-preview_MK7.JPG (Crash Works 3d - MK7 Helmet Motorization Kit Test v1)
 [6.1]: images/youtube-preview_Mk46_Closed.JPG (Crash Works 3d - MK46 Helmet Motorization Kit Test v1)
-[7.1]: images/SMT.JPG (A.L.I.S.H.A SMT)
-[8.1]: images/THB.JPG (A.L.I.S.H.A THB)
 [1]: https://www.instagram.com/dropwire/
 [2]: https://www.youtube.com/channel/UCxbZNWPNsDoVIHJfYZQF2Jw
 [3]: https://github.com/
@@ -48,10 +46,10 @@ You can purchase an easy to install and use Arduino shield (Nano included) desig
 ***A.L.I.S.H.A. Arduino nano Led & Integrated Servo Helmet Actuator for 3D Printed Helmets***
 
 [eBay - A.L.I.S.H.A. SMT](https://www.ebay.com/itm/402549198649)  
-[![alt text](images/SMT.jpg)][7]
+[![alt text](images/SMT.jpg)][(https://www.ebay.com/itm/402549198649)]
 
 [eBay - A.L.I.S.H.A. Through-Hole](https://www.ebay.com/itm/402549215661)
-[![alt text][8.1]][8]
+[![alt text](images/THB.jpg)][8]
 
 ### Prerequisites
 
