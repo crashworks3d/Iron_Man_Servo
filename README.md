@@ -33,19 +33,19 @@ It will be helpful but not necessary if you have a basic level of programming ex
 
 You can download the 3D printable servo kit from Thingiverse:
 
-Link: [Thingiverse MK85 Iron Man Servo Kit](https://www.thingiverse.com/thing:4607836)
+Link:[Thingiverse MK85 Iron Man Servo Kit](https://www.thingiverse.com/thing:4607836)
 
-Link: [Thingiverse MK7 Iron Man Servo Kit](https://www.thingiverse.com/thing:4630066)
+Link:[Thingiverse MK7 Iron Man Servo Kit](https://www.thingiverse.com/thing:4630066)
 
-Link: [Thingiverse MK46 Iron Man Servo Kit](https://www.thingiverse.com/thing:4640029)
+Link:[Thingiverse MK46 Iron Man Servo Kit](https://www.thingiverse.com/thing:4640029)
 
 You can purchase an easy to install and use Arduino shield (Nano included) designed specifically for this project:
 
 ***A.L.I.S.H.A. Arduino nano Led & Integrated Servo Helmet Actuator for 3D Printed Helmets***
 
-Link: [eBay - A.L.I.S.H.A. SMT](https://www.ebay.com/itm/402549198649)
+Link:[eBay - A.L.I.S.H.A. SMT](https://www.ebay.com/itm/402549198649)
 
-Link: [eBay - A.L.I.S.H.A. Through-Hole](https://www.ebay.com/itm/402549215661)
+Link:[eBay - A.L.I.S.H.A. Through-Hole](https://www.ebay.com/itm/402549215661)
 
 ### Prerequisites
 
