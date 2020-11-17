@@ -20,8 +20,6 @@ The purpose of this project is to automate features of the various models of the
 [4]: https://www.youtube.com/watch?v=dDsZCZuzkQU
 [5]: https://www.youtube.com/watch?v=P-p2FFcd4s8&feature=emb_logo
 [6]: https://www.youtube.com/watch?v=9Ue6Bggzcgk&feature=emb_logo
-[7]: https://www.ebay.com/itm/402549198649
-[8]: https://www.ebay.com/itm/402549215661
 
 ### Actual Use:
 
@@ -51,7 +49,7 @@ You can purchase an easy to install and use Arduino shield (Nano included) desig
 
 [eBay - A.L.I.S.H.A. Through-Hole](https://www.ebay.com/itm/402549215661)
 
-[![alt text](images/THB.jpg)][8]
+[![alt text](images/THB.jpg)](https://www.ebay.com/itm/402549215661)
 
 ### Prerequisites
 
@@ -69,7 +67,7 @@ You can purchase an easy to install and use Arduino shield (Nano included) desig
 ### Installing
 
 1.  In the Arduino IDE be sure to set the appropriate board (Arduino Nano) and ports to match your environment.
-2. Complile and load onto your Arduino Nano following the Arduino IDE [instructions(https://www.arduino.cc/en/Guide)].
+2. Complile and load onto your Arduino Nano following the [Arduino IDE instructions](https://www.arduino.cc/en/Guide).
 
 Successful installation will result in the servos moving the faceplate into the "closed" or "down" position and the activation of the LED (eyes).  When the button is pushed, the servos will move to the "open" or "up" position and the LED (eyes) will turn off.
 
