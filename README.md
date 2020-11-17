@@ -49,6 +49,7 @@ You can purchase an easy to install and use Arduino shield (Nano included) desig
 [![alt text](images/SMT.jpg)][7]
 
 [eBay - A.L.I.S.H.A. Through-Hole](https://www.ebay.com/itm/402549215661)
+
 [![alt text](images/THB.jpg)][8]
 
 ### Prerequisites
