@@ -40,6 +40,11 @@ DEVELOPED BY
 // Referenced libraries
 // For installation instructions see https://github.com/netlabtoolkit/VarSpeedServo
 #include <VarSpeedServo.h>
+// See: https://wiki.dfrobot.com/DFPlayer_Mini_SKU_DFR0299#target_6
+// Important!!! On the SD card copy the mp3 files into an mp3 directory
+// Download and install the DFRobotDFPlayerMini library
+#include "DFRobotDFPlayerMini.h"
+#include <SoftwareSerial.h>
 
 // Declare pin settings
 const int servo1Pin = 9; // set the pin for servo 1
@@ -49,6 +54,9 @@ const int buttonPin = 2; // the pin that the pushbutton is attached to
 const int leftEyePin =  6;  // left eye LEDs
 const int rightEyePin =  3;  // right eye LEDs
 const int AuxLED = 4; // Aux LED non-PWM
+// sound board pins
+const int rx_pin = 8; // set pin for receive (RX) communications
+const int tx_pin = 7; // set pin for transmit (TX) communications
 
 // Declare servo objects
 VarSpeedServo servo1; // create servo object to control servo 1
@@ -69,7 +77,7 @@ const int servo2_ClosePos = 20; // set the closed position of servo 2
 int buttonState = 0; // current state of the button
 int lastButtonState = 0; // previous state of the button
 boolean movieblinkOnSetup = true; //Blink LEDs on setup, Sequence based on Avengers Movie
-boolean movieblinkOnClose = false; //Blink LEDs on close of faceplate, Sequence based on Avengers Movie
+boolean movieblinkOnClose = true; //Blink LEDs on close of faceplate, Sequence based on Avengers Movie
 
 // Declare variables for LED control
 unsigned long fadeDelay = .1; //speed of the eye 'fade'
@@ -77,6 +85,14 @@ unsigned long callDelay = 10; //length to wait to start eye flicker after face p
 unsigned long blinkSpeed = 60; //delay between init blink on/off
 unsigned long currentPWM = 0; // keep track of where the current PWM level is at
 boolean isOpen = true; // keep track of whether or not the faceplate is open
+
+// Declare variables for sound control
+const int volume = 30; // sound board volume level (30 is max)
+#define SND_CLOSE 1 // sound track for helmet closing sound
+#define SND_JARVIS 2 // sound track for JARVIS sound
+#define SND_OPEN 3 // sound track for helmet opening sound
+SoftwareSerial serialObj(rx_pin, tx_pin); // Create object for serial communications
+DFRobotDFPlayerMini mp3Obj; // Create object for DFPlayer Mini
 
 #define S_IDLE 1
 #define S_LEDON 2
@@ -115,7 +131,6 @@ void simDelay(long period){
 /**
  * Simulate the eyes slowly blinking until fully lit
  */ 
-
 void movieblink(){
   Serial.println("Start Movie Blink..");
 
@@ -175,14 +190,28 @@ void movieblink(){
   
   state = S_LEDON;    
 }
+
+/**
+ * Initialization method for DFPlayer Mini board
+ */
+ void init_player(){
+  serialObj.begin(9600);
+  mp3Obj.begin(serialObj);
+  
+  Serial.println("Setting volume");
+  mp3Obj.volume(volume);
+  delay(1000);
+ }
 /**
  * Initialization method called by the Arduino library when the board boots up
  */
 void setup() {
   // Set up serial port
-  Serial.begin(9600);  
+  Serial.begin(115200);  
   Serial.print("Initial State: ");
   Serial.println(state);
+
+  init_player(); // initializes the sound player
 
   servo1.attach(servo1Pin); // attaches the servo on pin 9 to the servo object
   servo2.attach(servo2Pin); // attaches the 2nd servo on pin 10 to the servo object
@@ -300,9 +329,15 @@ void loop() {
     lastTime = millis();  // Remember the current time
     Serial.println("Servo Up"); 
 
+    // Play sound effect for helmet closing
+    mp3Obj.playMp3Folder(SND_OPEN);
+
     // Re-attach the servos to their pins
     servo1.attach(servo1Pin);
     servo2.attach(servo2Pin);
+
+    // Play sound effect for helmet opening
+    mp3Obj.playMp3Folder(SND_OPEN);
 
     // Send data to the servos for movement
     servo1.write(servo1_OpenPos, servoOpenSpeed);
@@ -329,6 +364,9 @@ void loop() {
     servo1.write(servo1_ClosePos, servoCloseSpeed);
     servo2.write(servo2_ClosePos, servoCloseSpeed);
 
+    // Play sound effect for helmet closing
+    mp3Obj.playMp3Folder(SND_CLOSE);
+
     simDelay(1000); // wait doesn't wait long enough for servos to fully complete...
 
     // Detach so motors don't "idle"
@@ -339,6 +377,11 @@ void loop() {
       Serial.println("Blink on Close Running");
       movieblink(); // Call the method to simulate Avengers Movie Blink Sequence
     }
+
+    // Play sound effect for JARVIS
+    simDelay(3000); // pause for effect...
+    mp3Obj.playMp3Folder(SND_JARVIS);
+    
     state = S_LEDON;    
     break;
 
