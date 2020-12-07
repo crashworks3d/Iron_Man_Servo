@@ -77,7 +77,7 @@ const int servo2_ClosePos = 20; // set the closed position of servo 2
 int buttonState = 0; // current state of the button
 int lastButtonState = 0; // previous state of the button
 boolean movieblinkOnSetup = true; //Blink LEDs on setup, Sequence based on Avengers Movie
-boolean movieblinkOnClose = true; //Blink LEDs on close of faceplate, Sequence based on Avengers Movie
+boolean movieblinkOnClose = false; //Blink LEDs on close of faceplate, Sequence based on Avengers Movie
 
 // Declare variables for LED control
 unsigned long fadeDelay = .1; //speed of the eye 'fade'
