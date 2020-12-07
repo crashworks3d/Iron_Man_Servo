@@ -43,7 +43,7 @@ DEVELOPED BY
 // See: https://wiki.dfrobot.com/DFPlayer_Mini_SKU_DFR0299#target_6
 // Important!!! On the SD card copy the mp3 files into an mp3 directory
 // Download and install the DFRobotDFPlayerMini library
-#include "DFRobotDFPlayerMini.h"
+#include <DFRobotDFPlayerMini.h>
 #include <SoftwareSerial.h>
 
 // Declare pin settings
