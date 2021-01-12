@@ -43,8 +43,8 @@ DEVELOPED BY
 // See: https://wiki.dfrobot.com/DFPlayer_Mini_SKU_DFR0299#target_6
 // Important!!! On the SD card copy the mp3 files into an mp3 directory
 // Download and install the DFRobotDFPlayerMini library
-#include <DFRobotDFPlayerMini.h>
-#include <SoftwareSerial.h>
+// #include <DFRobotDFPlayerMini.h>
+// #include <SoftwareSerial.h>
 
 // Declare pin settings
 const int servo1Pin = 9; // set the pin for servo 1
@@ -91,8 +91,8 @@ const int volume = 30; // sound board volume level (30 is max)
 #define SND_CLOSE 1 // sound track for helmet closing sound
 #define SND_JARVIS 2 // sound track for JARVIS sound
 #define SND_OPEN 3 // sound track for helmet opening sound
-SoftwareSerial serialObj(rx_pin, tx_pin); // Create object for serial communications
-DFRobotDFPlayerMini mp3Obj; // Create object for DFPlayer Mini
+// SoftwareSerial serialObj(rx_pin, tx_pin); // Create object for serial communications
+// DFRobotDFPlayerMini mp3Obj; // Create object for DFPlayer Mini
 
 #define S_IDLE 1
 #define S_LEDON 2
@@ -193,7 +193,7 @@ void movieblink(){
 
 /**
  * Initialization method for DFPlayer Mini board
- */
+ 
  void init_player(){
   serialObj.begin(9600);
   mp3Obj.begin(serialObj);
@@ -202,6 +202,7 @@ void movieblink(){
   mp3Obj.volume(volume);
   delay(1000);
  }
+ */
 /**
  * Initialization method called by the Arduino library when the board boots up
  */
@@ -211,7 +212,7 @@ void setup() {
   Serial.print("Initial State: ");
   Serial.println(state);
 
-  init_player(); // initializes the sound player
+  // init_player(); // initializes the sound player
 
   servo1.attach(servo1Pin); // attaches the servo on pin 9 to the servo object
   servo2.attach(servo2Pin); // attaches the 2nd servo on pin 10 to the servo object
@@ -330,14 +331,14 @@ void loop() {
     Serial.println("Servo Up"); 
 
     // Play sound effect for helmet closing
-    mp3Obj.playMp3Folder(SND_OPEN);
+    //mp3Obj.playMp3Folder(SND_OPEN);
 
     // Re-attach the servos to their pins
     servo1.attach(servo1Pin);
     servo2.attach(servo2Pin);
 
     // Play sound effect for helmet opening
-    mp3Obj.playMp3Folder(SND_OPEN);
+    //mp3Obj.playMp3Folder(SND_OPEN);
 
     // Send data to the servos for movement
     servo1.write(servo1_OpenPos, servoOpenSpeed);
@@ -365,7 +366,7 @@ void loop() {
     servo2.write(servo2_ClosePos, servoCloseSpeed);
 
     // Play sound effect for helmet closing
-    mp3Obj.playMp3Folder(SND_CLOSE);
+    //mp3Obj.playMp3Folder(SND_CLOSE);
 
     simDelay(1000); // wait doesn't wait long enough for servos to fully complete...
 
@@ -380,7 +381,7 @@ void loop() {
 
     // Play sound effect for JARVIS
     simDelay(3000); // pause for effect...
-    mp3Obj.playMp3Folder(SND_JARVIS);
+    //mp3Obj.playMp3Folder(SND_JARVIS);
     
     state = S_LEDON;    
     break;
