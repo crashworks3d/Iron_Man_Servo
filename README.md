@@ -58,7 +58,9 @@ You can download the 3D printable servo kit from Thingiverse:
 * Some experience with [Arduino](https://www.arduino.cc/)
 
 * Be sure to have the Arduino Nano board installed in your environment.
-* Install the [VarSpeedServo](https://github.com/netlabtoolkit/VarSpeedServo) library. 
+* Install the [VarSpeedServo](https://github.com/netlabtoolkit/VarSpeedServo) library.
+* Install the [Bounce2](https://github.com/thomasfredericks/Bounce2) library.
+* Install the [ButtonEvents](https://github.com/fasteddy516/ButtonEvents) library.
 * Install the [DFRobotDFPlayerMini](https://github.com/DFRobot/DFRobotDFPlayerMini) library. 
 * An Arduino Nano board
 * Servos
