@@ -45,13 +45,9 @@ You can download the 3D printable servo kit from Thingiverse:
 
 **_A.L.I.S.H.A._ - Arduino nano Led & Integrated Servo Helmet Actuator for 3D Printed Helmets**
 
-[eBay - A.L.I.S.H.A. SMT](https://www.ebay.com/itm/402549198649)  
+[eBay - A.L.I.S.H.A. SMT](https://www.ebay.com/itm/402756912985)  
 
-[![alt text](images/SMT.jpg)](https://www.ebay.com/itm/402549198649)
-
-[eBay - A.L.I.S.H.A. Through-Hole](https://www.ebay.com/itm/402549215661)
-
-[![alt text](images/THB.jpg)](https://www.ebay.com/itm/402549215661)
+[![alt text](images/SMT.jpg)](https://www.ebay.com/itm/402756912985)
 
 ### Prerequisites
 
