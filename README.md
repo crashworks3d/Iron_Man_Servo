@@ -1,4 +1,4 @@
-# Iron Man Helmet Servo Controller for Arduino Nano
+# Iron Man Helmet Servo and Audio Controller for Arduino
 
 ![Iron Man Mark 85 Avengers End Game - Marvel](images/DSC01481.png)
 
