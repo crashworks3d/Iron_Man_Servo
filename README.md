@@ -78,12 +78,18 @@ Successful installation will result in the servos moving the faceplate into the 
 ## Breadboard Example
 ![Breadboard example](images/Iron_Man_Servo_Sketch_bb.jpg)
 
-## BOM
+## BOM - A.L.I.S.H.A.
 Most components can be found on [Amazon](https://www.amazon.com) or [AliExpress](https://www.aliexpress.com)
 * Arduino Nano
 * MG90S Servo (metal gear only!)
 * Cosplay Iron Man/Batman LEDs (can be found on eBay or AliExpress)
-* 100 ohm resistors x2 (1 for each LED)
+* 100Ω Resistors x2 (1 for each LED)
+
+## BOM - S.U.E.
+Most components can be found on [Amazon](https://www.amazon.com) or [AliExpress](https://www.aliexpress.com)
+* 8Ω Speaker, Maximum 3 Watt
+* Micro SD Card , Maximum 8gb (Partioned as FAT32)
+* Optional Powered Speaker with 3.5 mm (1⁄8 in) stereo (TRS) connection for use with Auxillary Audio Port
 
 ## Built With
 
@@ -91,11 +97,9 @@ Most components can be found on [Amazon](https://www.amazon.com) or [AliExpress]
 
 ## Versioning
 
-Version Beta 1.0 (Use at your own risk) 
+Version Beta 2.0 (Use at your own risk) 
 
 ## Authors
-
-* **xl97** - *Initial work*
 
 * **Dropwire**
 
