@@ -51,6 +51,10 @@ You can download the 3D printable servo kit from Thingiverse:
 
 [![alt text](images/SMT.jpg)](https://www.ebay.com/itm/402756912985)
 
+[eBay - A.L.I.S.H.A. / S.U.E. / PENELOPE](https://www.ebay.com/itm/402758286558)  
+
+[![alt text](images/CW_ebay.jpg)](https://www.ebay.com/itm/402758286558)
+
 ### Prerequisites
 
 * Some experience with [Arduino](https://www.arduino.cc/)
