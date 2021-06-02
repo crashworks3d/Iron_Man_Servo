@@ -37,7 +37,7 @@ DEVELOPED BY
   Original code created by xl97
 */
 // Uncomment this line to enable sound for the S.U.E. expansion board
-#define SOUND
+//#define SOUND
 
 // Referenced libraries
 // For installation instructions see https://github.com/netlabtoolkit/VarSpeedServo
@@ -49,7 +49,7 @@ DEVELOPED BY
 
 #ifdef SOUND
 // See: https://wiki.dfrobot.com/DFPlayer_Mini_SKU_DFR0299#target_6
-// Important!!! On the SD card copy the mp3 files into an mp3 directory
+// Important!!! The SD card needs to be formatted correctly as FAT32 or FAT16, and all MP3 files need to be named numerically 001 ... 002 ... 003
 // Download and install the DFRobotDFPlayerMini library
 
 #include <DFRobotDFPlayerMini.h>
@@ -88,7 +88,7 @@ const int servo1_ClosePos = 160; // set the closed position of servo 1
 const int servo2_ClosePos = 20; // set the closed position of servo 2
 
 // Declare variables for button control
-boolean movieblinkOnSetup = true; //Blink LEDs on setup, Sequence based on Avengers Movie
+boolean movieblinkOnSetup = true; //Blink LEDs on Initial Power Up / Setup, Sequence based on Avengers Movie
 boolean movieblinkOnClose = false; //Blink LEDs on close of faceplate, Sequence based on Avengers Movie
 
 // Declare variables for LED control
@@ -100,7 +100,7 @@ boolean isOpen = true; // keep track of whether or not the faceplate is open
 
 #ifdef SOUND
 // Declare variables for sound control
-const int volume = 20; // sound board volume level (30 is max)
+const int volume = 25; // sound board volume level (30 is max)
 #define SND_CLOSE 1 // sound track for helmet closing sound
 #define SND_JARVIS 2 // sound track for JARVIS sound
 #define SND_OPEN 3 // sound track for helmet opening sound
@@ -200,7 +200,7 @@ void movieblink(){
 
   // All on
   setLedEyes(255);
-  digitalWrite(AuxLED, LOW);   
+  //digitalWrite(AuxLED, LOW);   
 }
 
 #ifdef SOUND
@@ -316,7 +316,7 @@ void ledEyesOn(){
   Serial.println("Turning LED eyes on...");
   
   setLedEyes(255);
-  
+  digitalWrite(AuxLED, HIGH); // Turn on Aux LED
   ledEyesCurMode = LED_EYES_DIM_MODE;
 }
 
@@ -341,6 +341,7 @@ void ledEyesOnOff(){
       ledEyesOff();
     } else {
       ledEyesOn();
+      digitalWrite(AuxLED, HIGH); // Turn on Aux LED
     }
   }
 }
