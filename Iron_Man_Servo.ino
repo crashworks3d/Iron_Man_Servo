@@ -245,6 +245,7 @@ void movieblink(){
  * Method to play the sound effect for a specified feature
  */
 void playSoundEffect(int soundEffect){
+  mp3Obj.volume(volume);
   Serial.print("Playing sound effect: ");
   Serial.println(soundEffect);
   mp3Obj.play(soundEffect);
