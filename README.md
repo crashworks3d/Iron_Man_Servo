@@ -85,7 +85,6 @@ Most components can be found on [Amazon](https://www.amazon.com) or [AliExpress]
 * Arduino Nano
 * MG90S Servo (metal gear only!)
 * Cosplay Iron Man/Batman LEDs (can be found on eBay or AliExpress)
-* 100Ω Resistors x2 (1 for each LED)
 
 ## BOM - S.U.E.
 Most components can be found on [Amazon](https://www.amazon.com) or [AliExpress](https://www.aliexpress.com)
