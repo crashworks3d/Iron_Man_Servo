@@ -248,6 +248,7 @@ void playSoundEffect(int soundEffect){
   mp3Obj.volume(volume);
   Serial.print("Playing sound effect: ");
   Serial.println(soundEffect);
+  simDelay(100);
   mp3Obj.play(soundEffect);
   printDetail(mp3Obj.readType(), mp3Obj.read()); //Print the detail message from DFPlayer to handle different errors and states.
 }
