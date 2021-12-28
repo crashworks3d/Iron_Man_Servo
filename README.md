@@ -42,9 +42,9 @@ You can download the 3D printable servo kit from Thingiverse:
 
 [Thingiverse MK85 Iron Man Servo Kit](https://www.thingiverse.com/thing:4607836)
 
-[Thingiverse MK7 Iron Man Servo Kit](https://www.thingiverse.com/thing:4630066)
-
 [Thingiverse MK46 Iron Man Servo Kit](https://www.thingiverse.com/thing:4640029)
+
+[Thingiverse MK7 Iron Man Servo Kit](https://www.thingiverse.com/thing:4630066)
 
 [Thingiverse Marvel Legends Iron Man Servo Kit](https://www.thingiverse.com/thing:5175364)
 
