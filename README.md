@@ -6,7 +6,7 @@ The purpose of this project is to automate features of the various models of the
 
 ## Follow Me
 
-[![alt text][1.1]][1]  [![alt text][2.1]][2]  [![alt text][3.1]][3]   [![alt text][4.1]][4]    [![alt text][8.1]][8]
+[![alt text][1.1]][1]  [![alt text][2.1]][2]  [![alt text][3.1]][3]   [![alt text][4.1]][4]    [![alt text][9.1]][9]
 
 [1.1]: images/instagram.png (Instagram - Dropwire)
 [2.1]: images/youtube.png (YouTube - Dropwire)
@@ -15,7 +15,8 @@ The purpose of this project is to automate features of the various models of the
 [5.1]: images/youtube-preview.jpg (Crash Works 3d - MK85 Helmet Motorization Kit Test v1)
 [6.1]: images/youtube-preview_MK7.JPG (Crash Works 3d - MK7 Helmet Motorization Kit Test v1)
 [7.1]: images/youtube-preview_Mk46_Closed.JPG (Crash Works 3d - MK46 Helmet Motorization Kit Test v1)
-[8.1]: images/facebook.png (Facebook - Crash Works)
+[8.1]: images/youtube-preview_Legends.JPG (Crash Works 3d - Marvel Legends Iron Man / Punisher / War Machine Motorization Kit Test v1)
+[9.1]: images/facebook.png (Facebook - Crash Works)
 [1]: https://www.instagram.com/dropwire/
 [2]: https://www.youtube.com/channel/UCxbZNWPNsDoVIHJfYZQF2Jw
 [3]: https://github.com/
@@ -23,13 +24,15 @@ The purpose of this project is to automate features of the various models of the
 [5]: https://www.youtube.com/watch?v=dDsZCZuzkQU
 [6]: https://www.youtube.com/watch?v=P-p2FFcd4s8&feature=emb_logo
 [7]: https://www.youtube.com/watch?v=9Ue6Bggzcgk&feature=emb_logo
-[8]: https://www.facebook.com/groups/cosplayspecialeffectsprops
+[8]: https://www.youtube.com/watch?v=seIPFCSIgJs
+[9]: https://www.facebook.com/groups/cosplayspecialeffectsprops
 
 ### Actual Use:
 
 [![alt text][5.1]][5]
 [![alt text][6.1]][6]
 [![alt text][7.1]][7]
+[![alt text][8.1]][8]
 
 ## Getting Started
 
@@ -42,6 +45,8 @@ You can download the 3D printable servo kit from Thingiverse:
 [Thingiverse MK7 Iron Man Servo Kit](https://www.thingiverse.com/thing:4630066)
 
 [Thingiverse MK46 Iron Man Servo Kit](https://www.thingiverse.com/thing:4640029)
+
+[Thingiverse Marvel Legends Iron Man Servo Kit](https://www.thingiverse.com/thing:5175364)
 
 **You can purchase an easy to install and use Arduino shield (Nano included) designed specifically for this project. This Board comes pre-flashed with the Crashworks code installed.**
 
