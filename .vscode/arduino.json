@@ -1,0 +1,5 @@
+{
+    "configuration": "cpu=atmega328",
+    "board": "arduino:avr:nano",
+    "sketch": "Iron_Man_Servo.ino"
+}

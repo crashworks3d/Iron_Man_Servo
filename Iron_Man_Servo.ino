@@ -34,10 +34,15 @@ DEVELOPED BY
   Cranshark
   Taff
 
-  Original code created by xl97
-*/
+ */
+// Version.  Don't change unless authorized by Cranshark
+#define VERSION "3.0.0.1"
+
+// Uncomment this line to enable Walsh3D MK85 Jaw Control (Open/Close)
+//#define WALSH85
+
 // Uncomment this line to enable sound for the S.U.E. expansion board
-//#define SOUND
+//#define SOUND     
 
 // Referenced libraries
 // For installation instructions see https://github.com/netlabtoolkit/VarSpeedServo
@@ -49,7 +54,7 @@ DEVELOPED BY
 
 #ifdef SOUND
 // See: https://wiki.dfrobot.com/DFPlayer_Mini_SKU_DFR0299#target_6
-// Important!!! The SD card needs to be formatted correctly as FAT32 or FAT16, and all MP3 files need to be named numerically 001 ... 002 ... 003
+// Important!!! On the SD card copy the mp3 files into an mp3 directory
 // Download and install the DFRobotDFPlayerMini library
 
 #include <DFRobotDFPlayerMini.h>
@@ -61,11 +66,18 @@ void printDetail(uint8_t type, int value); // header method for implementation b
 // Declare pin settings
 const int servo1Pin = 9; // set the pin for servo 1
 const int servo2Pin = 10; // set the pin for servo 2
+
+#ifdef WALSH85
+const int servo3Pin = 5; // set the pin for servo 3 (Walsh85 Jaw Control)
+#endif
+
 const int buttonPin = 2; // the pin that the pushbutton is attached to
+
 // led control pins (need to be PWM enabled pins for fading)
 const int leftEyePin =  6;  // left eye LEDs
 const int rightEyePin =  3;  // right eye LEDs
 const int AuxLED = 4; // Aux LED non-PWM
+
 #ifdef SOUND
 // sound board pins
 const int rx_pin = 7; // set pin for receive (RX) communications
@@ -76,9 +88,20 @@ const int tx_pin = 8; // set pin for transmit (TX) communications
 VarSpeedServo servo1; // create servo object to control servo 1
 VarSpeedServo servo2; // create servo object to control servo 2
 
-// Declare variables for servo control
+#ifdef WALSH85
+VarSpeedServo servo3; // create servo object to control servo 3 (Walsh85 Jaw Control)
+#endif
+
+// Declare variables for servo speed control
 const int servoCloseSpeed = 100; // set the speed of the servo close function
 const int servoOpenSpeed = 255; // set the speed of the servo opening recommend set to max speed to aid in lift
+
+//Servo 3 (Walsh85 Jaw Control) variables for servo speed control
+#ifdef WALSH85
+const int jawCloseSpeed = 175; // set the speed of the Jaw closing for Walsh85 Helmet
+const int jawOpenSpeed = 255; // set the speed of the Jaw opening for Walsh85 Helmet
+#endif
+
 // In Dual Servo Configuration the servos move in opposing directions, so the angles of the servos will be opposite to each other. 
 // Normal Servo range is 0° ~ 180°, for initial setup the range has been adjusted to 20° ~ 160°, this allows for a 20° adjustment at both ends of the servo range.
 // See Helmet tutorial for further information on servo setup.
@@ -87,9 +110,52 @@ const int servo2_OpenPos = 160; // set the open position of servo 2
 const int servo1_ClosePos = 160; // set the closed position of servo 1
 const int servo2_ClosePos = 20; // set the closed position of servo 2
 
+#ifdef WALSH85
+//Servo 3 (Walsh85 Jaw Control) Open / Close Angle
+const int servo3_OpenPos = 90; // set the open position of servo 2
+const int servo3_ClosePos = 0; // set the closed position of servo 1
+#endif
+
+// Declare variables for setup special effects (applies to LED eyes only for now)
+#define SETUP_NONE 0 // No special effects, just turn on the LED eyes
+#define SETUP_MOVIE_BLINK 1 // Blink LED eyes on setup, sequence based on Avengers Movie
+#define SETUP_FADE_ON 2 // Slowly brighten LED eyes until fully lit
+
+// To use the specific feature below
+// use double slashes "//" to comment, or uncomment (remove double slashes) in the code below
+
+// Uncomment this line if you don't want any special effect during setup, comment this line to disable this effect
+// const int setupFx = SETUP_NONE;
+
+// Uncomment this line if you want the movie blink special effect during setup, comment this line to disable this effect
+const int setupFx = SETUP_MOVIE_BLINK;
+
+// Uncomment this line if you want the fade on special effect during setup, comment this line to disable this effect
+// const int setupFx = SETUP_FADE_ON;
+
+// Declare variables for LED eyes special effects (applies to LED eyes only for now)
+#define EYES_NONE 0 // No special effects, just turn on the LED eyes
+#define EYES_MOVIE_BLINK 1 // Blink LED eyes on setup, sequence based on Avengers Movie
+#define EYES_FADE_ON 2 // Slowly brighten LED eyes until fully lit
+
+// To use the specific feature below
+// use double slashes "//" to comment, or uncomment (remove double slashes) in the code below
+
+// Uncomment this line if you don't want any special effect during setup, comment this line to disable this effect
+// const int eyesFx = EYES_NONE;
+
+// Uncomment this line if you want the movie blink special effect during setup, comment this line to disable this effect
+// const int eyesFx = EYES_MOVIE_BLINK;
+
+// Uncomment this line if you want the fade on special effect during setup, comment this line to disable this effect
+const int eyesFx = EYES_FADE_ON;
+
 // Declare variables for button control
-boolean movieblinkOnSetup = true; //Blink LEDs on Initial Power Up / Setup, Sequence based on Avengers Movie
 boolean movieblinkOnClose = false; //Blink LEDs on close of faceplate, Sequence based on Avengers Movie
+
+// Declare variable for AuxLED
+boolean auxLedEnabled = true; // Set to true if you want to enable the Aux LED
+boolean auxLedState = false; // Keeps track of the state of the LED on = true, off = false
 
 // Declare variables for LED control
 unsigned long fadeDelay = .1; //speed of the eye 'fade'
@@ -100,7 +166,7 @@ boolean isOpen = true; // keep track of whether or not the faceplate is open
 
 #ifdef SOUND
 // Declare variables for sound control
-const int volume = 25; // sound board volume level (30 is max)
+const int volume = 29; // sound board volume level (30 is max)
 #define SND_CLOSE 1 // sound track for helmet closing sound
 #define SND_JARVIS 2 // sound track for JARVIS sound
 #define SND_OPEN 3 // sound track for helmet opening sound
@@ -153,7 +219,7 @@ void simDelay(long period){
  * Simulate the eyes slowly blinking until fully lit
  */ 
 void movieblink(){
-  Serial.println("Start Movie Blink..");
+  Serial.println(F("Start Movie Blink.."));
 
   // pause for effect...
   simDelay(300);
@@ -165,43 +231,59 @@ void movieblink(){
   // First blink on
   for (int i = 0; i <= lowValue; i++){
     setLedEyes(i);
-    digitalWrite(AuxLED, LOW);
+    setAuxLed();
     delayVal = delayInterval[0]/lowValue;
     simDelay(delayVal);
   }
 
   // Turn off
   setLedEyes(0);
-  digitalWrite(AuxLED, HIGH);
+  setAuxLed();
   simDelay(delayInterval[0]);
 
   // Second blink on
   for (int i = 0; i <= lowValue; i++){
     setLedEyes(i);
-    digitalWrite(AuxLED, LOW);
+    setAuxLed();
     delayVal = delayInterval[1]/lowValue;
     simDelay(delayVal);
   }
 
   // Turn off
   setLedEyes(0);
-  digitalWrite(AuxLED, HIGH);
+  setAuxLed();
   simDelay(delayInterval[1]);
 
   // Third blink on
   setLedEyes(lowValue);
-  digitalWrite(AuxLED, LOW);
+  setAuxLed();
   simDelay(delayInterval[2]);
 
   // Turn off
   setLedEyes(0);
-  digitalWrite(AuxLED, HIGH);
+  setAuxLed();
   simDelay(delayInterval[2]);
 
   // All on
   setLedEyes(255);
-  //digitalWrite(AuxLED, LOW);   
+  auxLedOn();   
 }
+
+/*
+ * Simulate LED eyes slowly brightening until fully lit
+ */
+ void fadeEyesOn(){
+  ledEyesCurMode = LED_EYES_BRIGHTEN_MODE;
+
+  // loop until fully lit
+  while (ledEyesCurPwm < 255){
+    setLedEyes(ledEyesCurPwm);
+  
+    simDelay(200);
+    ledEyesBrighten();
+  }
+  
+ }
 
 #ifdef SOUND
 /**
@@ -212,7 +294,7 @@ void movieblink(){
   //simDelay(1000); Adjusting Timing Sequence
 
   if(!serialObj.available()){
-    Serial.println("Serial object not available.");
+    Serial.println(F("Serial object not available."));
   }
 
   Serial.println(F("Initializing DFPlayer ... (May take 3~5 seconds)"));
@@ -234,7 +316,7 @@ void movieblink(){
   
   mp3Obj.setTimeOut(500); //Set serial communictaion time out 500ms
   
-  Serial.println("Setting volume");
+  Serial.println(F("Setting volume"));
   mp3Obj.volume(volume);
   
   mp3Obj.EQ(DFPLAYER_EQ_NORMAL);
@@ -246,9 +328,10 @@ void movieblink(){
  */
 void playSoundEffect(int soundEffect){
   mp3Obj.volume(volume);
-  Serial.print("Playing sound effect: ");
-  Serial.println(soundEffect);
-  simDelay(100);
+  Serial.print(F("Playing sound effect: "));
+  Serial.print(soundEffect);
+  Serial.print(F("\tVolume: "));
+  Serial.println(mp3Obj.readVolume());
   mp3Obj.play(soundEffect);
   printDetail(mp3Obj.readType(), mp3Obj.read()); //Print the detail message from DFPlayer to handle different errors and states.
 }
@@ -258,21 +341,36 @@ void playSoundEffect(int soundEffect){
  * Method to open face plate
  */
  void facePlateOpen(){
-  Serial.println("Servo Up!"); 
+  Serial.println(F("Servo Up!")); 
 
   // Re-attach the servos to their pins
   servo1.attach(servo1Pin);
   servo2.attach(servo2Pin);
 
+  #ifdef WALSH85
+  servo3.attach(servo3Pin);
+  #endif
+
   // Send data to the servos for movement
+    
   servo1.write(servo1_OpenPos, servoOpenSpeed);
   servo2.write(servo2_OpenPos, servoOpenSpeed);
-
+  
+  #ifdef WALSH85
+  simDelay(500);
+  servo3.write(servo3_OpenPos, jawOpenSpeed);
+  //simDelay(1000); // wait doesn't wait long enough for servos to fully complete...
+  #endif
+  
   simDelay(1000); // wait doesn't wait long enough for servos to fully complete...
 
   // Detach so motors don't "idle"
   servo1.detach();
   servo2.detach();
+
+  #ifdef WALSH85
+  servo3.detach();
+  #endif
 
   facePlateCurMode = FACEPLATE_OPEN;
  }
@@ -281,13 +379,23 @@ void playSoundEffect(int soundEffect){
   * Method to close face plate
   */
  void facePlateClose(){
-  Serial.println("Servo Down");  
+  Serial.println(F("Servo Down"));  
 
   // Re-attach the servos to their pins
   servo1.attach(servo1Pin);
   servo2.attach(servo2Pin);
 
+  #ifdef WALSH85
+  servo3.attach(servo3Pin);
+  #endif
+
   // Send data to the servos for movement 
+
+  #ifdef WALSH85
+  servo3.write(servo3_ClosePos, jawCloseSpeed);
+  simDelay(500); // Delay to allow Jaw to fully close before Faceplate closes
+  #endif
+  
   servo1.write(servo1_ClosePos, servoCloseSpeed);
   servo2.write(servo2_ClosePos, servoCloseSpeed);
 
@@ -296,6 +404,10 @@ void playSoundEffect(int soundEffect){
   // Detach so motors don't "idle"
   servo1.detach();
   servo2.detach();
+
+  #ifdef WALSH85
+  servo3.detach();
+  #endif
 
   facePlateCurMode = FACEPLATE_CLOSED;
  }
@@ -315,10 +427,10 @@ void setLedEyes(int pwmValue){
  * Method to turn on LED eyes
  */
 void ledEyesOn(){
-  Serial.println("Turning LED eyes on...");
+  Serial.println(F("Turning LED eyes on..."));
   
   setLedEyes(255);
-  digitalWrite(AuxLED, HIGH); // Turn on Aux LED
+  
   ledEyesCurMode = LED_EYES_DIM_MODE;
 }
 
@@ -326,7 +438,7 @@ void ledEyesOn(){
  * Method to turn off LED eyes
  */
 void ledEyesOff(){
-  Serial.println("Turning LED eyes off...");
+  Serial.println(F("Turning LED eyes off..."));
   
   setLedEyes(0);
 
@@ -343,13 +455,12 @@ void ledEyesOnOff(){
       ledEyesOff();
     } else {
       ledEyesOn();
-      digitalWrite(AuxLED, HIGH); // Turn on Aux LED
     }
   }
 }
 
 void ledEyesDim(){
-  Serial.println("Dimming LED eyes...");
+  Serial.println(F("Dimming LED eyes..."));
 
   ledEyesCurPwm = ledEyesCurPwm - ledEyesIncrement; // Decrease the brightness
 
@@ -360,7 +471,7 @@ void ledEyesDim(){
 }
 
 void ledEyesBrighten(){
-  Serial.println("Brightening LED eyes...");
+  Serial.println(F("Brightening LED eyes..."));
 
   ledEyesCurPwm = ledEyesCurPwm + ledEyesIncrement; // Increase the brightness
 
@@ -391,6 +502,37 @@ void ledEyesFade(){
   simDelay(200);
 }
 
+/*
+ * Sets the Aux LED
+ */
+void setAuxLed(){
+  if (auxLedEnabled) {
+    if (auxLedState == false){
+      auxLedOn();
+    } else {
+      auxLedOff();
+    }
+  } else {
+    auxLedOff();
+  }
+}
+
+/*
+ * Turn the Aux LED on
+ */
+void auxLedOn(){
+  digitalWrite(AuxLED, HIGH);
+  auxLedState = true;
+}
+
+/*
+ * Turn the Aux LED off
+ */
+void auxLedOff(){
+  digitalWrite(AuxLED, LOW);
+  auxLedState = false;
+}
+
 /**
  * Method to run sequence of sppecial effects when system first starts or sets up
  */
@@ -404,10 +546,18 @@ void startupFx(){
 
   facePlateClose();
 
-  if(movieblinkOnSetup){
-    movieblink();
-  } else {
-    ledEyesOn();
+  switch(setupFx){
+    case SETUP_NONE:
+      ledEyesOn();
+      auxLedOn();
+      break;
+    case SETUP_MOVIE_BLINK:
+      movieblink();
+      break;
+    case SETUP_FADE_ON:
+      fadeEyesOn();
+      auxLedOn();
+      break;
   }
 
 #ifdef SOUND
@@ -434,10 +584,6 @@ void facePlateOpenFx(){
  * Method to execute special effects when the faceplate closes
  */
 void facePlateCloseFx(){
-  //facePlateClose();
-  
-  //simDelay(100); //Originally 1000ms
-
 #ifdef SOUND
   playSoundEffect(SND_CLOSE);
   simDelay(1200); //Timing for Helmet Close Sound and delay to servo closing
@@ -445,10 +591,18 @@ void facePlateCloseFx(){
 
   facePlateClose();
 
-  if(movieblinkOnClose){
-    movieblink();
-  } else {
-    ledEyesOn();
+  switch(eyesFx){
+    case EYES_NONE:
+      ledEyesOn();
+      auxLedOn();
+      break;
+    case EYES_MOVIE_BLINK:
+      movieblink();
+      break;
+    case EYES_FADE_ON:
+      fadeEyesOn();
+      auxLedOn();
+      break;
   }
 }
 
@@ -511,15 +665,15 @@ void monitorPrimaryButton(){
 
     switch(event){
       case(tap):
-        Serial.println("Primary button single press...");
+        Serial.println(F("Primary button single press..."));
         handlePrimaryButtonSingleTap();
         break;
       case (doubleTap):
-        Serial.println("Primary button double press...");
+        Serial.println(F("Primary button double press..."));
         handlePrimaryButtonDoubleTap();
         break;
       case (hold):
-        Serial.println("Primary button long press...");
+        Serial.println(F("Primary button long press..."));
         handlePrimaryButtonLongPress();
         break;
     }
@@ -534,6 +688,9 @@ void setup() {
   Serial.begin(115200);  
   
   simDelay(2000); // Give the serial service time to initialize
+
+  Serial.print(F("Initializing Iron Man Servo version: "));
+  Serial.println(VERSION);
 
 #ifdef SOUND
   init_player(); // initializes the sound player
@@ -608,7 +765,7 @@ void printDetail(uint8_t type, int value){
           break;
         default:
           break;
-      }
+      }         
       break;
     default:
       break;
