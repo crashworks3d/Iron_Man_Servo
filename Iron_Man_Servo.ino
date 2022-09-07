@@ -36,13 +36,13 @@ DEVELOPED BY
 
  */
 // Version.  Don't change unless authorized by Cranshark
-#define VERSION "3.1.0.0"
+#define VERSION "3.0.0.1"
 
 // Uncomment this line to enable Walsh3D MK85 Jaw Control (Open/Close)
 //#define WALSH85
 
 // Uncomment this line to enable sound for the S.U.E. expansion board
-#define SOUND     
+//#define SOUND     
 
 // Referenced libraries
 // For installation instructions see https://github.com/netlabtoolkit/VarSpeedServo
@@ -53,9 +53,14 @@ DEVELOPED BY
 #include <ButtonEvents.h>
 
 #ifdef SOUND
-// For installation instructions see: https://github.com/sleemanj/JQ6500_Serial
-#include <JQ6500_Serial.h>
+// See: https://wiki.dfrobot.com/DFPlayer_Mini_SKU_DFR0299#target_6
+// Important!!! On the SD card copy the mp3 files into an mp3 directory
+// Download and install the DFRobotDFPlayerMini library
+
+#include <DFRobotDFPlayerMini.h>
 #include <SoftwareSerial.h>
+
+void printDetail(uint8_t type, int value); // header method for implementation below; affects C++ compilers
 #endif
 
 // Declare pin settings
@@ -167,7 +172,7 @@ const int volume = 29; // sound board volume level (30 is max)
 #define SND_OPEN 3 // sound track for helmet opening sound
 
 SoftwareSerial serialObj(rx_pin, tx_pin); // Create object for serial communications
-JQ6500_Serial mp3Obj(serialObj); // Create object for DFPlayer Mini
+DFRobotDFPlayerMini mp3Obj; // Create object for DFPlayer Mini
 #endif
 
 // Define object for primary button to handle 
@@ -292,32 +297,43 @@ void movieblink(){
     Serial.println(F("Serial object not available."));
   }
 
-  Serial.println(F("Initializing JQ6500..."));
+  Serial.println(F("Initializing DFPlayer ... (May take 3~5 seconds)"));
 
-  mp3Obj.reset();
-  mp3Obj.setSource(MP3_SRC_BUILTIN);
-  mp3Obj.setVolume(volume);
-  mp3Obj.setLoopMode(MP3_LOOP_NONE);
+  bool dfInit = mp3Obj.begin(serialObj, false, true);
 
-  simDelay(500);
+  simDelay(1000);
+  
+  if(!dfInit){
+    Serial.println(F("Unable to begin:"));
+    Serial.println(F("1.Please recheck the connection!"));
+    Serial.println(F("2.Please insert the SD card!"));
+
+    dfInit = mp3Obj.begin(serialObj, false, true);
+    simDelay(400); // originally 1000ms
+  }
+
+  Serial.println(F("DFPlayer Mini online."));
+  
+  mp3Obj.setTimeOut(500); //Set serial communictaion time out 500ms
+  
+  Serial.println(F("Setting volume"));
+  mp3Obj.volume(volume);
+  
+  mp3Obj.EQ(DFPLAYER_EQ_NORMAL);
+  mp3Obj.outputDevice(DFPLAYER_DEVICE_SD);
  }
 
 /**
  * Method to play the sound effect for a specified feature
  */
 void playSoundEffect(int soundEffect){
-  //mp3Obj.volume(volume);
+  mp3Obj.volume(volume);
   Serial.print(F("Playing sound effect: "));
   Serial.print(soundEffect);
-  //Serial.print(F("\tVolume: "));
-  //Serial.println(mp3Obj.readVolume());
-  mp3Obj.playFileByIndexNumber(soundEffect);
-}
-
-void delayWhilePlaying(){
-  while (mp3Obj.getStatus() == MP3_STATUS_PLAYING){
-    int x = 0;
-  }
+  Serial.print(F("\tVolume: "));
+  Serial.println(mp3Obj.readVolume());
+  mp3Obj.play(soundEffect);
+  printDetail(mp3Obj.readType(), mp3Obj.read()); //Print the detail message from DFPlayer to handle different errors and states.
 }
 #endif
 
@@ -524,7 +540,6 @@ void startupFx(){
   //facePlateClose();
 
 #ifdef SOUND
-  simDelay(100);
   playSoundEffect(SND_CLOSE);
   simDelay(500); // Timing for Helmet Close Sound and delay to servo closing
 #endif
@@ -546,11 +561,8 @@ void startupFx(){
   }
 
 #ifdef SOUND
-  //simDelay(800); // Originally 2000ms
-  delayWhilePlaying();
+  simDelay(800); // Originally 2000ms
   playSoundEffect(SND_JARVIS);
-  delayWhilePlaying();
-  mp3Obj.sleep();
 #endif
 }
 
@@ -566,11 +578,6 @@ void facePlateOpenFx(){
   ledEyesOff();
 
   facePlateOpen();
-
-#ifdef SOUND
-  delayWhilePlaying();
-  mp3Obj.sleep();
-#endif
 }
 
 /**
@@ -580,7 +587,6 @@ void facePlateCloseFx(){
 #ifdef SOUND
   playSoundEffect(SND_CLOSE);
   simDelay(1200); //Timing for Helmet Close Sound and delay to servo closing
-  mp3Obj.sleep();
 #endif
 
   facePlateClose();
@@ -706,3 +712,63 @@ void loop() {
 
   // Room for future features ;)
 }
+
+#ifdef SOUND
+/**
+ * Method to output any issues with the DFPlayer
+ */
+void printDetail(uint8_t type, int value){
+  switch (type) {
+    case TimeOut:
+      Serial.println(F("Time Out!"));
+      break;
+    case WrongStack:
+      Serial.println(F("Stack Wrong!"));
+      break;
+    case DFPlayerCardInserted:
+      Serial.println(F("Card Inserted!"));
+      break;
+    case DFPlayerCardRemoved:
+      Serial.println(F("Card Removed!"));
+      break;
+    case DFPlayerCardOnline:
+      Serial.println(F("Card Online!"));
+      break;
+    case DFPlayerPlayFinished:
+      Serial.print(F("Number:"));
+      Serial.print(value);
+      Serial.println(F(" Play Finished!"));
+      break;
+    case DFPlayerError:
+      Serial.print(F("DFPlayerError:"));
+      switch (value) {
+        case Busy:
+          Serial.println(F("Card not found"));
+          break;
+        case Sleeping:
+          Serial.println(F("Sleeping"));
+          break;
+        case SerialWrongStack:
+          Serial.println(F("Get Wrong Stack"));
+          break;
+        case CheckSumNotMatch:
+          Serial.println(F("Check Sum Not Match"));
+          break;
+        case FileIndexOut:
+          Serial.println(F("File Index Out of Bound"));
+          break;
+        case FileMismatch:
+          Serial.println(F("Cannot Find File"));
+          break;
+        case Advertise:
+          Serial.println(F("In Advertise"));
+          break;
+        default:
+          break;
+      }         
+      break;
+    default:
+      break;
+  }
+}
+#endif
