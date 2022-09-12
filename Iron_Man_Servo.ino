@@ -318,9 +318,10 @@ void movieblink(){
   
   Serial.println(F("Setting volume"));
   mp3Obj.volume(volume);
-  
+  simDelay(100); // DFRobot Timing 9-9-2022
   mp3Obj.EQ(DFPLAYER_EQ_NORMAL);
   mp3Obj.outputDevice(DFPLAYER_DEVICE_SD);
+  simDelay(100); // DFRobot Timing 9-9-2022
  }
 
 /**
@@ -328,10 +329,12 @@ void movieblink(){
  */
 void playSoundEffect(int soundEffect){
   mp3Obj.volume(volume);
+  simDelay(100); // DFRobot Timing 9-9-2022
   Serial.print(F("Playing sound effect: "));
   Serial.print(soundEffect);
   Serial.print(F("\tVolume: "));
   Serial.println(mp3Obj.readVolume());
+  simDelay(100); // DFRobot Timing 9-9-2022
   mp3Obj.play(soundEffect);
   printDetail(mp3Obj.readType(), mp3Obj.read()); //Print the detail message from DFPlayer to handle different errors and states.
 }
