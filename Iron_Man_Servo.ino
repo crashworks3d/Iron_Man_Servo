@@ -564,7 +564,7 @@ void startupFx(){
   }
 
 #ifdef SOUND
-  simDelay(800); // Originally 2000ms
+  simDelay(500); // Originally 800ms, changed to 500ms for DFRobot 9-9-2022
   playSoundEffect(SND_JARVIS);
 #endif
 }
