@@ -38,6 +38,10 @@ DEVELOPED BY
 // Version.  Don't change unless authorized by Cranshark
 #define VERSION "3.0.0.1"
 
+#if defined __AVR_ATtiny85__ || defined __SAM3U4E__ || defined __SAM3X8E__ || defined __SAM3X8H__ || defined ARDUINO_SAMD_ZERO || defined __SAMD21G18A__  || defined __SAMD21J18A__ || ARDUINO_AVR_NANO_EVERY
+  #error Code not compatible with this board type.
+#endif
+
 // Uncomment this line to enable Walsh3D MK85 Jaw Control (Open/Close)
 //#define WALSH85
 
