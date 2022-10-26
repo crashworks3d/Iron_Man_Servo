@@ -34,6 +34,10 @@ The purpose of this project is to automate features of the various models of the
 [![alt text][7.1]][7]
 [![alt text][8.1]][8]
 
+## **WARNING!!!**
+
+If you have an AM2, AM3 or AM4 board, _**DO NOT USE THIS CODE!!!**_  Contact us directly for the code that is compatible.  Attempting to upload this code will void any support and potentially render your board useless.
+
 ## Getting Started
 
 It will be helpful but not necessary if you have a basic level of programming experience as well as a little experience programming Arduino micro controllers.  This project was created using the [Aurduino IDE](https://www.arduino.cc/).  Clone or download this repository at your own risk.
