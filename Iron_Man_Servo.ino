@@ -46,7 +46,10 @@ DEVELOPED BY
 //#define WALSH85
 
 // Uncomment this line to enable sound for the S.U.E. expansion board
-//#define SOUND     
+//#define SOUND    
+
+// Uncomment this line to enable missile code
+#define MISSILE
 
 // Referenced libraries
 // For installation instructions see https://github.com/netlabtoolkit/VarSpeedServo
@@ -79,8 +82,10 @@ const int buttonPin = 2; // the pin that the pushbutton is attached to
 
 // led control pins (need to be PWM enabled pins for fading)
 const int leftEyePin =  6;  // left eye LEDs
-const int rightEyePin =  3;  // right eye LEDs
+const int rightEyePin = 3;  // right eye LEDs
+#ifndef MISSILE
 const int AuxLED = 4; // Aux LED non-PWM
+#endif
 
 #ifdef SOUND
 // sound board pins
@@ -94,6 +99,40 @@ VarSpeedServo servo2; // create servo object to control servo 2
 
 #ifdef WALSH85
 VarSpeedServo servo3; // create servo object to control servo 3 (Walsh85 Jaw Control)
+#endif
+
+#ifdef MISSILE
+const int servo4Pin = 4; // set the pin for servo 3 (missile bay)
+const int servo5Pin = 11; // set the pin for servo 4 (missile)
+
+const int missilePin = 12; // the pin that the missile button is attached to
+
+VarSpeedServo servo4; // create servo object to control servo 3
+VarSpeedServo servo5; // create servo object to control servo 4
+
+// TODO: Figure out the optimal speeds
+// The missile bay needs to open faster than the missile extracts
+// The missile needs to retract before the missile bay closes
+const int missileOpenSpeed = 200; // set the speed of the missile moving into launch position
+const int missileCloseSpeed = 60; // set the speed of the missile retracting
+const int missileBayOpenSpeed = 200; // set the opening speed of the missile bay 
+const int missileBayCloseSpeed = 60; // set the closing speed of the missile bay
+
+// TODO: Figure out optimal open/clos positions
+const int servo4_OpenPos = 180; // set the open position of servo 4
+const int servo4_ClosePos = 0; // set the closed position of servo 4
+const int servo5_OpenPos = 180; //set the open position of servo 5
+const int servo5_ClosePos = 0; // set the closed position of servo 5
+
+// Define object for the missile button
+ButtonEvents missileButton = ButtonEvents();
+
+// State of the missile bay 1 = open, 0 = closed
+#define MISSILE_BAY_CLOSED 0
+#define MISSILE_BAY_OPEN 1
+int missileBayCurMode = MISSILE_BAY_OPEN; // Keep track if the missile bay is open or closed
+
+const int missileBayDelay = 1000; // Amount of time (ms) to delay between movement of the missile bay and the missile
 #endif
 
 // Declare variables for servo speed control
@@ -157,9 +196,11 @@ const int eyesFx = EYES_FADE_ON;
 // Declare variables for button control
 boolean movieblinkOnClose = false; //Blink LEDs on close of faceplate, Sequence based on Avengers Movie
 
+#ifndef MISSILE
 // Declare variable for AuxLED
 boolean auxLedEnabled = true; // Set to true if you want to enable the Aux LED
 boolean auxLedState = false; // Keeps track of the state of the LED on = true, off = false
+#endif
 
 // Declare variables for LED control
 unsigned long fadeDelay = .1; //speed of the eye 'fade'
@@ -184,7 +225,7 @@ DFRobotDFPlayerMini mp3Obj; // Create object for DFPlayer Mini
 // 1. Single Tap
 // 2. Double Tap
 // 3. Long Press
-ButtonEvents primaryButton = ButtonEvents(); 
+ButtonEvents primaryButton = ButtonEvents();
 
 // State of the faceplate 1 = open, 0 = closed
 #define FACEPLATE_CLOSED 0
@@ -419,6 +460,48 @@ void playSoundEffect(int soundEffect){
   facePlateCurMode = FACEPLATE_CLOSED;
  }
 
+#ifdef MISSILE
+/**
+ * Method to open the missile bay
+*/
+ void missileBayOpen(){
+  Serial.println(F("Missile bay opening..."));
+  servo4.attach(servo4Pin);
+  servo5.attach(servo5Pin);
+
+  servo4.write(servo4_OpenPos, missileBayOpenSpeed);
+  simDelay(missileBayDelay);
+  servo5.write(servo5_OpenPos, missileOpenSpeed);
+
+  simDelay(missileBayDelay);
+
+  servo4.detach();
+  servo5.detach();
+
+  missileBayCurMode = MISSILE_BAY_OPEN;
+ }
+
+/**
+ * Method to close the missile bay
+*/
+ void missileBayClose(){
+  Serial.println(F("Missile bay closing..."));
+  servo4.attach(servo4Pin);
+  servo5.attach(servo5Pin);
+
+  servo5.write(servo5_ClosePos, missileCloseSpeed);
+  simDelay(1000);
+  servo4.write(servo4_ClosePos, missileBayCloseSpeed);
+
+  simDelay(1000);
+
+  servo4.detach();
+  servo5.detach();
+
+  missileBayCurMode = MISSILE_BAY_CLOSED;
+ }
+ #endif
+
 /**
  * Set the brightness of the LED eyes
  * 
@@ -513,6 +596,7 @@ void ledEyesFade(){
  * Sets the Aux LED
  */
 void setAuxLed(){
+#ifndef MISSILE
   if (auxLedEnabled) {
     if (auxLedState == false){
       auxLedOn();
@@ -522,22 +606,27 @@ void setAuxLed(){
   } else {
     auxLedOff();
   }
+#endif
 }
 
 /*
  * Turn the Aux LED on
  */
 void auxLedOn(){
+#ifndef MISSILE
   digitalWrite(AuxLED, HIGH);
   auxLedState = true;
+#endif
 }
 
 /*
  * Turn the Aux LED off
  */
 void auxLedOff(){
+#ifndef MISSILE
   digitalWrite(AuxLED, LOW);
   auxLedState = false;
+#endif
 }
 
 /**
@@ -545,6 +634,9 @@ void auxLedOff(){
  */
 void startupFx(){
   //facePlateClose();
+#ifdef MISSILE
+  missileBayClose(); // Start out with the missile bay in the closed position
+#endif
 
 #ifdef SOUND
   playSoundEffect(SND_CLOSE);
@@ -624,6 +716,24 @@ void facePlateFx(){
   }
 }
 
+#ifdef MISSILE
+void missileOpenFx(){
+  missileBayOpen();
+}
+
+void missileCloseFx(){
+  missileBayClose();
+}
+
+void missileFx(){
+  if (missileBayCurMode == MISSILE_BAY_OPEN){
+    missileCloseFx();
+  } else {
+    missileOpenFx();
+  }
+}
+#endif
+
 /**
  * Event handler for when the primary button is tapped once
  */
@@ -647,6 +757,12 @@ void handlePrimaryButtonLongPress(){
   }
 }
 
+#ifdef MISSILE
+void handleMissileButtonSingleTap(){
+  missileFx();
+}
+#endif
+
 /**
  * Initializes the primary button for multi-functions
  */
@@ -659,6 +775,16 @@ void initPrimaryButton(){
   primaryButton.doubleTapTime(250);
   primaryButton.holdTime(2000);
 }
+
+#ifdef MISSILE
+void initMissileButton(){
+  missileButton.attach(missilePin, INPUT_PULLUP);
+  missileButton.activeLow();
+  missileButton.debounceTime(15);
+  missileButton.doubleTapTime(250);
+  missileButton.holdTime(2000);
+}
+#endif
 
 /**
  * Monitor for when the primary button is pushed
@@ -687,6 +813,33 @@ void monitorPrimaryButton(){
   }
 }
 
+#ifdef MISSILE
+/**
+ * Monitor for when the primary button is pushed
+ */
+void monitorMissileButton(){
+  bool changed = missileButton.update();
+
+  // Was the button pushed?
+  if (changed){
+    int event = missileButton.event(); // Get how the button was pushed
+
+    switch(event){
+      case(tap):
+        Serial.println(F("Missile button single press..."));
+        handleMissileButtonSingleTap();
+        break;
+      case (doubleTap):
+        Serial.println(F("Missile button double press..."));
+        break;
+      case (hold):
+        Serial.println(F("Missile button long press..."));
+        break;
+    }
+  }
+}
+#endif
+
 /**
  * Initialization method called by the Arduino library when the board boots up
  */
@@ -705,7 +858,11 @@ void setup() {
 
   initPrimaryButton(); // initialize the primary button
   
+#ifdef MISSILE
+  initMissileButton(); // initialize the missile button
+#else
   pinMode(AuxLED, OUTPUT); // set output for AUX LED
+#endif
 
   startupFx(); // Run the initial features
 }
@@ -716,6 +873,10 @@ void setup() {
  */
 void loop() {
   monitorPrimaryButton(); // Since all features currently are tied to the one button...
+
+#ifdef MISSILE
+  monitorMissileButton(); // Monitor when the missile button is pushed...
+#endif
 
   // Room for future features ;)
 }
