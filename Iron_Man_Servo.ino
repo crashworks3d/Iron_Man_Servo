@@ -36,7 +36,7 @@ DEVELOPED BY
 
  */
 // Version.  Don't change unless authorized by Cranshark
-#define VERSION "3.1.0.0"
+#define VERSION "3.1.0.1"
 
 #if defined __AVR_ATtiny85__ || defined __SAM3U4E__ || defined __SAM3X8E__ || defined __SAM3X8H__ || defined ARDUINO_SAMD_ZERO || defined __SAMD21G18A__  || defined __SAMD21J18A__ || ARDUINO_AVR_NANO_EVERY
   #error Code not compatible with this board type.
@@ -46,14 +46,15 @@ DEVELOPED BY
 //#define WALSH85
 
 // Uncomment this line to enable sound for the S.U.E. expansion board
-#define SOUND    
+#define SOUND
 
-#ifdef SOUND
+//#define DFPLAYER // Uncomment this line to enable using the DFRobot DFPlayer (or similar) sound module
+#define JQ6500 // Uncomment this line to enable using the JQ6500 sound module
+
 //#define JARVIS // Uncomment this line for JARVIS sound effects
 #define FRIDAY // Uncomment this line for JARVIS sound effects
-#endif
 
-// Uncomment this line to enable missile code
+// Uncomment this line to enable forearm missile special effects
 // #define MISSILE
 
 // Referenced libraries
@@ -64,14 +65,31 @@ DEVELOPED BY
 #include <OneButton.h>
 
 #ifdef SOUND
+#if defined DFPLAYER && defined JQ6500
+  #error Cannot have both DFPLAYER and JQ6500 defined in configuration
+#endif
+
+#if !defined(DFPLAYER) && !defined(JQ6500)
+  #error Must have either DFPLAYER or JQ6500 defined in configuration
+#endif
+
+#ifdef DFPLAYER
 // See: https://wiki.dfrobot.com/DFPlayer_Mini_SKU_DFR0299#target_6
 // Important!!! On the SD card copy the mp3 files into an mp3 directory
 // Download and install the DFRobotDFPlayerMini library
-
 #include <DFRobotDFPlayerMini.h>
+#endif
+
+#ifdef JQ6500
+// For installation instructions see: https://github.com/sleemanj/JQ6500_Serial
+#include <JQ6500_Serial.h>
+#endif
+
 #include <SoftwareSerial.h>
 
+#ifdef DFPLAYER
 void printDetail(uint8_t type, int value); // header method for implementation below; affects C++ compilers
+#endif
 #endif
 
 // Declare pin settings
@@ -206,13 +224,6 @@ boolean auxLedEnabled = true; // Set to true if you want to enable the Aux LED
 boolean auxLedState = false; // Keeps track of the state of the LED on = true, off = false
 #endif
 
-// Declare variables for LED control
-unsigned long fadeDelay = .1; //speed of the eye 'fade'
-unsigned long callDelay = 10; //length to wait to start eye flicker after face plate comes down
-unsigned long blinkSpeed = 60; //delay between init blink on/off
-unsigned long currentPWM = 0; // keep track of where the current PWM level is at
-boolean isOpen = true; // keep track of whether or not the faceplate is open
-
 #ifdef SOUND
 // Declare variables for sound control
 const int volume = 29; // sound board volume level (30 is max)
@@ -225,7 +236,14 @@ const int volume = 29; // sound board volume level (30 is max)
 #define SND_NO_ACCESS 6 // sound track for "not authorized to access" sound
 
 SoftwareSerial serialObj(rx_pin, tx_pin); // Create object for serial communications
+
+#ifdef DFPLAYER
 DFRobotDFPlayerMini mp3Obj; // Create object for DFPlayer Mini
+#endif
+
+#ifdef JQ6500
+JQ6500_Serial mp3Obj(serialObj); // Create object for JQ6500 module
+#endif
 #endif
 
 // Define object for primary button to handle 
@@ -339,6 +357,7 @@ void movieblink(){
  }
 
 #ifdef SOUND
+#ifdef DFPLAYER
 /**
  * Initialization method for DFPlayer Mini board
  */
@@ -377,7 +396,7 @@ void movieblink(){
   simDelay(100); // DFRobot Timing 9-9-2022
  }
 
-/**
+ /**
  * Method to play the sound effect for a specified feature
  */
 void playSoundEffect(int soundEffect){
@@ -391,6 +410,48 @@ void playSoundEffect(int soundEffect){
   mp3Obj.play(soundEffect);
   printDetail(mp3Obj.readType(), mp3Obj.read()); //Print the detail message from DFPlayer to handle different errors and states.
 }
+#endif
+
+#ifdef JQ6500
+/**
+ * Initialization method for MP3 player module
+ */
+ void init_player(){
+  serialObj.begin(9600);
+  //simDelay(1000); Adjusting Timing Sequence
+
+  if(!serialObj.available()){
+    Serial.println(F("Serial object not available."));
+  }
+
+  Serial.println(F("Initializing JQ6500..."));
+
+  mp3Obj.reset();
+  mp3Obj.setSource(MP3_SRC_BUILTIN);
+  mp3Obj.setVolume(volume);
+  mp3Obj.setLoopMode(MP3_LOOP_NONE);
+
+  simDelay(500);
+ }
+
+/**
+ * Method to play the sound effect for a specified feature
+ */
+void playSoundEffect(int soundEffect){
+  //mp3Obj.volume(volume);
+  Serial.print(F("Playing sound effect: "));
+  Serial.print(soundEffect);
+  //Serial.print(F("\tVolume: "));
+  //Serial.println(mp3Obj.readVolume());
+  mp3Obj.playFileByIndexNumber(soundEffect);
+}
+
+void delayWhilePlaying(){
+  while (mp3Obj.getStatus() == MP3_STATUS_PLAYING){
+    int x = 0;
+  }
+}
+#endif
 #endif
 
 /**
@@ -845,7 +906,7 @@ void loop() {
   // Room for future features ;)
 }
 
-#ifdef SOUND
+#if defined(SOUND) && defined(DFPLAYER)
 /**
  * Method to output any issues with the DFPlayer
  */
