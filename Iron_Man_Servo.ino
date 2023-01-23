@@ -46,10 +46,10 @@ DEVELOPED BY
 //#define WALSH85
 
 // Uncomment this line to enable sound for the S.U.E. expansion board
-//#define SOUND    
+#define SOUND    
 
 // Uncomment this line to enable missile code
-#define MISSILE
+// #define MISSILE
 
 // Referenced libraries
 // For installation instructions see https://github.com/netlabtoolkit/VarSpeedServo
