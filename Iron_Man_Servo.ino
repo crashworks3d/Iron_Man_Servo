@@ -49,8 +49,8 @@ DEVELOPED BY
 #define SOUND    
 
 #ifdef SOUND
-//#define JARVIS // Uncomment this line for JARVIS sound effects
-#define FRIDAY // Uncomment this line for JARVIS sound effects
+#define JARVIS // Uncomment this line for JARVIS sound effects
+//#define FRIDAY // Uncomment this line for JARVIS sound effects
 #endif
 
 // Uncomment this line to enable missile code
