@@ -36,7 +36,7 @@ DEVELOPED BY
 
  */
 // Version.  Don't change unless authorized by Cranshark
-#define VERSION "3.1.0.0"
+#define VERSION "3.0.0.1"
 
 #if defined __AVR_ATtiny85__ || defined __SAM3U4E__ || defined __SAM3X8E__ || defined __SAM3X8H__ || defined ARDUINO_SAMD_ZERO || defined __SAMD21G18A__  || defined __SAMD21J18A__ || ARDUINO_AVR_NANO_EVERY
   #error Code not compatible with this board type.
@@ -46,12 +46,7 @@ DEVELOPED BY
 //#define WALSH85
 
 // Uncomment this line to enable sound for the S.U.E. expansion board
-//#define SOUND    
-
-#ifdef SOUND
-#define JARVIS // Uncomment this line for JARVIS sound effects
-//#define FRIDAY // Uncomment this line for JARVIS sound effects
-#endif
+#define SOUND    
 
 // Uncomment this line to enable missile code
 #define MISSILE
@@ -60,8 +55,9 @@ DEVELOPED BY
 // For installation instructions see https://github.com/netlabtoolkit/VarSpeedServo
 #include <VarSpeedServo.h>
 
-// For installation instructions see: https://github.com/mathertel/OneButton
-#include <OneButton.h>
+// For installation instructions see: https://github.com/fasteddy516/ButtonEvents
+#include <Bounce2.h>
+#include <ButtonEvents.h>
 
 #ifdef SOUND
 // See: https://wiki.dfrobot.com/DFPlayer_Mini_SKU_DFR0299#target_6
@@ -216,13 +212,9 @@ boolean isOpen = true; // keep track of whether or not the faceplate is open
 #ifdef SOUND
 // Declare variables for sound control
 const int volume = 29; // sound board volume level (30 is max)
-
 #define SND_CLOSE 1 // sound track for helmet closing sound
-#define SND_OPEN 3 // sound track for helmet opening sound
-#define SND_REPULSOR 4 // sound track for repulsor sound effect
 #define SND_JARVIS 2 // sound track for JARVIS sound
-#define SND_FRIDAY 5 // sound track for FRIDAY sound
-#define SND_NO_ACCESS 6 // sound track for "not authorized to access" sound
+#define SND_OPEN 3 // sound track for helmet opening sound
 
 SoftwareSerial serialObj(rx_pin, tx_pin); // Create object for serial communications
 DFRobotDFPlayerMini mp3Obj; // Create object for DFPlayer Mini
@@ -233,7 +225,7 @@ DFRobotDFPlayerMini mp3Obj; // Create object for DFPlayer Mini
 // 1. Single Tap
 // 2. Double Tap
 // 3. Long Press
-OneButton primaryButton = OneButton(buttonPin, true, true);
+ButtonEvents primaryButton = ButtonEvents();
 
 // State of the faceplate 1 = open, 0 = closed
 #define FACEPLATE_CLOSED 0
@@ -668,13 +660,8 @@ void startupFx(){
   }
 
 #ifdef SOUND
-  simDelay(500); // Originally 2000ms
-#ifdef JARVIS
+  simDelay(500); // Originally 800ms, changed to 500ms for DFRobot 9-9-2022
   playSoundEffect(SND_JARVIS);
-#else
-  playSoundEffect(SND_FRIDAY);
-#endif
-  mp3Obj.sleep();
 #endif
 }
 
@@ -765,7 +752,9 @@ void handlePrimaryButtonDoubleTap(){
  * Event handler for when the primary button is pressed and held
  */
 void handlePrimaryButtonLongPress(){
-  ledEyesFade(); // Dim or brighten the LED eyes
+  while(!primaryButton.update()){
+    ledEyesFade(); // Dim or brighten the LED eyes
+  }
 }
 
 #ifdef MISSILE
@@ -775,34 +764,81 @@ void handleMissileButtonSingleTap(){
 #endif
 
 /**
- * Event handler for when the primary button is pressed multiple times
-*/
-void handlePrimaryButtonMultiPress(){
-  switch (primaryButton.getNumberClicks())  {
-    case 4:
-      playSoundEffect(6);
-      break;
-    default:
-      break;
-  }
-}
-
-/**
  * Initializes the primary button for multi-functions
  */
 void initPrimaryButton(){
-  primaryButton.attachClick(handlePrimaryButtonSingleTap);
-  primaryButton.attachDoubleClick(handlePrimaryButtonDoubleTap);
-  primaryButton.attachDuringLongPress(handlePrimaryButtonLongPress);
-  primaryButton.attachMultiClick(handlePrimaryButtonMultiPress);
+  // Attach the button to the pin on the board
+  primaryButton.attach(buttonPin, INPUT_PULLUP);
+  // Initialize button features...
+  primaryButton.activeLow();
+  primaryButton.debounceTime(15);
+  primaryButton.doubleTapTime(250);
+  primaryButton.holdTime(2000);
 }
+
+#ifdef MISSILE
+void initMissileButton(){
+  missileButton.attach(missilePin, INPUT_PULLUP);
+  missileButton.activeLow();
+  missileButton.debounceTime(15);
+  missileButton.doubleTapTime(250);
+  missileButton.holdTime(2000);
+}
+#endif
 
 /**
  * Monitor for when the primary button is pushed
  */
 void monitorPrimaryButton(){
-  primaryButton.tick();
+  bool changed = primaryButton.update();
+
+  // Was the button pushed?
+  if (changed){
+    int event = primaryButton.event(); // Get how the button was pushed
+
+    switch(event){
+      case(tap):
+        Serial.println(F("Primary button single press..."));
+        handlePrimaryButtonSingleTap();
+        break;
+      case (doubleTap):
+        Serial.println(F("Primary button double press..."));
+        handlePrimaryButtonDoubleTap();
+        break;
+      case (hold):
+        Serial.println(F("Primary button long press..."));
+        handlePrimaryButtonLongPress();
+        break;
+    }
+  }
 }
+
+#ifdef MISSILE
+/**
+ * Monitor for when the primary button is pushed
+ */
+void monitorMissileButton(){
+  bool changed = missileButton.update();
+
+  // Was the button pushed?
+  if (changed){
+    int event = missileButton.event(); // Get how the button was pushed
+
+    switch(event){
+      case(tap):
+        Serial.println(F("Missile button single press..."));
+        handleMissileButtonSingleTap();
+        break;
+      case (doubleTap):
+        Serial.println(F("Missile button double press..."));
+        break;
+      case (hold):
+        Serial.println(F("Missile button long press..."));
+        break;
+    }
+  }
+}
+#endif
 
 /**
  * Initialization method called by the Arduino library when the board boots up
