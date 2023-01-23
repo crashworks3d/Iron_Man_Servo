@@ -708,6 +708,9 @@ void startupFx(){
 #endif
 
 #ifdef SOUND
+#ifdef JQ6500
+  simDelay(100);
+#endif
   playSoundEffect(SND_CLOSE);
   simDelay(500); // Timing for Helmet Close Sound and delay to servo closing
 #endif
@@ -736,6 +739,7 @@ void startupFx(){
   playSoundEffect(SND_FRIDAY);
 #endif
 #ifdef JQ6500
+  delayWhilePlaying();
   mp3Obj.sleep();
 #endif
 #endif
@@ -761,7 +765,11 @@ void facePlateOpenFx(){
 void facePlateCloseFx(){
 #ifdef SOUND
   playSoundEffect(SND_CLOSE);
+#ifdef DFPLAYER
   simDelay(1200); //Timing for Helmet Close Sound and delay to servo closing
+#elif JQ6500
+  simDelay(500); //Timing for Helmet Close Sound and delay to servo closing
+#endif
 #endif
 
   facePlateClose();
@@ -843,7 +851,7 @@ void handleMissileButtonSingleTap(){
 void handlePrimaryButtonMultiPress(){
   switch (primaryButton.getNumberClicks())  {
     case 4:
-      playSoundEffect(6);
+      playSoundEffect(SND_NO_ACCESS);
       break;
     default:
       break;
