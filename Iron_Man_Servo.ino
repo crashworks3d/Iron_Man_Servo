@@ -48,11 +48,11 @@ DEVELOPED BY
 // Uncomment this line to enable sound for the S.U.E. expansion board
 #define SOUND
 
-//#define DFPLAYER // Uncomment this line to enable using the DFRobot DFPlayer (or similar) sound module
-#define JQ6500 // Uncomment this line to enable using the JQ6500 sound module
+#define DFPLAYER // Uncomment this line to enable using the DFRobot DFPlayer (or similar) sound module
+//#define JQ6500 // Uncomment this line to enable using the JQ6500 sound module
 
-//#define JARVIS // Uncomment this line for JARVIS sound effects
-#define FRIDAY // Uncomment this line for JARVIS sound effects
+#define JARVIS // Uncomment this line for JARVIS sound effects
+//#define FRIDAY // Uncomment this line for JARVIS sound effects
 
 // Uncomment this line to enable forearm missile special effects
 // #define MISSILE
@@ -735,7 +735,9 @@ void startupFx(){
 #else
   playSoundEffect(SND_FRIDAY);
 #endif
+#ifdef JQ6500
   mp3Obj.sleep();
+#endif
 #endif
 }
 
