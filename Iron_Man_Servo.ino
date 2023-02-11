@@ -55,11 +55,39 @@ DEVELOPED BY
 //#define FRIDAY // Uncomment this line for JARVIS sound effects
 
 // Uncomment this line to enable forearm missile special effects
-// #define MISSILE
+//#define MISSILE
 
 // Referenced libraries
 // For installation instructions see https://github.com/netlabtoolkit/VarSpeedServo
 #include <VarSpeedServo.h>
+
+//#define TPMG90S
+#define GENERIC
+//#define MANUAL
+
+#ifdef TPMG90S
+#define PWM_HIGH 2400 // Authentic Tower Pro MG90s Servo using 12% Duty Cycle
+#define PWM_LOW  400 // Authentic Tower Pro MG90s Servo using 2% Duty Cycle
+#endif
+
+#ifdef GENERIC
+#define PWM_HIGH 2600 // Generic MG90s Servo using 13% Duty Cycle
+#define PWM_LOW  200 // Generic MG90s Servo using 1% Duty Cycle
+#endif
+
+// Use these settings for manual configuration of servos
+#ifdef MANUAL
+#define PWM_HIGH 2000 // Manual Setting of Duty Cycle
+#define PWM_LOW  1000 // Manual Setting of Duty Cycle
+#endif
+
+#if !defined (TPMG90S)  && !defined (GENERIC) && !defined (MANUAL)
+  #error At least one servo configuration needs to be defined.
+#endif
+
+#if (defined (TPMG90S) && defined (GENERIC) && defined (MANUAL)) || (defined (TPMG90S) && defined (GENERIC)) || (defined (GENERIC) && defined (MANUAL)) || (defined (TPMG90S) && defined (MANUAL))
+  #error More than one servo configuration defined.  Only define one: TPMG90S, GENERIC, or MANUAL
+#endif
 
 // For installation instructions see: https://github.com/mathertel/OneButton
 #include <OneButton.h>
@@ -71,6 +99,14 @@ DEVELOPED BY
 
 #if !defined(DFPLAYER) && !defined(JQ6500)
   #error Must have either DFPLAYER or JQ6500 defined in configuration
+#endif
+
+#if defined JARVIS && defined FRIDAY
+  #error Cannot have both JARVIS and FRIDAY defined in configuration
+#endif
+
+#if !defined(JARVIS) && !defined(FRIDAY)
+  #error Must have either JARVIS or FRIDAY defined in configuration
 #endif
 
 #ifdef DFPLAYER
@@ -461,11 +497,11 @@ void delayWhilePlaying(){
   Serial.println(F("Servo Up!")); 
 
   // Re-attach the servos to their pins
-  servo1.attach(servo1Pin);
-  servo2.attach(servo2Pin);
+  servo1.attach(servo1Pin, PWM_LOW, PWM_HIGH);
+  servo2.attach(servo2Pin, PWM_LOW, PWM_HIGH);
 
   #ifdef WALSH85
-  servo3.attach(servo3Pin);
+  servo3.attach(servo3Pin, PWM_LOW, PWM_HIGH);
   #endif
 
   // Send data to the servos for movement
@@ -499,11 +535,11 @@ void delayWhilePlaying(){
   Serial.println(F("Servo Down"));  
 
   // Re-attach the servos to their pins
-  servo1.attach(servo1Pin);
-  servo2.attach(servo2Pin);
+  servo1.attach(servo1Pin, PWM_LOW, PWM_HIGH);
+  servo2.attach(servo2Pin, PWM_LOW, PWM_HIGH);
 
   #ifdef WALSH85
-  servo3.attach(servo3Pin);
+  servo3.attach(servo3Pin, PWM_LOW, PWM_HIGH);
   #endif
 
   // Send data to the servos for movement 
@@ -535,8 +571,8 @@ void delayWhilePlaying(){
 */
  void missileBayOpen(){
   Serial.println(F("Missile bay opening..."));
-  servo4.attach(servo4Pin);
-  servo5.attach(servo5Pin);
+  servo4.attach(servo4Pin, PWM_LOW, PWM_HIGH);
+  servo5.attach(servo5Pin, PWM_LOW, PWM_HIGH);
 
   servo4.write(servo4_OpenPos, missileBayOpenSpeed);
   simDelay(missileBayDelay);
@@ -555,8 +591,8 @@ void delayWhilePlaying(){
 */
  void missileBayClose(){
   Serial.println(F("Missile bay closing..."));
-  servo4.attach(servo4Pin);
-  servo5.attach(servo5Pin);
+  servo4.attach(servo4Pin, PWM_LOW, PWM_HIGH);
+  servo5.attach(servo5Pin, PWM_LOW, PWM_HIGH);
 
   servo5.write(servo5_ClosePos, missileCloseSpeed);
   simDelay(1000);
@@ -708,9 +744,6 @@ void startupFx(){
 #endif
 
 #ifdef SOUND
-#ifdef JQ6500
-  simDelay(100);
-#endif
   playSoundEffect(SND_CLOSE);
   simDelay(500); // Timing for Helmet Close Sound and delay to servo closing
 #endif
@@ -737,9 +770,6 @@ void startupFx(){
   playSoundEffect(SND_JARVIS);
 #else
   playSoundEffect(SND_FRIDAY);
-#endif
-#ifdef JQ6500
-  delayWhilePlaying();
   mp3Obj.sleep();
 #endif
 #endif
@@ -765,11 +795,7 @@ void facePlateOpenFx(){
 void facePlateCloseFx(){
 #ifdef SOUND
   playSoundEffect(SND_CLOSE);
-#ifdef DFPLAYER
   simDelay(1200); //Timing for Helmet Close Sound and delay to servo closing
-#elif JQ6500
-  simDelay(500); //Timing for Helmet Close Sound and delay to servo closing
-#endif
 #endif
 
   facePlateClose();
@@ -851,7 +877,7 @@ void handleMissileButtonSingleTap(){
 void handlePrimaryButtonMultiPress(){
   switch (primaryButton.getNumberClicks())  {
     case 4:
-      playSoundEffect(SND_NO_ACCESS);
+      playSoundEffect(6);
       break;
     default:
       break;
