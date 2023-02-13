@@ -36,7 +36,7 @@ DEVELOPED BY
 
  */
 // Version.  Don't change unless authorized by Cranshark
-#define VERSION "3.1.0.1"
+#define VERSION "3.1.0.2"
 
 #if defined __AVR_ATtiny85__ || defined __SAM3U4E__ || defined __SAM3X8E__ || defined __SAM3X8H__ || defined ARDUINO_SAMD_ZERO || defined __SAMD21G18A__  || defined __SAMD21J18A__ || ARDUINO_AVR_NANO_EVERY
   #error Code not compatible with this board type.
@@ -48,8 +48,8 @@ DEVELOPED BY
 // Uncomment this line to enable sound for the S.U.E. expansion board
 #define SOUND
 
-#define DFPLAYER // Uncomment this line to enable using the DFRobot DFPlayer (or similar) sound module
-//#define JQ6500 // Uncomment this line to enable using the JQ6500 sound module
+//#define DFPLAYER // Uncomment this line to enable using the DFRobot DFPlayer (or similar) sound module
+#define JQ6500 // Uncomment this line to enable using the JQ6500 sound module
 
 #define JARVIS // Uncomment this line for JARVIS sound effects
 //#define FRIDAY // Uncomment this line for JARVIS sound effects
@@ -371,9 +371,22 @@ void movieblink(){
   setAuxLed();
   simDelay(delayInterval[2]);
 
+#if defined (SOUND) && defined (JQ6500)
+#ifdef JARVIS
+  playSoundEffect(SND_JARVIS);
+#else
+  playSoundEffect(SND_FRIDAY);
+#endif
+#endif
+
   // All on
   setLedEyes(255);
-  auxLedOn();   
+  auxLedOn();
+
+#if defined (SOUND) && defined (JQ6500)
+  simDelay(1000);
+  mp3Obj.sleep();
+#endif
 }
 
 /*
@@ -389,6 +402,16 @@ void movieblink(){
     simDelay(200);
     ledEyesBrighten();
   }
+
+#if defined (SOUND) && defined (JQ6500)
+#ifdef JARVIS
+  playSoundEffect(SND_JARVIS);
+#else
+  playSoundEffect(SND_FRIDAY);
+#endif
+  simDelay(1000);
+  mp3Obj.sleep();
+#endif
   
  }
 
@@ -474,11 +497,8 @@ void playSoundEffect(int soundEffect){
  * Method to play the sound effect for a specified feature
  */
 void playSoundEffect(int soundEffect){
-  //mp3Obj.volume(volume);
   Serial.print(F("Playing sound effect: "));
   Serial.print(soundEffect);
-  //Serial.print(F("\tVolume: "));
-  //Serial.println(mp3Obj.readVolume());
   mp3Obj.playFileByIndexNumber(soundEffect);
 }
 
@@ -764,13 +784,12 @@ void startupFx(){
       break;
   }
 
-#ifdef SOUND
+#if defined (SOUND) && defined (DFPLAYER)
   simDelay(500); // Originally 2000ms
 #ifdef JARVIS
   playSoundEffect(SND_JARVIS);
 #else
   playSoundEffect(SND_FRIDAY);
-  mp3Obj.sleep();
 #endif
 #endif
 }
