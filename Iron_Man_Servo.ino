@@ -42,44 +42,11 @@ DEVELOPED BY
   #error Code not compatible with this board type.
 #endif
 
-// Uncomment this line to enable Walsh3D MK85 Jaw Control (Open/Close)
-//#define WALSH85
-
-// Uncomment this line to enable sound for the S.U.E. expansion board
-#define SOUND
-
-//#define DFPLAYER // Uncomment this line to enable using the DFRobot DFPlayer (or similar) sound module
-#define JQ6500 // Uncomment this line to enable using the JQ6500 sound module
-
-#define JARVIS // Uncomment this line for JARVIS sound effects
-//#define FRIDAY // Uncomment this line for JARVIS sound effects
-
-// Uncomment this line to enable forearm missile special effects
-//#define MISSILE
+#include "config.h"
 
 // Referenced libraries
 // For installation instructions see https://github.com/netlabtoolkit/VarSpeedServo
 #include <VarSpeedServo.h>
-
-//#define TPMG90S
-#define GENERIC
-//#define MANUAL
-
-#ifdef TPMG90S
-#define PWM_HIGH 2400 // Authentic Tower Pro MG90s Servo using 12% Duty Cycle
-#define PWM_LOW  400 // Authentic Tower Pro MG90s Servo using 2% Duty Cycle
-#endif
-
-#ifdef GENERIC
-#define PWM_HIGH 2600 // Generic MG90s Servo using 13% Duty Cycle
-#define PWM_LOW  200 // Generic MG90s Servo using 1% Duty Cycle
-#endif
-
-// Use these settings for manual configuration of servos
-#ifdef MANUAL
-#define PWM_HIGH 2000 // Manual Setting of Duty Cycle
-#define PWM_LOW  1000 // Manual Setting of Duty Cycle
-#endif
 
 #if !defined (TPMG90S)  && !defined (GENERIC) && !defined (MANUAL)
   #error At least one servo configuration needs to be defined.
@@ -114,6 +81,8 @@ DEVELOPED BY
 // Important!!! On the SD card copy the mp3 files into an mp3 directory
 // Download and install the DFRobotDFPlayerMini library
 #include <DFRobotDFPlayerMini.h>
+
+void printDetail(uint8_t type, int value); // header method for implementation below; affects C++ compilers
 #endif
 
 #ifdef JQ6500
@@ -122,34 +91,8 @@ DEVELOPED BY
 #endif
 
 #include <SoftwareSerial.h>
-
-#ifdef DFPLAYER
-void printDetail(uint8_t type, int value); // header method for implementation below; affects C++ compilers
-#endif
 #endif
 
-// Declare pin settings
-const int servo1Pin = 9; // set the pin for servo 1
-const int servo2Pin = 10; // set the pin for servo 2
-
-#ifdef WALSH85
-const int servo3Pin = 5; // set the pin for servo 3 (Walsh85 Jaw Control)
-#endif
-
-const int buttonPin = 2; // the pin that the pushbutton is attached to
-
-// led control pins (need to be PWM enabled pins for fading)
-const int leftEyePin =  6;  // left eye LEDs
-const int rightEyePin = 3;  // right eye LEDs
-#ifndef MISSILE
-const int AuxLED = 4; // Aux LED non-PWM
-#endif
-
-#ifdef SOUND
-// sound board pins
-const int rx_pin = 7; // set pin for receive (RX) communications
-const int tx_pin = 8; // set pin for transmit (TX) communications
-#endif
 
 // Declare servo objects
 VarSpeedServo servo1; // create servo object to control servo 1
@@ -160,110 +103,24 @@ VarSpeedServo servo3; // create servo object to control servo 3 (Walsh85 Jaw Con
 #endif
 
 #ifdef MISSILE
-const int servo4Pin = 4; // set the pin for servo 3 (missile bay)
-const int servo5Pin = 11; // set the pin for servo 4 (missile)
-
-const int missilePin = 12; // the pin that the missile button is attached to
-
 VarSpeedServo servo4; // create servo object to control servo 3
 VarSpeedServo servo5; // create servo object to control servo 4
 
-// TODO: Figure out the optimal speeds
-// The missile bay needs to open faster than the missile extracts
-// The missile needs to retract before the missile bay closes
-const int missileOpenSpeed = 200; // set the speed of the missile moving into launch position
-const int missileCloseSpeed = 60; // set the speed of the missile retracting
-const int missileBayOpenSpeed = 200; // set the opening speed of the missile bay 
-const int missileBayCloseSpeed = 60; // set the closing speed of the missile bay
-
-// TODO: Figure out optimal open/clos positions
-const int servo4_OpenPos = 180; // set the open position of servo 4
-const int servo4_ClosePos = 0; // set the closed position of servo 4
-const int servo5_OpenPos = 180; //set the open position of servo 5
-const int servo5_ClosePos = 0; // set the closed position of servo 5
-
 // Define object for the missile button
-ButtonEvents missileButton = ButtonEvents();
+OneButton missileButton = OneButton(missilePin, true, true);
 
 // State of the missile bay 1 = open, 0 = closed
 #define MISSILE_BAY_CLOSED 0
 #define MISSILE_BAY_OPEN 1
 int missileBayCurMode = MISSILE_BAY_OPEN; // Keep track if the missile bay is open or closed
-
-const int missileBayDelay = 1000; // Amount of time (ms) to delay between movement of the missile bay and the missile
 #endif
-
-// Declare variables for servo speed control
-const int servoCloseSpeed = 100; // set the speed of the servo close function
-const int servoOpenSpeed = 255; // set the speed of the servo opening recommend set to max speed to aid in lift
-
-//Servo 3 (Walsh85 Jaw Control) variables for servo speed control
-#ifdef WALSH85
-const int jawCloseSpeed = 175; // set the speed of the Jaw closing for Walsh85 Helmet
-const int jawOpenSpeed = 255; // set the speed of the Jaw opening for Walsh85 Helmet
-#endif
-
-// In Dual Servo Configuration the servos move in opposing directions, so the angles of the servos will be opposite to each other. 
-// Normal Servo range is 0° ~ 180°, for initial setup the range has been adjusted to 20° ~ 160°, this allows for a 20° adjustment at both ends of the servo range.
-// See Helmet tutorial for further information on servo setup.
-const int servo1_OpenPos = 20; // set the open position of servo 1
-const int servo2_OpenPos = 160; // set the open position of servo 2
-const int servo1_ClosePos = 160; // set the closed position of servo 1
-const int servo2_ClosePos = 20; // set the closed position of servo 2
-
-#ifdef WALSH85
-//Servo 3 (Walsh85 Jaw Control) Open / Close Angle
-const int servo3_OpenPos = 90; // set the open position of servo 2
-const int servo3_ClosePos = 0; // set the closed position of servo 1
-#endif
-
-// Declare variables for setup special effects (applies to LED eyes only for now)
-#define SETUP_NONE 0 // No special effects, just turn on the LED eyes
-#define SETUP_MOVIE_BLINK 1 // Blink LED eyes on setup, sequence based on Avengers Movie
-#define SETUP_FADE_ON 2 // Slowly brighten LED eyes until fully lit
-
-// To use the specific feature below
-// use double slashes "//" to comment, or uncomment (remove double slashes) in the code below
-
-// Uncomment this line if you don't want any special effect during setup, comment this line to disable this effect
-// const int setupFx = SETUP_NONE;
-
-// Uncomment this line if you want the movie blink special effect during setup, comment this line to disable this effect
-const int setupFx = SETUP_MOVIE_BLINK;
-
-// Uncomment this line if you want the fade on special effect during setup, comment this line to disable this effect
-// const int setupFx = SETUP_FADE_ON;
-
-// Declare variables for LED eyes special effects (applies to LED eyes only for now)
-#define EYES_NONE 0 // No special effects, just turn on the LED eyes
-#define EYES_MOVIE_BLINK 1 // Blink LED eyes on setup, sequence based on Avengers Movie
-#define EYES_FADE_ON 2 // Slowly brighten LED eyes until fully lit
-
-// To use the specific feature below
-// use double slashes "//" to comment, or uncomment (remove double slashes) in the code below
-
-// Uncomment this line if you don't want any special effect during setup, comment this line to disable this effect
-// const int eyesFx = EYES_NONE;
-
-// Uncomment this line if you want the movie blink special effect during setup, comment this line to disable this effect
-// const int eyesFx = EYES_MOVIE_BLINK;
-
-// Uncomment this line if you want the fade on special effect during setup, comment this line to disable this effect
-const int eyesFx = EYES_FADE_ON;
-
-// Declare variables for button control
-boolean movieblinkOnClose = false; //Blink LEDs on close of faceplate, Sequence based on Avengers Movie
 
 #ifndef MISSILE
-// Declare variable for AuxLED
-boolean auxLedEnabled = true; // Set to true if you want to enable the Aux LED
 boolean auxLedState = false; // Keeps track of the state of the LED on = true, off = false
 #endif
 
 #ifdef SOUND
 // Declare variables for sound control
-const int volume = 29; // sound board volume level (30 is max)
-
 #define SND_CLOSE 1 // sound track for helmet closing sound
 #define SND_OPEN 3 // sound track for helmet opening sound
 #define SND_REPULSOR 4 // sound track for repulsor sound effect
@@ -896,7 +753,9 @@ void handleMissileButtonSingleTap(){
 void handlePrimaryButtonMultiPress(){
   switch (primaryButton.getNumberClicks())  {
     case 4:
+#ifdef SOUND
       playSoundEffect(6);
+#endif
       break;
     default:
       break;
@@ -913,12 +772,30 @@ void initPrimaryButton(){
   primaryButton.attachMultiClick(handlePrimaryButtonMultiPress);
 }
 
+#ifdef MISSILE
+/**
+ * Initializes the missile button for multi-functions
+ */
+void initMissileButton(){
+  missileButton.attachClick(handleMissileButtonSingleTap);
+}
+#endif
+
 /**
  * Monitor for when the primary button is pushed
  */
 void monitorPrimaryButton(){
   primaryButton.tick();
 }
+
+#ifdef MISSILE
+/**
+ * Monitor for when the missile button is pushed
+ */
+void monitorMissileButton(){
+  missileButton.tick();
+}
+#endif
 
 /**
  * Initialization method called by the Arduino library when the board boots up
@@ -936,6 +813,8 @@ void setup() {
   init_player(); // initializes the sound player
 #endif
 
+  startupFx(); // Run the initial features
+
   initPrimaryButton(); // initialize the primary button
   
 #ifdef MISSILE
@@ -943,8 +822,6 @@ void setup() {
 #else
   pinMode(AuxLED, OUTPUT); // set output for AUX LED
 #endif
-
-  startupFx(); // Run the initial features
 }
 
 /**
