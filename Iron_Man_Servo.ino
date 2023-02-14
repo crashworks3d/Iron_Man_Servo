@@ -99,7 +99,7 @@ VarSpeedServo servo1; // create servo object to control servo 1
 VarSpeedServo servo2; // create servo object to control servo 2
 
 #ifdef WALSH85
-VarSpeedServo servo3; // create servo object to control servo 3 (Walsh85 Jaw Control)
+VarSpeedServo servo3; // create servo object to control servo 3 (Walsh85 chin Control)
 #endif
 
 #ifdef MISSILE
@@ -388,7 +388,7 @@ void delayWhilePlaying(){
   
   #ifdef WALSH85
   simDelay(500);
-  servo3.write(SERVO3_OPEN_POS, JAW_OPEN_SPEED);
+  servo3.write(SERVO3_OPEN_POS, CHIN_OPEN_SPEED);
   //simDelay(1000); // wait doesn't wait long enough for servos to fully complete...
   #endif
   
@@ -422,8 +422,8 @@ void delayWhilePlaying(){
   // Send data to the servos for movement 
 
   #ifdef WALSH85
-  servo3.write(SERVO3_CLOSE_POS, JAW_CLOSE_SPEED);
-  simDelay(500); // Delay to allow Jaw to fully close before Faceplate closes
+  servo3.write(SERVO3_CLOSE_POS, CHIN_CLOSE_SPEED);
+  simDelay(500); // Delay to allow chin to fully close before Faceplate closes
   #endif
   
   servo1.write(SERVO1_CLOSE_POS, SERVO_CLOSE_SPEED);
@@ -628,14 +628,14 @@ void startupFx(){
   facePlateClose();
 
   switch(SETUP_FX){
-    case SETUP_NONE:
+    case EYES_NONE:
       ledEyesOn();
       auxLedOn();
       break;
-    case SETUP_MOVIE_BLINK:
+    case EYES_MOVIE_BLINK:
       movieblink();
       break;
-    case SETUP_FADE_ON:
+    case EYES_FADE_ON:
       fadeEyesOn();
       auxLedOn();
       break;

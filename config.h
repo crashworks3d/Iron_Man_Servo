@@ -39,7 +39,7 @@ DEVELOPED BY
 // Uncomment this line to enable sound for the S.U.E. expansion board
 //#define SOUND
 
-// Uncomment this line to enable Walsh3D MK85 Jaw Control (Open/Close)
+// Uncomment this line to enable Walsh3D MK85 CHIN Control (Open/Close)
 //#define WALSH85
 
 // Uncomment this line to enable forearm missile special effects
@@ -106,14 +106,14 @@ DEVELOPED BY
 #define AUX_LED_ENABLED true // Set to true if you want to enable the Aux LED
 #endif
 
-//Servo 3 (Walsh85 Jaw Control) variables for servo speed control
+//Servo 3 (Walsh85 chin Control) variables for servo speed control
 #ifdef WALSH85
-#define SERVO3_PIN 5 // set the pin for servo 3 (Walsh85 Jaw Control)
+#define SERVO3_PIN 5 // set the pin for servo 3 (Walsh85 chin Control)
 
-#define JAW_CLOSE_SPEED 175 // set the speed of the Jaw closing for Walsh85 Helmet
-#define JAW_OPEN_SPEED 255 // set the speed of the Jaw opening for Walsh85 Helmet
+#define CHIN_CLOSE_SPEED 175 // set the speed of the chin closing for Walsh85 Helmet
+#define CHIN_OPEN_SPEED 255 // set the speed of the chin opening for Walsh85 Helmet
 
-//Servo 3 (Walsh85 Jaw Control) Open / Close Angle
+//Servo 3 (Walsh85 chin Control) Open / Close Angle
 #define SERVO3_OPEN_POS 90 // set the open position of servo 3
 #define SERVO3_CLOSE_POS 0 // set the closed position of servo 3
 #endif
@@ -142,26 +142,23 @@ DEVELOPED BY
 #endif
 
 // Declare variables for setup special effects (applies to LED eyes only for now)
-#define SETUP_NONE 0 // No special effects, just turn on the LED eyes
-#define SETUP_MOVIE_BLINK 1 // Blink LED eyes on setup, sequence based on Avengers Movie
-#define SETUP_FADE_ON 2 // Slowly brighten LED eyes until fully lit
-
-// To use the specific feature below
-// use double slashes "//" to comment, or uncomment (remove double slashes) in the code below
-
-// Uncomment this line if you don't want any special effect during setup, comment this line to disable this effect
-// #define SETUP_FX SETUP_NONE
-
-// Uncomment this line if you want the movie blink special effect during setup, comment this line to disable this effect
-#define SETUP_FX SETUP_MOVIE_BLINK
-
-// Uncomment this line if you want the fade on special effect during setup, comment this line to disable this effect
-// #define SETUP_FX SETUP_FADE_ON
 
 // Declare variables for LED eyes special effects (applies to LED eyes only for now)
 #define EYES_NONE 0 // No special effects, just turn on the LED eyes
 #define EYES_MOVIE_BLINK 1 // Blink LED eyes on setup, sequence based on Avengers Movie
 #define EYES_FADE_ON 2 // Slowly brighten LED eyes until fully lit
+
+// To use the specific feature below
+// use double slashes "//" to comment, or uncomment (remove double slashes) in the code below
+
+// Uncomment this line if you don't want any special effect during setup, comment this line to disable this effect
+// #define SETUP_FX EYES_NONE
+
+// Uncomment this line if you want the movie blink special effect during setup, comment this line to disable this effect
+#define SETUP_FX EYES_MOVIE_BLINK
+
+// Uncomment this line if you want the fade on special effect during setup, comment this line to disable this effect
+// #define SETUP_FX EYES_FADE_ON
 
 // To use the specific feature below
 // use double slashes "//" to comment, or uncomment (remove double slashes) in the code below
@@ -174,6 +171,3 @@ DEVELOPED BY
 
 // Uncomment this line if you want the fade on special effect during setup, comment this line to disable this effect
 #define EYES_FX EYES_FADE_ON
-
-// Declare variables for button control
-#define MOVIE_BLINK_ON_CLOSE false //Blink LEDs on close of faceplate, Sequence based on Avengers Movie
