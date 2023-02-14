@@ -263,13 +263,9 @@ boolean auxLedState = false; // Keeps track of the state of the LED on = true, o
 #ifdef SOUND
 // Declare variables for sound control
 const int volume = 29; // sound board volume level (30 is max)
-
 #define SND_CLOSE 1 // sound track for helmet closing sound
-#define SND_OPEN 3 // sound track for helmet opening sound
-#define SND_REPULSOR 4 // sound track for repulsor sound effect
 #define SND_JARVIS 2 // sound track for JARVIS sound
-#define SND_FRIDAY 5 // sound track for FRIDAY sound
-#define SND_NO_ACCESS 6 // sound track for "not authorized to access" sound
+#define SND_OPEN 3 // sound track for helmet opening sound
 
 SoftwareSerial serialObj(rx_pin, tx_pin); // Create object for serial communications
 
@@ -287,7 +283,7 @@ JQ6500_Serial mp3Obj(serialObj); // Create object for JQ6500 module
 // 1. Single Tap
 // 2. Double Tap
 // 3. Long Press
-OneButton primaryButton = OneButton(buttonPin, true, true);
+ButtonEvents primaryButton = ButtonEvents();
 
 // State of the faceplate 1 = open, 0 = closed
 #define FACEPLATE_CLOSED 0
@@ -881,7 +877,9 @@ void handlePrimaryButtonDoubleTap(){
  * Event handler for when the primary button is pressed and held
  */
 void handlePrimaryButtonLongPress(){
-  ledEyesFade(); // Dim or brighten the LED eyes
+  while(!primaryButton.update()){
+    ledEyesFade(); // Dim or brighten the LED eyes
+  }
 }
 
 #ifdef MISSILE
@@ -891,34 +889,81 @@ void handleMissileButtonSingleTap(){
 #endif
 
 /**
- * Event handler for when the primary button is pressed multiple times
-*/
-void handlePrimaryButtonMultiPress(){
-  switch (primaryButton.getNumberClicks())  {
-    case 4:
-      playSoundEffect(6);
-      break;
-    default:
-      break;
-  }
-}
-
-/**
  * Initializes the primary button for multi-functions
  */
 void initPrimaryButton(){
-  primaryButton.attachClick(handlePrimaryButtonSingleTap);
-  primaryButton.attachDoubleClick(handlePrimaryButtonDoubleTap);
-  primaryButton.attachDuringLongPress(handlePrimaryButtonLongPress);
-  primaryButton.attachMultiClick(handlePrimaryButtonMultiPress);
+  // Attach the button to the pin on the board
+  primaryButton.attach(buttonPin, INPUT_PULLUP);
+  // Initialize button features...
+  primaryButton.activeLow();
+  primaryButton.debounceTime(15);
+  primaryButton.doubleTapTime(250);
+  primaryButton.holdTime(2000);
 }
+
+#ifdef MISSILE
+void initMissileButton(){
+  missileButton.attach(missilePin, INPUT_PULLUP);
+  missileButton.activeLow();
+  missileButton.debounceTime(15);
+  missileButton.doubleTapTime(250);
+  missileButton.holdTime(2000);
+}
+#endif
 
 /**
  * Monitor for when the primary button is pushed
  */
 void monitorPrimaryButton(){
-  primaryButton.tick();
+  bool changed = primaryButton.update();
+
+  // Was the button pushed?
+  if (changed){
+    int event = primaryButton.event(); // Get how the button was pushed
+
+    switch(event){
+      case(tap):
+        Serial.println(F("Primary button single press..."));
+        handlePrimaryButtonSingleTap();
+        break;
+      case (doubleTap):
+        Serial.println(F("Primary button double press..."));
+        handlePrimaryButtonDoubleTap();
+        break;
+      case (hold):
+        Serial.println(F("Primary button long press..."));
+        handlePrimaryButtonLongPress();
+        break;
+    }
+  }
 }
+
+#ifdef MISSILE
+/**
+ * Monitor for when the primary button is pushed
+ */
+void monitorMissileButton(){
+  bool changed = missileButton.update();
+
+  // Was the button pushed?
+  if (changed){
+    int event = missileButton.event(); // Get how the button was pushed
+
+    switch(event){
+      case(tap):
+        Serial.println(F("Missile button single press..."));
+        handleMissileButtonSingleTap();
+        break;
+      case (doubleTap):
+        Serial.println(F("Missile button double press..."));
+        break;
+      case (hold):
+        Serial.println(F("Missile button long press..."));
+        break;
+    }
+  }
+}
+#endif
 
 /**
  * Initialization method called by the Arduino library when the board boots up
