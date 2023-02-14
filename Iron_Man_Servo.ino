@@ -107,7 +107,7 @@ VarSpeedServo servo4; // create servo object to control servo 3
 VarSpeedServo servo5; // create servo object to control servo 4
 
 // Define object for the missile button
-OneButton missileButton = OneButton(missilePin, true, true);
+OneButton missileButton = OneButton(MISSILE_PIN, true, true);
 
 // State of the missile bay 1 = open, 0 = closed
 #define MISSILE_BAY_CLOSED 0
@@ -128,7 +128,7 @@ boolean auxLedState = false; // Keeps track of the state of the LED on = true, o
 #define SND_FRIDAY 5 // sound track for FRIDAY sound
 #define SND_NO_ACCESS 6 // sound track for "not authorized to access" sound
 
-SoftwareSerial serialObj(rx_pin, tx_pin); // Create object for serial communications
+SoftwareSerial serialObj(RX_PIN, TX_PIN); // Create object for serial communications
 
 #ifdef DFPLAYER
 DFRobotDFPlayerMini mp3Obj; // Create object for DFPlayer Mini
@@ -144,7 +144,7 @@ JQ6500_Serial mp3Obj(serialObj); // Create object for JQ6500 module
 // 1. Single Tap
 // 2. Double Tap
 // 3. Long Press
-OneButton primaryButton = OneButton(buttonPin, true, true);
+OneButton primaryButton = OneButton(BUTTON_PIN, true, true);
 
 // State of the faceplate 1 = open, 0 = closed
 #define FACEPLATE_CLOSED 0
@@ -305,7 +305,7 @@ void movieblink(){
   mp3Obj.setTimeOut(500); //Set serial communictaion time out 500ms
   
   Serial.println(F("Setting volume"));
-  mp3Obj.volume(volume);
+  mp3Obj.volume(VOLUME);
   simDelay(100); // DFRobot Timing 9-9-2022
   mp3Obj.EQ(DFPLAYER_EQ_NORMAL);
   mp3Obj.outputDevice(DFPLAYER_DEVICE_SD);
@@ -316,7 +316,7 @@ void movieblink(){
  * Method to play the sound effect for a specified feature
  */
 void playSoundEffect(int soundEffect){
-  mp3Obj.volume(volume);
+  mp3Obj.volume(VOLUME);
   simDelay(100); // DFRobot Timing 9-9-2022
   Serial.print(F("Playing sound effect: "));
   Serial.print(soundEffect);
@@ -344,7 +344,7 @@ void playSoundEffect(int soundEffect){
 
   mp3Obj.reset();
   mp3Obj.setSource(MP3_SRC_BUILTIN);
-  mp3Obj.setVolume(volume);
+  mp3Obj.setVolume(VOLUME);
   mp3Obj.setLoopMode(MP3_LOOP_NONE);
 
   simDelay(500);
@@ -374,21 +374,21 @@ void delayWhilePlaying(){
   Serial.println(F("Servo Up!")); 
 
   // Re-attach the servos to their pins
-  servo1.attach(servo1Pin, PWM_LOW, PWM_HIGH);
-  servo2.attach(servo2Pin, PWM_LOW, PWM_HIGH);
+  servo1.attach(SERVO1_PIN, PWM_LOW, PWM_HIGH);
+  servo2.attach(SERVO2_PIN, PWM_LOW, PWM_HIGH);
 
   #ifdef WALSH85
-  servo3.attach(servo3Pin, PWM_LOW, PWM_HIGH);
+  servo3.attach(SERVO3_PIN, PWM_LOW, PWM_HIGH);
   #endif
 
   // Send data to the servos for movement
     
-  servo1.write(servo1_OpenPos, servoOpenSpeed);
-  servo2.write(servo2_OpenPos, servoOpenSpeed);
+  servo1.write(SERVO1_OPEN_POS, SERVO_OPEN_SPEED);
+  servo2.write(SERVO2_OPEN_POS, SERVO_OPEN_SPEED);
   
   #ifdef WALSH85
   simDelay(500);
-  servo3.write(servo3_OpenPos, jawOpenSpeed);
+  servo3.write(SERVO3_OPEN_POS, JAW_OPEN_SPEED);
   //simDelay(1000); // wait doesn't wait long enough for servos to fully complete...
   #endif
   
@@ -412,22 +412,22 @@ void delayWhilePlaying(){
   Serial.println(F("Servo Down"));  
 
   // Re-attach the servos to their pins
-  servo1.attach(servo1Pin, PWM_LOW, PWM_HIGH);
-  servo2.attach(servo2Pin, PWM_LOW, PWM_HIGH);
+  servo1.attach(SERVO1_PIN, PWM_LOW, PWM_HIGH);
+  servo2.attach(SERVO2_PIN, PWM_LOW, PWM_HIGH);
 
   #ifdef WALSH85
-  servo3.attach(servo3Pin, PWM_LOW, PWM_HIGH);
+  servo3.attach(SERVO3_PIN, PWM_LOW, PWM_HIGH);
   #endif
 
   // Send data to the servos for movement 
 
   #ifdef WALSH85
-  servo3.write(servo3_ClosePos, jawCloseSpeed);
+  servo3.write(SERVO3_CLOSE_POS, JAW_CLOSE_SPEED);
   simDelay(500); // Delay to allow Jaw to fully close before Faceplate closes
   #endif
   
-  servo1.write(servo1_ClosePos, servoCloseSpeed);
-  servo2.write(servo2_ClosePos, servoCloseSpeed);
+  servo1.write(SERVO1_CLOSE_POS, SERVO_CLOSE_SPEED);
+  servo2.write(SERVO2_CLOSE_POS, SERVO_CLOSE_SPEED);
 
   simDelay(1000); // wait doesn't wait long enough for servos to fully complete...
 
@@ -448,14 +448,14 @@ void delayWhilePlaying(){
 */
  void missileBayOpen(){
   Serial.println(F("Missile bay opening..."));
-  servo4.attach(servo4Pin, PWM_LOW, PWM_HIGH);
-  servo5.attach(servo5Pin, PWM_LOW, PWM_HIGH);
+  servo4.attach(SERVO4_PIN, PWM_LOW, PWM_HIGH);
+  servo5.attach(SERVO5_PIN, PWM_LOW, PWM_HIGH);
 
-  servo4.write(servo4_OpenPos, missileBayOpenSpeed);
-  simDelay(missileBayDelay);
-  servo5.write(servo5_OpenPos, missileOpenSpeed);
+  servo4.write(SERVO4_OPEN_POS, MISSILE_BAY_OPEN_SPEED);
+  simDelay(MISSILE_BAY_DELAY);
+  servo5.write(SERVO5_OPEN_POS, MISSILE_OPEN_SPEED);
 
-  simDelay(missileBayDelay);
+  simDelay(MISSILE_BAY_DELAY);
 
   servo4.detach();
   servo5.detach();
@@ -468,12 +468,12 @@ void delayWhilePlaying(){
 */
  void missileBayClose(){
   Serial.println(F("Missile bay closing..."));
-  servo4.attach(servo4Pin, PWM_LOW, PWM_HIGH);
-  servo5.attach(servo5Pin, PWM_LOW, PWM_HIGH);
+  servo4.attach(SERVO4_PIN, PWM_LOW, PWM_HIGH);
+  servo5.attach(SERVO5_PIN, PWM_LOW, PWM_HIGH);
 
-  servo5.write(servo5_ClosePos, missileCloseSpeed);
+  servo5.write(SERVO5_CLOSE_POS, MISSILE_CLOSE_SPEED);
   simDelay(1000);
-  servo4.write(servo4_ClosePos, missileBayCloseSpeed);
+  servo4.write(SERVO4_CLOSE_POS, MISSILE_BAY_CLOSE_SPEED);
 
   simDelay(1000);
 
@@ -490,8 +490,8 @@ void delayWhilePlaying(){
  * @param[out] pwmValue - the PWM value (0-255) for the LED brightness
  */
 void setLedEyes(int pwmValue){
-  analogWrite(rightEyePin, pwmValue);
-  analogWrite(leftEyePin, pwmValue);
+  analogWrite(RIGHT_EYE_PIN, pwmValue);
+  analogWrite(LEFT_EYE_PIN, pwmValue);
   ledEyesCurPwm = pwmValue;
 }
  
@@ -579,7 +579,7 @@ void ledEyesFade(){
  */
 void setAuxLed(){
 #ifndef MISSILE
-  if (auxLedEnabled) {
+  if (AUX_LED_ENABLED) {
     if (auxLedState == false){
       auxLedOn();
     } else {
@@ -596,7 +596,7 @@ void setAuxLed(){
  */
 void auxLedOn(){
 #ifndef MISSILE
-  digitalWrite(AuxLED, HIGH);
+  digitalWrite(AUX_LED_PIN, HIGH);
   auxLedState = true;
 #endif
 }
@@ -606,7 +606,7 @@ void auxLedOn(){
  */
 void auxLedOff(){
 #ifndef MISSILE
-  digitalWrite(AuxLED, LOW);
+  digitalWrite(AUX_LED_PIN, LOW);
   auxLedState = false;
 #endif
 }
@@ -627,7 +627,7 @@ void startupFx(){
 
   facePlateClose();
 
-  switch(setupFx){
+  switch(SETUP_FX){
     case SETUP_NONE:
       ledEyesOn();
       auxLedOn();
@@ -676,7 +676,7 @@ void facePlateCloseFx(){
 
   facePlateClose();
 
-  switch(eyesFx){
+  switch(EYES_FX){
     case EYES_NONE:
       ledEyesOn();
       auxLedOn();
@@ -820,7 +820,7 @@ void setup() {
 #ifdef MISSILE
   initMissileButton(); // initialize the missile button
 #else
-  pinMode(AuxLED, OUTPUT); // set output for AUX LED
+  pinMode(AUX_LED_PIN, OUTPUT); // set output for AUX LED
 #endif
 }
 
