@@ -52,7 +52,7 @@ DEVELOPED BY
 #define JQ6500 // Uncomment this line to enable using the JQ6500 sound module
 
 #define JARVIS // Uncomment this line for JARVIS sound effects
-//#define FRIDAY // Uncomment this line for JARVIS sound effects
+//#define FRIDAY // Uncomment this line for FRIDAY sound effects
 
 // Uncomment this line to enable forearm missile special effects
 //#define MISSILE
