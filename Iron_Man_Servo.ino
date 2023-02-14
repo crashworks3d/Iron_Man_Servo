@@ -36,7 +36,7 @@ DEVELOPED BY
 
  */
 // Version.  Don't change unless authorized by Cranshark
-#define VERSION "3.0.0.1"
+#define VERSION "3.1.0.2"
 
 #if defined __AVR_ATtiny85__ || defined __SAM3U4E__ || defined __SAM3X8E__ || defined __SAM3X8H__ || defined ARDUINO_SAMD_ZERO || defined __SAMD21G18A__  || defined __SAMD21J18A__ || ARDUINO_AVR_NANO_EVERY
   #error Code not compatible with this board type.
@@ -46,28 +46,86 @@ DEVELOPED BY
 //#define WALSH85
 
 // Uncomment this line to enable sound for the S.U.E. expansion board
-#define SOUND    
+#define SOUND
 
-// Uncomment this line to enable missile code
-#define MISSILE
+//#define DFPLAYER // Uncomment this line to enable using the DFRobot DFPlayer (or similar) sound module
+#define JQ6500 // Uncomment this line to enable using the JQ6500 sound module
+
+#define JARVIS // Uncomment this line for JARVIS sound effects
+//#define FRIDAY // Uncomment this line for JARVIS sound effects
+
+// Uncomment this line to enable forearm missile special effects
+//#define MISSILE
 
 // Referenced libraries
 // For installation instructions see https://github.com/netlabtoolkit/VarSpeedServo
 #include <VarSpeedServo.h>
 
-// For installation instructions see: https://github.com/fasteddy516/ButtonEvents
-#include <Bounce2.h>
-#include <ButtonEvents.h>
+//#define TPMG90S
+#define GENERIC
+//#define MANUAL
+
+#ifdef TPMG90S
+#define PWM_HIGH 2400 // Authentic Tower Pro MG90s Servo using 12% Duty Cycle
+#define PWM_LOW  400 // Authentic Tower Pro MG90s Servo using 2% Duty Cycle
+#endif
+
+#ifdef GENERIC
+#define PWM_HIGH 2600 // Generic MG90s Servo using 13% Duty Cycle
+#define PWM_LOW  200 // Generic MG90s Servo using 1% Duty Cycle
+#endif
+
+// Use these settings for manual configuration of servos
+#ifdef MANUAL
+#define PWM_HIGH 2000 // Manual Setting of Duty Cycle
+#define PWM_LOW  1000 // Manual Setting of Duty Cycle
+#endif
+
+#if !defined (TPMG90S)  && !defined (GENERIC) && !defined (MANUAL)
+  #error At least one servo configuration needs to be defined.
+#endif
+
+#if (defined (TPMG90S) && defined (GENERIC) && defined (MANUAL)) || (defined (TPMG90S) && defined (GENERIC)) || (defined (GENERIC) && defined (MANUAL)) || (defined (TPMG90S) && defined (MANUAL))
+  #error More than one servo configuration defined.  Only define one: TPMG90S, GENERIC, or MANUAL
+#endif
+
+// For installation instructions see: https://github.com/mathertel/OneButton
+#include <OneButton.h>
 
 #ifdef SOUND
+#if defined DFPLAYER && defined JQ6500
+  #error Cannot have both DFPLAYER and JQ6500 defined in configuration
+#endif
+
+#if !defined(DFPLAYER) && !defined(JQ6500)
+  #error Must have either DFPLAYER or JQ6500 defined in configuration
+#endif
+
+#if defined JARVIS && defined FRIDAY
+  #error Cannot have both JARVIS and FRIDAY defined in configuration
+#endif
+
+#if !defined(JARVIS) && !defined(FRIDAY)
+  #error Must have either JARVIS or FRIDAY defined in configuration
+#endif
+
+#ifdef DFPLAYER
 // See: https://wiki.dfrobot.com/DFPlayer_Mini_SKU_DFR0299#target_6
 // Important!!! On the SD card copy the mp3 files into an mp3 directory
 // Download and install the DFRobotDFPlayerMini library
-
 #include <DFRobotDFPlayerMini.h>
+#endif
+
+#ifdef JQ6500
+// For installation instructions see: https://github.com/sleemanj/JQ6500_Serial
+#include <JQ6500_Serial.h>
+#endif
+
 #include <SoftwareSerial.h>
 
+#ifdef DFPLAYER
 void printDetail(uint8_t type, int value); // header method for implementation below; affects C++ compilers
+#endif
 #endif
 
 // Declare pin settings
@@ -202,22 +260,26 @@ boolean auxLedEnabled = true; // Set to true if you want to enable the Aux LED
 boolean auxLedState = false; // Keeps track of the state of the LED on = true, off = false
 #endif
 
-// Declare variables for LED control
-unsigned long fadeDelay = .1; //speed of the eye 'fade'
-unsigned long callDelay = 10; //length to wait to start eye flicker after face plate comes down
-unsigned long blinkSpeed = 60; //delay between init blink on/off
-unsigned long currentPWM = 0; // keep track of where the current PWM level is at
-boolean isOpen = true; // keep track of whether or not the faceplate is open
-
 #ifdef SOUND
 // Declare variables for sound control
 const int volume = 29; // sound board volume level (30 is max)
+
 #define SND_CLOSE 1 // sound track for helmet closing sound
-#define SND_JARVIS 2 // sound track for JARVIS sound
 #define SND_OPEN 3 // sound track for helmet opening sound
+#define SND_REPULSOR 4 // sound track for repulsor sound effect
+#define SND_JARVIS 2 // sound track for JARVIS sound
+#define SND_FRIDAY 5 // sound track for FRIDAY sound
+#define SND_NO_ACCESS 6 // sound track for "not authorized to access" sound
 
 SoftwareSerial serialObj(rx_pin, tx_pin); // Create object for serial communications
+
+#ifdef DFPLAYER
 DFRobotDFPlayerMini mp3Obj; // Create object for DFPlayer Mini
+#endif
+
+#ifdef JQ6500
+JQ6500_Serial mp3Obj(serialObj); // Create object for JQ6500 module
+#endif
 #endif
 
 // Define object for primary button to handle 
@@ -225,7 +287,7 @@ DFRobotDFPlayerMini mp3Obj; // Create object for DFPlayer Mini
 // 1. Single Tap
 // 2. Double Tap
 // 3. Long Press
-ButtonEvents primaryButton = ButtonEvents();
+OneButton primaryButton = OneButton(buttonPin, true, true);
 
 // State of the faceplate 1 = open, 0 = closed
 #define FACEPLATE_CLOSED 0
@@ -309,9 +371,22 @@ void movieblink(){
   setAuxLed();
   simDelay(delayInterval[2]);
 
+#if defined (SOUND) && defined (JQ6500)
+#ifdef JARVIS
+  playSoundEffect(SND_JARVIS);
+#else
+  playSoundEffect(SND_FRIDAY);
+#endif
+#endif
+
   // All on
   setLedEyes(255);
-  auxLedOn();   
+  auxLedOn();
+
+#if defined (SOUND) && defined (JQ6500)
+  simDelay(1000);
+  mp3Obj.sleep();
+#endif
 }
 
 /*
@@ -327,10 +402,21 @@ void movieblink(){
     simDelay(200);
     ledEyesBrighten();
   }
+
+#if defined (SOUND) && defined (JQ6500)
+#ifdef JARVIS
+  playSoundEffect(SND_JARVIS);
+#else
+  playSoundEffect(SND_FRIDAY);
+#endif
+  simDelay(1000);
+  mp3Obj.sleep();
+#endif
   
  }
 
 #ifdef SOUND
+#ifdef DFPLAYER
 /**
  * Initialization method for DFPlayer Mini board
  */
@@ -369,7 +455,7 @@ void movieblink(){
   simDelay(100); // DFRobot Timing 9-9-2022
  }
 
-/**
+ /**
  * Method to play the sound effect for a specified feature
  */
 void playSoundEffect(int soundEffect){
@@ -385,6 +471,45 @@ void playSoundEffect(int soundEffect){
 }
 #endif
 
+#ifdef JQ6500
+/**
+ * Initialization method for MP3 player module
+ */
+ void init_player(){
+  serialObj.begin(9600);
+  //simDelay(1000); Adjusting Timing Sequence
+
+  if(!serialObj.available()){
+    Serial.println(F("Serial object not available."));
+  }
+
+  Serial.println(F("Initializing JQ6500..."));
+
+  mp3Obj.reset();
+  mp3Obj.setSource(MP3_SRC_BUILTIN);
+  mp3Obj.setVolume(volume);
+  mp3Obj.setLoopMode(MP3_LOOP_NONE);
+
+  simDelay(500);
+ }
+
+/**
+ * Method to play the sound effect for a specified feature
+ */
+void playSoundEffect(int soundEffect){
+  Serial.print(F("Playing sound effect: "));
+  Serial.print(soundEffect);
+  mp3Obj.playFileByIndexNumber(soundEffect);
+}
+
+void delayWhilePlaying(){
+  while (mp3Obj.getStatus() == MP3_STATUS_PLAYING){
+    int x = 0;
+  }
+}
+#endif
+#endif
+
 /**
  * Method to open face plate
  */
@@ -392,11 +517,11 @@ void playSoundEffect(int soundEffect){
   Serial.println(F("Servo Up!")); 
 
   // Re-attach the servos to their pins
-  servo1.attach(servo1Pin);
-  servo2.attach(servo2Pin);
+  servo1.attach(servo1Pin, PWM_LOW, PWM_HIGH);
+  servo2.attach(servo2Pin, PWM_LOW, PWM_HIGH);
 
   #ifdef WALSH85
-  servo3.attach(servo3Pin);
+  servo3.attach(servo3Pin, PWM_LOW, PWM_HIGH);
   #endif
 
   // Send data to the servos for movement
@@ -430,11 +555,11 @@ void playSoundEffect(int soundEffect){
   Serial.println(F("Servo Down"));  
 
   // Re-attach the servos to their pins
-  servo1.attach(servo1Pin);
-  servo2.attach(servo2Pin);
+  servo1.attach(servo1Pin, PWM_LOW, PWM_HIGH);
+  servo2.attach(servo2Pin, PWM_LOW, PWM_HIGH);
 
   #ifdef WALSH85
-  servo3.attach(servo3Pin);
+  servo3.attach(servo3Pin, PWM_LOW, PWM_HIGH);
   #endif
 
   // Send data to the servos for movement 
@@ -466,8 +591,8 @@ void playSoundEffect(int soundEffect){
 */
  void missileBayOpen(){
   Serial.println(F("Missile bay opening..."));
-  servo4.attach(servo4Pin);
-  servo5.attach(servo5Pin);
+  servo4.attach(servo4Pin, PWM_LOW, PWM_HIGH);
+  servo5.attach(servo5Pin, PWM_LOW, PWM_HIGH);
 
   servo4.write(servo4_OpenPos, missileBayOpenSpeed);
   simDelay(missileBayDelay);
@@ -486,8 +611,8 @@ void playSoundEffect(int soundEffect){
 */
  void missileBayClose(){
   Serial.println(F("Missile bay closing..."));
-  servo4.attach(servo4Pin);
-  servo5.attach(servo5Pin);
+  servo4.attach(servo4Pin, PWM_LOW, PWM_HIGH);
+  servo5.attach(servo5Pin, PWM_LOW, PWM_HIGH);
 
   servo5.write(servo5_ClosePos, missileCloseSpeed);
   simDelay(1000);
@@ -659,9 +784,13 @@ void startupFx(){
       break;
   }
 
-#ifdef SOUND
-  simDelay(500); // Originally 800ms, changed to 500ms for DFRobot 9-9-2022
+#if defined (SOUND) && defined (DFPLAYER)
+  simDelay(500); // Originally 2000ms
+#ifdef JARVIS
   playSoundEffect(SND_JARVIS);
+#else
+  playSoundEffect(SND_FRIDAY);
+#endif
 #endif
 }
 
@@ -752,9 +881,7 @@ void handlePrimaryButtonDoubleTap(){
  * Event handler for when the primary button is pressed and held
  */
 void handlePrimaryButtonLongPress(){
-  while(!primaryButton.update()){
-    ledEyesFade(); // Dim or brighten the LED eyes
-  }
+  ledEyesFade(); // Dim or brighten the LED eyes
 }
 
 #ifdef MISSILE
@@ -764,81 +891,34 @@ void handleMissileButtonSingleTap(){
 #endif
 
 /**
+ * Event handler for when the primary button is pressed multiple times
+*/
+void handlePrimaryButtonMultiPress(){
+  switch (primaryButton.getNumberClicks())  {
+    case 4:
+      playSoundEffect(6);
+      break;
+    default:
+      break;
+  }
+}
+
+/**
  * Initializes the primary button for multi-functions
  */
 void initPrimaryButton(){
-  // Attach the button to the pin on the board
-  primaryButton.attach(buttonPin, INPUT_PULLUP);
-  // Initialize button features...
-  primaryButton.activeLow();
-  primaryButton.debounceTime(15);
-  primaryButton.doubleTapTime(250);
-  primaryButton.holdTime(2000);
+  primaryButton.attachClick(handlePrimaryButtonSingleTap);
+  primaryButton.attachDoubleClick(handlePrimaryButtonDoubleTap);
+  primaryButton.attachDuringLongPress(handlePrimaryButtonLongPress);
+  primaryButton.attachMultiClick(handlePrimaryButtonMultiPress);
 }
-
-#ifdef MISSILE
-void initMissileButton(){
-  missileButton.attach(missilePin, INPUT_PULLUP);
-  missileButton.activeLow();
-  missileButton.debounceTime(15);
-  missileButton.doubleTapTime(250);
-  missileButton.holdTime(2000);
-}
-#endif
 
 /**
  * Monitor for when the primary button is pushed
  */
 void monitorPrimaryButton(){
-  bool changed = primaryButton.update();
-
-  // Was the button pushed?
-  if (changed){
-    int event = primaryButton.event(); // Get how the button was pushed
-
-    switch(event){
-      case(tap):
-        Serial.println(F("Primary button single press..."));
-        handlePrimaryButtonSingleTap();
-        break;
-      case (doubleTap):
-        Serial.println(F("Primary button double press..."));
-        handlePrimaryButtonDoubleTap();
-        break;
-      case (hold):
-        Serial.println(F("Primary button long press..."));
-        handlePrimaryButtonLongPress();
-        break;
-    }
-  }
+  primaryButton.tick();
 }
-
-#ifdef MISSILE
-/**
- * Monitor for when the primary button is pushed
- */
-void monitorMissileButton(){
-  bool changed = missileButton.update();
-
-  // Was the button pushed?
-  if (changed){
-    int event = missileButton.event(); // Get how the button was pushed
-
-    switch(event){
-      case(tap):
-        Serial.println(F("Missile button single press..."));
-        handleMissileButtonSingleTap();
-        break;
-      case (doubleTap):
-        Serial.println(F("Missile button double press..."));
-        break;
-      case (hold):
-        Serial.println(F("Missile button long press..."));
-        break;
-    }
-  }
-}
-#endif
 
 /**
  * Initialization method called by the Arduino library when the board boots up
@@ -881,7 +961,7 @@ void loop() {
   // Room for future features ;)
 }
 
-#ifdef SOUND
+#if defined(SOUND) && defined(DFPLAYER)
 /**
  * Method to output any issues with the DFPlayer
  */
