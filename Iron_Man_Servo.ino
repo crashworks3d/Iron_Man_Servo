@@ -213,8 +213,8 @@ const int servo2_ClosePos = 20; // set the closed position of servo 2
 
 #ifdef WALSH85
 //Servo 3 (Walsh85 Jaw Control) Open / Close Angle
-const int servo3_OpenPos = 90; // set the open position of servo 2
-const int servo3_ClosePos = 0; // set the closed position of servo 1
+const int servo3_OpenPos = 90; // set the open position of servo 3
+const int servo3_ClosePos = 0; // set the closed position of servo 3
 #endif
 
 // Declare variables for setup special effects (applies to LED eyes only for now)
