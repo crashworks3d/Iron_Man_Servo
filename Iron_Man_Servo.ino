@@ -60,23 +60,15 @@ DEVELOPED BY
 #include <OneButton.h>
 
 #ifdef SOUND
-#if defined DFPLAYER && defined JQ6500
-  #error Cannot have both DFPLAYER and JQ6500 defined in configuration
+#ifndef MP3_TYPE
+  #error MP3_TYPE not defined.  MP3_TYPE is required.
 #endif
 
-#if !defined(DFPLAYER) && !defined(JQ6500)
-  #error Must have either DFPLAYER or JQ6500 defined in configuration
+#ifndef SND_EFFECT_TYPE
+  #error SND_EFFECT_TYPE not defined.  SND_EFFECT_TYPE is required.
 #endif
 
-#if defined JARVIS && defined FRIDAY
-  #error Cannot have both JARVIS and FRIDAY defined in configuration
-#endif
-
-#if !defined(JARVIS) && !defined(FRIDAY)
-  #error Must have either JARVIS or FRIDAY defined in configuration
-#endif
-
-#ifdef DFPLAYER
+#if (MP3_TYPE == DFPLAYER) 
 // See: https://wiki.dfrobot.com/DFPlayer_Mini_SKU_DFR0299#target_6
 // Important!!! On the SD card copy the mp3 files into an mp3 directory
 // Download and install the DFRobotDFPlayerMini library
@@ -85,7 +77,7 @@ DEVELOPED BY
 void printDetail(uint8_t type, int value); // header method for implementation below; affects C++ compilers
 #endif
 
-#ifdef JQ6500
+#if (MP3_TYPE == JQ6500)
 // For installation instructions see: https://github.com/sleemanj/JQ6500_Serial
 #include <JQ6500_Serial.h>
 #endif
@@ -130,11 +122,11 @@ boolean auxLedState = false; // Keeps track of the state of the LED on = true, o
 
 SoftwareSerial serialObj(RX_PIN, TX_PIN); // Create object for serial communications
 
-#ifdef DFPLAYER
+#if (MP3_TYPE == DFPLAYER)
 DFRobotDFPlayerMini mp3Obj; // Create object for DFPlayer Mini
 #endif
 
-#ifdef JQ6500
+#if (MP3_TYPE == JQ6500)
 JQ6500_Serial mp3Obj(serialObj); // Create object for JQ6500 module
 #endif
 #endif
@@ -229,7 +221,7 @@ void movieblink(){
   simDelay(delayInterval[2]);
 
 #if defined (SOUND) && defined (JQ6500)
-#ifdef JARVIS
+#if (SND_EFFECT_TYPE = JARVIS) 
   playSoundEffect(SND_JARVIS);
 #else
   playSoundEffect(SND_FRIDAY);
@@ -261,7 +253,7 @@ void movieblink(){
   }
 
 #if defined (SOUND) && defined (JQ6500)
-#ifdef JARVIS
+#if (SND_EFFECT_TYPE = JARVIS)
   playSoundEffect(SND_JARVIS);
 #else
   playSoundEffect(SND_FRIDAY);
@@ -273,7 +265,7 @@ void movieblink(){
  }
 
 #ifdef SOUND
-#ifdef DFPLAYER
+#if (MP3_TYPE == DFPLAYER)
 /**
  * Initialization method for DFPlayer Mini board
  */
@@ -328,7 +320,7 @@ void playSoundEffect(int soundEffect){
 }
 #endif
 
-#ifdef JQ6500
+#if (MP3_TYPE == JQ6500)
 /**
  * Initialization method for MP3 player module
  */
@@ -641,9 +633,9 @@ void startupFx(){
       break;
   }
 
-#if defined (SOUND) && defined (DFPLAYER)
+#if defined (SOUND) && (MP3_TYPE == DFPLAYER)
   simDelay(500); // Originally 2000ms
-#ifdef JARVIS
+#if (SND_EFFECT_TYPE == JARVIS)
   playSoundEffect(SND_JARVIS);
 #else
   playSoundEffect(SND_FRIDAY);
