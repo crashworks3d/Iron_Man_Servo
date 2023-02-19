@@ -220,8 +220,8 @@ void movieblink(){
   setAuxLed();
   simDelay(delayInterval[2]);
 
-#if defined (SOUND) && defined (JQ6500)
-#if (SND_EFFECT_TYPE = JARVIS) 
+#if defined (SOUND) && (MP3_TYPE == JQ6500)
+#if (SND_EFFECT_TYPE == JARVIS) 
   playSoundEffect(SND_JARVIS);
 #else
   playSoundEffect(SND_FRIDAY);
@@ -232,7 +232,7 @@ void movieblink(){
   setLedEyes(255);
   auxLedOn();
 
-#if defined (SOUND) && defined (JQ6500)
+#if defined (SOUND) && (MP3_TYPE == JQ6500)
   simDelay(1000);
   mp3Obj.sleep();
 #endif
@@ -250,18 +250,7 @@ void movieblink(){
   
     simDelay(200);
     ledEyesBrighten();
-  }
-
-#if defined (SOUND) && defined (JQ6500)
-#if (SND_EFFECT_TYPE = JARVIS)
-  playSoundEffect(SND_JARVIS);
-#else
-  playSoundEffect(SND_FRIDAY);
-#endif
-  simDelay(1000);
-  mp3Obj.sleep();
-#endif
-  
+  }  
  }
 
 #ifdef SOUND
@@ -830,7 +819,7 @@ void loop() {
   // Room for future features ;)
 }
 
-#if defined(SOUND) && defined(DFPLAYER)
+#if defined(SOUND) && (MP3_TYPE == DFPLAYER)
 /**
  * Method to output any issues with the DFPlayer
  */
