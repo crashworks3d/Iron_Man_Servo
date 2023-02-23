@@ -66,22 +66,26 @@ DEVELOPED BY
 #define VOLUME 29 // sound board volume level (30 is max)
 #endif
 
-//#define TPMG90S
-#define GENERIC
-//#define MANUAL
+// Servo configuration types.  Use one of these values to set the SERVO_TYPE definition below
+#define TPMG90S 0
+#define GENERIC 1
+#define MANUAL  2
 
-#ifdef TPMG90S
+// Defines which servo type is used
+#define SERVO_TYPE TPMG90S // Uncomment this line if you are using genuine Tower Pro MG90S servos
+//#define SERVO_TYPE GENERIC // Uncomment this line if you are using generic servos
+//#define SERVO_TYPE MANUAL // Uncomment this line if you are manually configuring your servos in the manual configuration below
+
+#if  (SERVO_TYPE == TPMG90S)
 #define PWM_HIGH 2400 // Authentic Tower Pro MG90s Servo using 12% Duty Cycle
 #define PWM_LOW  400 // Authentic Tower Pro MG90s Servo using 2% Duty Cycle
-#endif
 
-#ifdef GENERIC
+#elif (SERVO_TYPE == GENERIC)
 #define PWM_HIGH 2600 // Generic MG90s Servo using 13% Duty Cycle
 #define PWM_LOW  200 // Generic MG90s Servo using 1% Duty Cycle
-#endif
 
 // Use these settings for manual configuration of servos
-#ifdef MANUAL
+#elif (SERVO_TYPE == MANUAL)
 #define PWM_HIGH 2000 // Manual Setting of Duty Cycle
 #define PWM_LOW  1000 // Manual Setting of Duty Cycle
 #endif
