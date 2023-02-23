@@ -48,14 +48,6 @@ DEVELOPED BY
 // For installation instructions see https://github.com/netlabtoolkit/VarSpeedServo
 #include <VarSpeedServo.h>
 
-#if !defined (TPMG90S)  && !defined (GENERIC) && !defined (MANUAL)
-  #error At least one servo configuration needs to be defined.
-#endif
-
-#if (defined (TPMG90S) && defined (GENERIC) && defined (MANUAL)) || (defined (TPMG90S) && defined (GENERIC)) || (defined (GENERIC) && defined (MANUAL)) || (defined (TPMG90S) && defined (MANUAL))
-  #error More than one servo configuration defined.  Only define one: TPMG90S, GENERIC, or MANUAL
-#endif
-
 // For installation instructions see: https://github.com/mathertel/OneButton
 #include <OneButton.h>
 
