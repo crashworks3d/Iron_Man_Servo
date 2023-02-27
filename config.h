@@ -72,9 +72,9 @@ DEVELOPED BY
 #define MANUAL  2
 
 // Defines which servo type is used
-#define SERVO_TYPE TPMG90S // Uncomment this line if you are using genuine Tower Pro MG90S servos
+//#define SERVO_TYPE TPMG90S // Uncomment this line if you are using genuine Tower Pro MG90S servos
 //#define SERVO_TYPE GENERIC // Uncomment this line if you are using generic servos
-//#define SERVO_TYPE MANUAL // Uncomment this line if you are manually configuring your servos in the manual configuration below
+#define SERVO_TYPE MANUAL // Uncomment this line if you are manually configuring your servos in the manual configuration below
 
 #if  (SERVO_TYPE == TPMG90S)
 #define PWM_HIGH 2400 // Authentic Tower Pro MG90s Servo using 12% Duty Cycle
@@ -86,8 +86,8 @@ DEVELOPED BY
 
 // Use these settings for manual configuration of servos
 #elif (SERVO_TYPE == MANUAL)
-#define PWM_HIGH 2000 // Manual Setting of Duty Cycle
-#define PWM_LOW  1000 // Manual Setting of Duty Cycle
+#define PWM_HIGH 2500 // Manual Setting of Duty Cycle
+#define PWM_LOW  300 // Manual Setting of Duty Cycle
 #endif
 
 // Declare pin settings
@@ -95,7 +95,7 @@ DEVELOPED BY
 #define SERVO2_PIN 10 // set the pin for servo 2
 
 // Declare variables for servo speed control
-#define SERVO_CLOSE_SPEED 100 // set the speed of the servo close function
+#define SERVO_CLOSE_SPEED 175 // set the speed of the servo close function
 #define SERVO_OPEN_SPEED 255 // set the speed of the servo opening recommend set to max speed to aid in lift
 
 // In Dual Servo Configuration the servos move in opposing directions, so the angles of the servos will be opposite to each other. 
@@ -121,12 +121,12 @@ DEVELOPED BY
 #ifdef WALSH85
 #define SERVO3_PIN 5 // set the pin for servo 3 (Walsh85 chin Control)
 
-#define CHIN_CLOSE_SPEED 175 // set the speed of the chin closing for Walsh85 Helmet
+#define CHIN_CLOSE_SPEED 180 // set the speed of the chin closing for Walsh85 Helmet
 #define CHIN_OPEN_SPEED 255 // set the speed of the chin opening for Walsh85 Helmet
 
 //Servo 3 (Walsh85 chin Control) Open / Close Angle
-#define SERVO3_OPEN_POS 90 // set the open position of servo 3
-#define SERVO3_CLOSE_POS 0 // set the closed position of servo 3
+#define SERVO3_OPEN_POS 100 // set the open position of servo 3
+#define SERVO3_CLOSE_POS 10 // set the closed position of servo 3
 #endif
 
 #ifdef MISSILE
