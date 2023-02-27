@@ -37,7 +37,7 @@ DEVELOPED BY
  */
 
 // Uncomment this line to enable sound for the S.U.E. expansion board
-//#define SOUND
+#define SOUND
 
 // Uncomment this line to enable Walsh3D MK85 CHIN Control (Open/Close)
 //#define WALSH85
@@ -50,14 +50,14 @@ DEVELOPED BY
 #define DFPLAYER 0 
 #define JQ6500 1
 
-#define MP3_TYPE DFPLAYER // Uncomment this line to enable using the DFRobot DFPlayer (or similar) sound module
-//#define MP3_TYPE JQ6500 // Uncomment this line to enable using the JQ6500 sound module
+//#define MP3_TYPE DFPLAYER // Uncomment this line to enable using the DFRobot DFPlayer (or similar) sound module
+#define MP3_TYPE JQ6500 // Uncomment this line to enable using the JQ6500 sound module
 
 #define JARVIS 0
 #define FRIDAY 1
 
-//#define SND_EFFECT_TYPE JARVIS // Uncomment this line for JARVIS sound effects
-#define SND_EFFECT_TYPE FRIDAY // Uncomment this line for FRIDAY sound effects
+#define SND_EFFECT_TYPE JARVIS // Uncomment this line for JARVIS sound effects
+//#define SND_EFFECT_TYPE FRIDAY // Uncomment this line for FRIDAY sound effects
 
 // sound board pins
 #define RX_PIN 7 // set pin for receive (RX) communications

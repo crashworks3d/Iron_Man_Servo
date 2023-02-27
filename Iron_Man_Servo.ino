@@ -212,21 +212,19 @@ void movieblink(){
   setAuxLed();
   simDelay(delayInterval[2]);
 
-#if defined (SOUND) && (MP3_TYPE == JQ6500)
-#if (SND_EFFECT_TYPE == JARVIS) 
-  playSoundEffect(SND_JARVIS);
-#else
-  playSoundEffect(SND_FRIDAY);
-#endif
-#endif
-
   // All on
   setLedEyes(255);
   auxLedOn();
 
 #if defined (SOUND) && (MP3_TYPE == JQ6500)
+#if (SND_EFFECT_TYPE == JARVIS) 
+  playSoundEffect(SND_JARVIS);
+
   simDelay(1000);
   mp3Obj.sleep();
+#else
+  playSoundEffect(SND_FRIDAY);
+#endif
 #endif
 }
 
@@ -644,7 +642,10 @@ void facePlateOpenFx(){
 void facePlateCloseFx(){
 #ifdef SOUND
   playSoundEffect(SND_CLOSE);
+
+#if (MP3_TYPE == DFPLAYER)
   simDelay(1200); //Timing for Helmet Close Sound and delay to servo closing
+#endif
 #endif
 
   facePlateClose();
