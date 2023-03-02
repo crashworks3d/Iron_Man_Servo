@@ -162,7 +162,7 @@ The following table is a list of pin configurations found in the `config.h` file
 | Walsh 85  | SERVO3_PIN              | 5                 |                                           | Sets pin for servo 3 (Walsh85 Jaw Control)                                       |
 | Missile   | SERVO4_PIN              | 4                 |                                           | Sets pin for servo 3 (missile bay)                                               |
 | Missile   | SERVO5_PIN              | 11                |                                           | Sets pin for servo 4 (missile)                                                   |
-| Missile   | MISSILE_PIN             | 12                |                                           | Sets pin for missile button                                                      |
+| Missile   | MISSILE_BUTTON_PIN             | 12                |                                           | Sets pin for missile button                                                      |
 
 ## Built With
 

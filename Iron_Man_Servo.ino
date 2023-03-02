@@ -91,7 +91,7 @@ VarSpeedServo servo4; // create servo object to control servo 3
 VarSpeedServo servo5; // create servo object to control servo 4
 
 // Define object for the missile button
-OneButton missileButton = OneButton(MISSILE_PIN, true, true);
+OneButton missileButton = OneButton(MISSILE_BUTTON_PIN, true, true);
 
 // State of the missile bay 1 = open, 0 = closed
 #define MISSILE_BAY_CLOSED 0

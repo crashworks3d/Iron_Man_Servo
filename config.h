@@ -133,7 +133,7 @@ DEVELOPED BY
 #define SERVO4_PIN 4 // set the pin for servo 3 (missile bay)
 #define SERVO5_PIN 11 // set the pin for servo 4 (missile)
 
-#define MISSILE_PIN 12 // the pin that the missile button is attached to
+#define MISSILE_BUTTON_PIN 12 // the pin that the missile button is attached to
 
 // TODO: Figure out the optimal speeds
 // The missile bay needs to open faster than the missile extracts
