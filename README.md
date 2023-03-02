@@ -161,7 +161,7 @@ The following table is a list of configurable options found in the `config.h` fi
 
 ## Versioning
 
-Version Beta 2.0 (Use at your own risk) 
+Version Beta 3.1.0.2 (Use at your own risk) 
 
 ## Authors
 
