@@ -65,6 +65,8 @@ You can download the 3D printable servo kit from Thingiverse:
 * Some experience with [Arduino](https://www.arduino.cc/)
 
 * Be sure to have the Arduino Nano board installed in your environment.
+* Download all of the files from this repository by clicking on Code -> Download Zip 
+* Unzip the file and rename the folder to: `Iron_Man_Servo`.
 * Install the [VarSpeedServo](https://github.com/netlabtoolkit/VarSpeedServo) library.
 * Install the [Bounce2](https://github.com/thomasfredericks/Bounce2) library.
 * Install the [ButtonEvents](https://github.com/fasteddy516/ButtonEvents) library.
@@ -100,6 +102,58 @@ Most components can be found on [Amazon](https://www.amazon.com) or [AliExpress]
 * 8Ω Speaker, Maximum 3 Watt
 * Micro SD Card , Maximum 8gb (Partioned as FAT32)
 * Optional Powered Speaker with 3.5 mm (1⁄8 in) stereo (TRS) connection for use with Auxillary Audio Port
+
+## Configurations
+
+The following table is a list of configurable options found in the `config.h` file.
+
+**!!! WARNING !!!** Making changes to the configurations of your board can have unknown side effects and may cause damage. We strongly advise users to exercise caution when making changes to the board's settings, and to only do so if they have a clear understanding of the potential consequences. Improper changes to the board's configurations may result in permanent damage, loss of functionality, or other issues that could impact its performance. If you are unsure about any changes, please contact us on Frankly Built's discord: [https://discord.gg/franklybuilt](https://discord.gg/franklybuilt). 
+
+| Parameter               | Default           | Options                                   | Comment                                                                          |
+|-------------------------|-------------------|-------------------------------------------|----------------------------------------------------------------------------------|
+| SOUND                   | Disabled          | Disabled,  Enabled                        | Enables sound                                                                    |
+| MP3_TYPE                | DFPLAYER          | DFPLAYER, JQ6500                          | Determines which MP3 player module is being used                                 |
+| SND_EFFECT_TYPE         | JARVIS            | JARVIS, FRIDAY                            | Determines which sound effects to use                                            |
+| RX_PIN                  | 7                 |                                           | Sets pin for receive (RX) communications                                         |
+| TX_PIN                  | 8                 |                                           | Sets pin for transmit (TX) communications                                        |
+| VOLUME                  | 29                | 0-30                                      | Sets the volume of the mp3 player                                                |
+| SERVO_TYPE              | TPMG90S           | TPMG90S, GENERIC, MANUAL                  | Sets the type of servos being used to determine the PWM high/low values          |
+| PWM_HIGH                | 2000              |                                           | Manual Setting of Duty Cycle                                                     |
+| PWM_LOW                 | 1000              |                                           | Manual Setting of Duty Cycle                                                     |
+| SERVO1_PIN              | 9                 |                                           | Sets pin for servo 1                                                             |
+| SERVO2_PIN              | 10                |                                           | Sets pin for servo 2                                                             |
+| SERVO_CLOSE_SPEED       | 100               | 0-255                                     | Sets speed of the servo close function                                           |
+| SERVO_OPEN_SPEED        | 255               | 0-255                                     | Sets speed of the servo opening recommend set to max speed to aid in lift        |
+| SERVO1_OPEN_POS         | 20                | 0-180                                     | Sets open position of servo 1                                                    |
+| SERVO2_OPEN_POS         | 160               | 0-180                                     | Sets open position of servo 2                                                    |
+| SERVO1_CLOSE_POS        | 160               | 0-180                                     | Sets closed position of servo 1                                                  |
+| SERVO2_CLOSE_POS        | 20                | 0-180                                     | Sets closed position of servo 2                                                  |
+| BUTTON_PIN              | 2                 |                                           | Sets pin of primary switch                                                       |
+| LEFT_EYE_PIN            | 6                 |                                           | Sets pin for left eye LED                                                        |
+| RIGHT_EYE_PIN           | 3                 |                                           | Sets pin for right eye LED                                                       |
+| EYES_FX                 | EYES_FADE_ON      | EYES_NONE, EYES_MOVIE_BLINK, EYES_FADE_ON | Special effect when faceplate closes                                             |
+| SETUP_FX                | SETUP_MOVIE_BLINK | EYES_NONE, EYES_MOVIE_BLINK, EYES_FADE_ON | Determines which special effect to enable during startup                         |
+| AUX_LED_PIN             | 4                 |                                           | Sets pin for Aux LED non-PWM                                                     |
+| AUX_LED_ENABLED         | TRUE              | TRUE,  FALSE                              | Enables aux led code to run                                                      |
+| WALSH85                 | Disabled          | Disabled,  Enabled                        | Walsh3D MK85 Jaw Control (Open/Close)                                            |
+| SERVO3_PIN              | 5                 |                                           | Sets pin for servo 3 (Walsh85 Jaw Control)                                       |
+| CHIN_CLOSE_SPEED        | 175               | 0-255                                     | Sets speed of the Jaw closing for Walsh85 Helmet                                 |
+| CHIN_OPEN_SPEED         | 255               | 0-255                                     | Sets speed of the Jaw opening for Walsh85 Helmet                                 |
+| SERVO3_OPEN_POS         | 90                | 0-180                                     | Sets open position of servo 3                                                    |
+| SERVO3_CLOSE_POS        | 0                 | 0-180                                     | Sets closed position of servo 3                                                  |
+| MISSILE                 | Disabled          | Disabled,  Enabled                        | Enables forearm missile special effects                                          |
+| SERVO4_PIN              | 4                 |                                           | Sets pin for servo 3 (missile bay)                                               |
+| SERVO5_PIN              | 11                |                                           | Sets pin for servo 4 (missile)                                                   |
+| MISSILE_PIN             | 12                |                                           | Sets pin for missile button                                                      |
+| MISSILE_OPEN_SPEED      | 200               | 0-255                                     | Sets speed of the missile moving into launch position                            |
+| MISSILE_CLOSE_SPEED     | 60                | 0-255                                     | Sets speed of the missile retracting                                             |
+| MISSILE_BAY_OPEN_SPEED  | 200               | 0-255                                     | Sets opening speed of the missile bay                                            |
+| MISSILE_BAY_CLOSE_SPEED | 60                | 0-255                                     | Sets closing speed of the missile bay                                            |
+| SERVO4_OPEN_POS         | 180               | 0-180                                     | Sets open position of servo 4                                                    |
+| SERVO4_CLOSE_POS        | 0                 | 0-180                                     | Sets closed position of servo 4                                                  |
+| SERVO5_OPEN_POS         | 180               | 0-180                                     | Sets open position of servo 5                                                    |
+| SERVO5_CLOSE_POS        | 0                 | 0-180                                     | Sets closed position of servo 5                                                  |
+| MISSILE_BAY_DELAY       | 1000              |                                           | Amount of time (ms) to delay between movement of the missile bay and the missile |
 
 ## Built With
 
