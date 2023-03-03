@@ -67,10 +67,6 @@ You can download the 3D printable servo kit from Thingiverse:
 * Be sure to have the Arduino Nano board installed in your environment.
 * Download all of the files from this repository by clicking on Code -> Download Zip 
 * Unzip the file and rename the folder to: `Iron_Man_Servo`.
-* Install the [VarSpeedServo](https://github.com/netlabtoolkit/VarSpeedServo) library.
-* Install the [OneButton](https://github.com/mathertel/OneButton) library.
-* Install the [DFRobotDFPlayerMini](https://github.com/DFRobot/DFRobotDFPlayerMini) library.
-* Install the [JQ6500_Serial](https://github.com/sleemanj/JQ6500_Serial) library.
 * An Arduino Nano board
 * Servos
 * LEDs

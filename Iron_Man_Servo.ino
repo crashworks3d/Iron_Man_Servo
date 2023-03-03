@@ -46,10 +46,10 @@ DEVELOPED BY
 
 // Referenced libraries
 // For installation instructions see https://github.com/netlabtoolkit/VarSpeedServo
-#include <VarSpeedServo.h>
+#include "lib/VarSpeedServo/VarSpeedServo.cpp"
 
 // For installation instructions see: https://github.com/mathertel/OneButton
-#include <OneButton.h>
+#include "lib/OneButton/src/OneButton.cpp"
 
 #ifdef SOUND
 #ifndef MP3_TYPE
@@ -64,14 +64,14 @@ DEVELOPED BY
 // See: https://wiki.dfrobot.com/DFPlayer_Mini_SKU_DFR0299#target_6
 // Important!!! On the SD card copy the mp3 files into an mp3 directory
 // Download and install the DFRobotDFPlayerMini library
-#include <DFRobotDFPlayerMini.h>
+#include "lib/DFRobotDFPlayerMini/DFRobotDFPlayerMini.cpp"
 
 void printDetail(uint8_t type, int value); // header method for implementation below; affects C++ compilers
 #endif
 
 #if (MP3_TYPE == JQ6500)
 // For installation instructions see: https://github.com/sleemanj/JQ6500_Serial
-#include <JQ6500_Serial.h>
+#include "lib/JQ6500_Serial/src/JQ6500_Serial.cpp"
 #endif
 
 #include <SoftwareSerial.h>
