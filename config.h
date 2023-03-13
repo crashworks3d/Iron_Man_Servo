@@ -86,8 +86,8 @@ DEVELOPED BY
 
 // Use these settings for manual configuration of servos
 #elif (SERVO_TYPE == MANUAL)
-#define PWM_HIGH 2500 // Manual Setting of Duty Cycle
-#define PWM_LOW  300 // Manual Setting of Duty Cycle
+#define PWM_HIGH 2450 // Manual Setting of Duty Cycle
+#define PWM_LOW  350 // Manual Setting of Duty Cycle
 #endif
 
 // Declare pin settings
