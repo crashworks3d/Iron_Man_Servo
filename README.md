@@ -124,6 +124,8 @@ The following table is a list of configurable options found in the `config.h` fi
 | Faceplate | SERVO2_OPEN_POS         | 160               | 0-180                                     | Sets open position of servo 2                                                    |
 | Faceplate | SERVO1_CLOSE_POS        | 160               | 0-180                                     | Sets closed position of servo 1                                                  |
 | Faceplate | SERVO2_CLOSE_POS        | 20                | 0-180                                     | Sets closed position of servo 2                                                  |
+| Faceplate | SERVO1_DISABLE_AFTER_OPEN        | true     | true/false                                | Sets whether or not to disable the servo when the faceplate is open. |
+| Faceplate | SERVO2_DISABLE_AFTER_OPEN        | true     | true/false                                | Sets whether or not to disable the servo when the faceplate is open. |
 | Eyes      | EYES_FX                 | EYES_FADE_ON      | EYES_NONE, EYES_MOVIE_BLINK, EYES_FADE_ON | Special effect when faceplate closes                                             |
 | Eyes      | SETUP_FX                | SETUP_MOVIE_BLINK | EYES_NONE, EYES_MOVIE_BLINK, EYES_FADE_ON | Determines which special effect to enable during startup                         |
 | Lighting  | AUX_LED_ENABLED         | TRUE              | TRUE,  FALSE                              | Enables aux led code to run                                                      |
