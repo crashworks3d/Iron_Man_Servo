@@ -363,11 +363,16 @@ void delayWhilePlaying(){
   //simDelay(1000); // wait doesn't wait long enough for servos to fully complete...
   #endif
   
-  simDelay(1000); // wait doesn't wait long enough for servos to fully complete...
+  simDelay(2000); // wait doesn't wait long enough for servos to fully complete...
 
   // Detach so motors don't "idle"
+  #if (SERVO1_DISABLE_AFTER_OPEN)
   servo1.detach();
+  #endif
+
+  #if (SERVO1_DISABLE_AFTER_OPEN)
   servo2.detach();
+  #endif
 
   #ifdef WALSH85
   servo3.detach();
