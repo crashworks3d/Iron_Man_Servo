@@ -17,9 +17,9 @@ The purpose of this document is to provide instructions for uploading the code t
 
 ## Download the code
 
-1. Using your browser, go to the GitHub repository with the Crashworkd 3D *"Iron Man Servo AM"*: https://github.com/crashworks3d/Iron_Man_Servo.
+1. Using your browser, go to the GitHub repository with the Crashworkd 3D *"Iron Man Servo"*: https://github.com/crashworks3d/Iron_Man_Servo.
 
-2. Look for the "Code" button, it should be located on the top right of the page, next to the "Issues" and "Pull requests" tabs.
+2. Look for the "Code" button, it should be located on the top right of the page, next to the "Go to File" button.
 
 3. Once you click on "Code" button, you will see multiple options, select "Download ZIP"
 
@@ -37,7 +37,7 @@ The purpose of this document is to provide instructions for uploading the code t
 
 > Windows Users: **File > Settings**
 
-> Mac Users: **Arduino IDE > Settings**
+> Mac/Linux Users: **Arduino IDE > Settings**
 
 3. In the Settings dialog window find "Show verbose output during" and check both "compile" and "upload" boxes.
 
@@ -54,7 +54,7 @@ The purpose of this document is to provide instructions for uploading the code t
 >Global variables use 375 bytes (18%) of dynamic memory, leaving 1673 bytes for local variables. Maximum is 2048 bytes.
 >```
 
-## Upload or "Flash" the code onto the ATTiny85 module
+## Upload or "Flash" the code onto the Arduino Nano module
 
 1. Make sure you completed the previous steps "Configure the code for the proper board type and features" and that the code compiles when the "verify" button is clicked.
 
@@ -64,7 +64,7 @@ The purpose of this document is to provide instructions for uploading the code t
 
 >Windows users should see something like *"COM4"*
 
->Mac users should see something like *"/dev/cu.usbserial-1234"*
+>Mac/Linux users should see something like *"/dev/cu.usbserial-1234"*
 
 4. In the Arduino IDE, click on the "upload" button (The arrow icon button).
 
