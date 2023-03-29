@@ -29,7 +29,7 @@ The purpose of this document is to provide instructions for uploading the code t
 
 ### Important!!! Make sure the folder name is "Iron_Man_Servo".
 
-## Configure the code for the proper board type and features
+## Configure the code for the proper board type and features {#configure}
 
 1. Launch the Arduino IDE program by double clicking on the program icon.
 
@@ -54,13 +54,15 @@ The purpose of this document is to provide instructions for uploading the code t
 >Global variables use 375 bytes (18%) of dynamic memory, leaving 1673 bytes for local variables. Maximum is 2048 bytes.
 >```
 
+NOTE: If the code fails to compile go back through the instructions and make sure you didn't miss any steps.
+
 ## Upload or "Flash" the code onto the Arduino Nano module
 
-1. Make sure you completed the previous steps "Configure the code for the proper board type and features" and that the code compiles when the "verify" button is clicked.
+1. Make sure you completed the previous steps ["Configure the code for the proper board type and features"](#configure-the-code-for-the-proper-board-type-and-features-configure) and that the code compiles when the "verify" button is clicked.
 
 2. Make sure the USB cable plugged into the board.
 
-3. Select the correct port by by selecting in the menu **Tools > Port > ...**
+3. Select the correct port by selecting in the menu **Tools > Port > ...**
 
 >Windows users should see something like *"COM4"*
 
@@ -76,3 +78,5 @@ The purpose of this document is to provide instructions for uploading the code t
 >```
 
 Successful installation will result in the servos moving the faceplate into the "closed" or "down" position and the activation of the LED (eyes).  When the button is pushed, the servos will move to the "open" or "up" position and the LED (eyes) will turn off.
+
+NOTE: If the code fails to upload go back through the instructions and make sure you didn't miss any steps.
