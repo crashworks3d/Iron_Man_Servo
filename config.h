@@ -72,9 +72,9 @@ DEVELOPED BY
 #define MANUAL  2
 
 // Defines which servo type is used
-//#define SERVO_TYPE TPMG90S // Uncomment this line if you are using genuine Tower Pro MG90S servos
+#define SERVO_TYPE TPMG90S // Uncomment this line if you are using genuine Tower Pro MG90S servos
 //#define SERVO_TYPE GENERIC // Uncomment this line if you are using generic servos
-#define SERVO_TYPE MANUAL // Uncomment this line if you are manually configuring your servos in the manual configuration below
+//#define SERVO_TYPE MANUAL // Uncomment this line if you are manually configuring your servos in the manual configuration below
 
 #if  (SERVO_TYPE == TPMG90S)
 #define PWM_HIGH 2400 // Authentic Tower Pro MG90s Servo using 12% Duty Cycle
@@ -105,6 +105,12 @@ DEVELOPED BY
 #define SERVO2_OPEN_POS 160 // set the open position of servo 2
 #define SERVO1_CLOSE_POS 160 // set the closed position of servo 1
 #define SERVO2_CLOSE_POS 20 // set the closed position of servo 2
+
+// If the faceplate is dropping down when open due to centrifugal forces, change the following to false.
+// Engaging a single servo may be all that is needed to keep the faceplate open
+// WARNING!!! Leaving the servo(s) enabled may cause servo(s) to stress and overheat
+#define SERVO1_DISABLE_AFTER_OPEN true
+#define SERVO2_DISABLE_AFTER_OPEN true
 
 #define BUTTON_PIN 2 // the pin that the pushbutton is attached to
 
