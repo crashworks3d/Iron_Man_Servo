@@ -19,7 +19,7 @@ The purpose of this document is to provide instructions for uploading the code t
 
 ## Download the code
 
-1. Using your browser, go to the GitHub repository with the Crashworkd 3D *"Iron Man Servo"*: https://github.com/crashworks3d/Iron_Man_Servo.
+1. Using your browser, go to the GitHub repository with the Crash Works 3D *"Iron Man Servo"*: https://github.com/crashworks3d/Iron_Man_Servo.
 
 2. Look for the "Code" button, it should be located on the top right of the page, next to the "Go to File" button.
 
@@ -31,7 +31,7 @@ The purpose of this document is to provide instructions for uploading the code t
 
 ### Important!!! Make sure the folder name is "Iron_Man_Servo".
 
-## Configure the code for the proper board type and features {#configure}
+## Configure the code for the proper board type and features
 
 1. Launch the Arduino IDE program by double clicking on the program icon.
 

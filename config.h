@@ -72,8 +72,8 @@ DEVELOPED BY
 #define MANUAL  2
 
 // Defines which servo type is used
-#define SERVO_TYPE TPMG90S // Uncomment this line if you are using genuine Tower Pro MG90S servos
-//#define SERVO_TYPE GENERIC // Uncomment this line if you are using generic servos
+//#define SERVO_TYPE TPMG90S // Uncomment this line if you are using genuine Tower Pro MG90S servos
+#define SERVO_TYPE GENERIC // Uncomment this line if you are using generic servos
 //#define SERVO_TYPE MANUAL // Uncomment this line if you are manually configuring your servos in the manual configuration below
 
 #if  (SERVO_TYPE == TPMG90S)
