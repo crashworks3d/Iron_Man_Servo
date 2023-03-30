@@ -15,6 +15,8 @@ The purpose of this document is to provide instructions for uploading the code t
 
 3. Crash Works 3D ALISHA board with Arduino Nano found [here](https://www.ebay.com/str/crashworks3d)
 
+4. CH340 driver, installation instructions can be found: [How to Install CH340 Drivers](https://learn.sparkfun.com/tutorials/how-to-install-ch340-drivers/all)
+
 ## Download the code
 
 1. Using your browser, go to the GitHub repository with the Crashworkd 3D *"Iron Man Servo"*: https://github.com/crashworks3d/Iron_Man_Servo.
