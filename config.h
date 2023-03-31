@@ -40,10 +40,10 @@ DEVELOPED BY
 #define SOUND
 
 // Uncomment this line to enable Walsh3D MK85 CHIN Control (Open/Close)
-//#define WALSH85
+#define WALSH85
 
 // Uncomment this line to enable forearm missile special effects
-//#define MISSILE
+#define MISSILE
 
 #ifdef SOUND
 

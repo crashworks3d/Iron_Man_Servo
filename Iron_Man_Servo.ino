@@ -83,12 +83,12 @@ ServoEasing servo1; // create servo object to control servo 1
 ServoEasing servo2; // create servo object to control servo 2
 
 #ifdef WALSH85
-VarSpeedServo servo3; // create servo object to control servo 3 (Walsh85 chin Control)
+ServoEasing servo3; // create servo object to control servo 3 (Walsh85 chin Control)
 #endif
 
 #ifdef MISSILE
-VarSpeedServo servo4; // create servo object to control servo 3
-VarSpeedServo servo5; // create servo object to control servo 4
+ServoEasing servo4; // create servo object to control servo 3
+ServoEasing servo5; // create servo object to control servo 4
 
 // Define object for the missile button
 OneButton missileButton = OneButton(MISSILE_BUTTON_PIN, true, true);
@@ -351,9 +351,9 @@ void delayWhilePlaying(){
   servo1.setEasingType(EASE_LINEAR);
   servo2.setEasingType(EASE_LINEAR);
 
-  #ifdef WALSH85
-  servo3.attach(SERVO3_PIN, PWM_LOW, PWM_HIGH);
-  #endif
+  //#ifdef WALSH85
+  //servo3.attach(SERVO3_PIN, PWM_LOW, PWM_HIGH);
+  //#endif
 
   // Send data to the servos for movement
   servo1.easeTo(SERVO1_OPEN_POS, SERVO_OPEN_SPEED);
@@ -366,7 +366,12 @@ void delayWhilePlaying(){
   #ifdef WALSH85
   simDelay(500);
   servo3.attach(SERVO3_PIN, PWM_LOW, PWM_HIGH);
-  servo3.write(SERVO3_OPEN_POS, CHIN_OPEN_SPEED);
+  servo3.setEasingType(EASE_LINEAR);
+  servo3.easeTo(SERVO3_OPEN_POS, CHIN_OPEN_SPEED);
+
+  while (ServoEasing::areInterruptsActive()) {
+        ; // no delays here to avoid break between forth and back movement
+  }
   //simDelay(1000); // wait doesn't wait long enough for servos to fully complete...
   #endif
   
@@ -403,12 +408,12 @@ void delayWhilePlaying(){
 
   #ifdef WALSH85
   servo3.attach(SERVO3_PIN, PWM_LOW, PWM_HIGH);
-  #endif
+  servo3.setEasingType(EASE_LINEAR);
+  servo3.easeTo(SERVO3_CLOSE_POS, CHIN_CLOSE_SPEED);
 
-  // Send data to the servos for movement 
-
-  #ifdef WALSH85
-  servo3.write(SERVO3_CLOSE_POS, CHIN_CLOSE_SPEED);
+  while (ServoEasing::areInterruptsActive()) {
+        ; // no delays here to avoid break between forth and back movement
+  }
   simDelay(500); // Delay to allow chin to fully close before Faceplate closes
   #endif
   
@@ -441,9 +446,21 @@ void delayWhilePlaying(){
   servo4.attach(SERVO4_PIN, PWM_LOW, PWM_HIGH);
   servo5.attach(SERVO5_PIN, PWM_LOW, PWM_HIGH);
 
-  servo4.write(SERVO4_OPEN_POS, MISSILE_BAY_OPEN_SPEED);
+  servo4.setEasingType(EASE_LINEAR);
+  servo5.setEasingType(EASE_LINEAR);
+
+  servo4.easeTo(SERVO4_OPEN_POS, MISSILE_BAY_OPEN_SPEED);
+
+  while (ServoEasing::areInterruptsActive()) {
+        ; // no delays here to avoid break between forth and back movement
+  }
+
   simDelay(MISSILE_BAY_DELAY);
-  servo5.write(SERVO5_OPEN_POS, MISSILE_OPEN_SPEED);
+  servo5.easeTo(SERVO5_OPEN_POS, MISSILE_OPEN_SPEED);
+
+  while (ServoEasing::areInterruptsActive()) {
+        ; // no delays here to avoid break between forth and back movement
+  }
 
   simDelay(MISSILE_BAY_DELAY);
 
@@ -461,9 +478,21 @@ void delayWhilePlaying(){
   servo4.attach(SERVO4_PIN, PWM_LOW, PWM_HIGH);
   servo5.attach(SERVO5_PIN, PWM_LOW, PWM_HIGH);
 
-  servo5.write(SERVO5_CLOSE_POS, MISSILE_CLOSE_SPEED);
+  servo4.setEasingType(EASE_LINEAR);
+  servo5.setEasingType(EASE_LINEAR);
+
+  servo5.easeTo(SERVO5_CLOSE_POS, MISSILE_CLOSE_SPEED);
+
+  while (ServoEasing::areInterruptsActive()) {
+        ; // no delays here to avoid break between forth and back movement
+  }
+
   simDelay(1000);
-  servo4.write(SERVO4_CLOSE_POS, MISSILE_BAY_CLOSE_SPEED);
+  servo4.easeTo(SERVO4_CLOSE_POS, MISSILE_BAY_CLOSE_SPEED);
+
+  while (ServoEasing::areInterruptsActive()) {
+        ; // no delays here to avoid break between forth and back movement
+  }
 
   simDelay(1000);
 
