@@ -46,7 +46,7 @@ DEVELOPED BY
 
 // Referenced libraries
 // For installation instructions see https://github.com/netlabtoolkit/VarSpeedServo
-#include "lib/VarSpeedServo/VarSpeedServo.cpp"
+#include "lib/ServoEasing/src/ServoEasing.hpp"
 
 // For installation instructions see: https://github.com/mathertel/OneButton
 #include "lib/OneButton/src/OneButton.cpp"
@@ -79,8 +79,8 @@ void printDetail(uint8_t type, int value); // header method for implementation b
 
 
 // Declare servo objects
-VarSpeedServo servo1; // create servo object to control servo 1
-VarSpeedServo servo2; // create servo object to control servo 2
+ServoEasing servo1; // create servo object to control servo 1
+ServoEasing servo2; // create servo object to control servo 2
 
 #ifdef WALSH85
 VarSpeedServo servo3; // create servo object to control servo 3 (Walsh85 chin Control)
@@ -348,17 +348,24 @@ void delayWhilePlaying(){
   servo1.attach(SERVO1_PIN, PWM_LOW, PWM_HIGH);
   servo2.attach(SERVO2_PIN, PWM_LOW, PWM_HIGH);
 
+  servo1.setEasingType(EASE_LINEAR);
+  servo2.setEasingType(EASE_LINEAR);
+
   #ifdef WALSH85
   servo3.attach(SERVO3_PIN, PWM_LOW, PWM_HIGH);
   #endif
 
   // Send data to the servos for movement
-    
-  servo1.write(SERVO1_OPEN_POS, SERVO_OPEN_SPEED);
-  servo2.write(SERVO2_OPEN_POS, SERVO_OPEN_SPEED);
+  servo1.easeTo(SERVO1_OPEN_POS, SERVO_OPEN_SPEED);
+  servo2.easeTo(SERVO2_OPEN_POS, SERVO_OPEN_SPEED);
+
+  while (ServoEasing::areInterruptsActive()) {
+        ; // no delays here to avoid break between forth and back movement
+  }
   
   #ifdef WALSH85
   simDelay(500);
+  servo3.attach(SERVO3_PIN, PWM_LOW, PWM_HIGH);
   servo3.write(SERVO3_OPEN_POS, CHIN_OPEN_SPEED);
   //simDelay(1000); // wait doesn't wait long enough for servos to fully complete...
   #endif
@@ -391,6 +398,9 @@ void delayWhilePlaying(){
   servo1.attach(SERVO1_PIN, PWM_LOW, PWM_HIGH);
   servo2.attach(SERVO2_PIN, PWM_LOW, PWM_HIGH);
 
+  servo1.setEasingType(EASE_LINEAR);
+  servo2.setEasingType(EASE_LINEAR);
+
   #ifdef WALSH85
   servo3.attach(SERVO3_PIN, PWM_LOW, PWM_HIGH);
   #endif
@@ -402,8 +412,12 @@ void delayWhilePlaying(){
   simDelay(500); // Delay to allow chin to fully close before Faceplate closes
   #endif
   
-  servo1.write(SERVO1_CLOSE_POS, SERVO_CLOSE_SPEED);
-  servo2.write(SERVO2_CLOSE_POS, SERVO_CLOSE_SPEED);
+  servo1.easeTo(SERVO1_CLOSE_POS, SERVO_CLOSE_SPEED);
+  servo2.easeTo(SERVO2_CLOSE_POS, SERVO_CLOSE_SPEED);
+
+  while (ServoEasing::areInterruptsActive()) {
+        ; // no delays here to avoid break between forth and back movement
+  }
 
   simDelay(1000); // wait doesn't wait long enough for servos to fully complete...
 
