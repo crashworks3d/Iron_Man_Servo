@@ -162,7 +162,7 @@ The following table is a list of pin configurations found in the `config.h` file
 
 ## Versioning
 
-Version Beta 3.1.0.2 (Use at your own risk) 
+Version Beta 3.1.x (Use at your own risk) 
 
 ## Authors
 

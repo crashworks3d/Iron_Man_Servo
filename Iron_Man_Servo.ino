@@ -36,7 +36,7 @@ DEVELOPED BY
 
  */
 // Version.  Don't change unless authorized by Cranshark
-#define VERSION "3.1.0.2"
+#define VERSION "3.1.x"
 
 #if defined __AVR_ATtiny85__ || defined __SAM3U4E__ || defined __SAM3X8E__ || defined __SAM3X8H__ || defined ARDUINO_SAMD_ZERO || defined __SAMD21G18A__  || defined __SAMD21J18A__ || ARDUINO_AVR_NANO_EVERY
   #error Code not compatible with this board type.
