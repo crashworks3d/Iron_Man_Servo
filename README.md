@@ -63,14 +63,7 @@ You can download the 3D printable servo kit from Thingiverse:
 ### Prerequisites
 
 * Some experience with [Arduino](https://www.arduino.cc/)
-
 * Be sure to have the Arduino Nano board installed in your environment.
-* Download all of the files from this repository by clicking on Code -> Download Zip 
-* Unzip the file and rename the folder to: `Iron_Man_Servo`.
-* Install the [VarSpeedServo](https://github.com/netlabtoolkit/VarSpeedServo) library.
-* Install the [OneButton](https://github.com/mathertel/OneButton) library.
-* Install the [DFRobotDFPlayerMini](https://github.com/DFRobot/DFRobotDFPlayerMini) library.
-* Install the [JQ6500_Serial](https://github.com/sleemanj/JQ6500_Serial) library.
 * An Arduino Nano board
 * Servos
 * LEDs
@@ -80,10 +73,7 @@ You can download the 3D printable servo kit from Thingiverse:
 
 ### Installing
 
-1.  In the Arduino IDE be sure to set the appropriate board (Arduino Nano) and ports to match your environment.
-2. Complile and load onto your Arduino Nano following the [Arduino IDE instructions](https://www.arduino.cc/en/Guide).
-
-Successful installation will result in the servos moving the faceplate into the "closed" or "down" position and the activation of the LED (eyes).  When the button is pushed, the servos will move to the "open" or "up" position and the LED (eyes) will turn off.
+Detailed instructions on how to download and install the code can be found here: [UPLOAD_CODE.md](UPLOAD_CODE.md)
 
 ## Wiring Diagram
 ![Wiring diagram](images/wiring_diagram_1.jpg)

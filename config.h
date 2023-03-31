@@ -37,7 +37,7 @@ DEVELOPED BY
  */
 
 // Uncomment this line to enable sound for the S.U.E. expansion board
-#define SOUND
+//#define SOUND
 
 // Uncomment this line to enable Walsh3D MK85 CHIN Control (Open/Close)
 //#define WALSH85
@@ -50,8 +50,8 @@ DEVELOPED BY
 #define DFPLAYER 0 
 #define JQ6500 1
 
-//#define MP3_TYPE DFPLAYER // Uncomment this line to enable using the DFRobot DFPlayer (or similar) sound module
-#define MP3_TYPE JQ6500 // Uncomment this line to enable using the JQ6500 sound module
+#define MP3_TYPE DFPLAYER // Uncomment this line to enable using the DFRobot DFPlayer (or similar) sound module
+//#define MP3_TYPE JQ6500 // Uncomment this line to enable using the JQ6500 sound module
 
 #define JARVIS 0
 #define FRIDAY 1
@@ -72,8 +72,8 @@ DEVELOPED BY
 #define MANUAL  2
 
 // Defines which servo type is used
-#define SERVO_TYPE TPMG90S // Uncomment this line if you are using genuine Tower Pro MG90S servos
-//#define SERVO_TYPE GENERIC // Uncomment this line if you are using generic servos
+//#define SERVO_TYPE TPMG90S // Uncomment this line if you are using genuine Tower Pro MG90S servos
+#define SERVO_TYPE GENERIC // Uncomment this line if you are using generic servos
 //#define SERVO_TYPE MANUAL // Uncomment this line if you are manually configuring your servos in the manual configuration below
 
 #if  (SERVO_TYPE == TPMG90S)
@@ -86,8 +86,8 @@ DEVELOPED BY
 
 // Use these settings for manual configuration of servos
 #elif (SERVO_TYPE == MANUAL)
-#define PWM_HIGH 2500 // Manual Setting of Duty Cycle
-#define PWM_LOW  300 // Manual Setting of Duty Cycle
+#define PWM_HIGH 2450 // Manual Setting of Duty Cycle
+#define PWM_LOW  350 // Manual Setting of Duty Cycle
 #endif
 
 // Declare pin settings

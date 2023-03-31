@@ -1,2 +1,10 @@
 .DS_Store
 .vscode
+
+examples
+CHANGELOG.md
+keywords.txt
+library.json
+library.properties
+
+lib/JQ6500_Serial/docs
