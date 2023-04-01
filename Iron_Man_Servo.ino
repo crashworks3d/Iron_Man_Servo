@@ -44,6 +44,10 @@ DEVELOPED BY
 
 #include "config.h"
 
+#if defined(ARC_REACTOR) && defined(MISSILE)
+  #error Cannot have both ARC_REACTOR and MISSILE features enabled
+#endif
+
 // Referenced libraries
 // For installation instructions see https://github.com/netlabtoolkit/VarSpeedServo
 #include "lib/ServoEasing/src/ServoEasing.hpp"
@@ -77,6 +81,10 @@ void printDetail(uint8_t type, int value); // header method for implementation b
 #include <SoftwareSerial.h>
 #endif
 
+#ifdef ARC_REACTOR
+#include "ArcReactor.h"
+ArcReactor arcReactor = ArcReactor();
+#endif
 
 // Declare servo objects
 ServoEasing servo1; // create servo object to control servo 1
@@ -597,7 +605,7 @@ void ledEyesFade(){
  * Sets the Aux LED
  */
 void setAuxLed(){
-#ifndef MISSILE
+#if !defined(MISSILE) && !defined(ARC_REACTOR)
   if (AUX_LED_ENABLED) {
     if (auxLedState == false){
       auxLedOn();
@@ -614,7 +622,7 @@ void setAuxLed(){
  * Turn the Aux LED on
  */
 void auxLedOn(){
-#ifndef MISSILE
+#if !defined(MISSILE) && !defined(ARC_REACTOR)
   digitalWrite(AUX_LED_PIN, HIGH);
   auxLedState = true;
 #endif
@@ -624,7 +632,7 @@ void auxLedOn(){
  * Turn the Aux LED off
  */
 void auxLedOff(){
-#ifndef MISSILE
+#if !defined(MISSILE) && !defined(ARC_REACTOR)
   digitalWrite(AUX_LED_PIN, LOW);
   auxLedState = false;
 #endif
@@ -831,6 +839,10 @@ void setup() {
   Serial.print(F("Initializing Iron Man Servo version: "));
   Serial.println(VERSION);
 
+#ifdef ARC_REACTOR
+  arcReactor.initialize();
+#endif
+
 #ifdef SOUND
   init_player(); // initializes the sound player
 #endif
@@ -841,7 +853,7 @@ void setup() {
   
 #ifdef MISSILE
   initMissileButton(); // initialize the missile button
-#else
+#elif !defined(ARC_REACTOR)
   pinMode(AUX_LED_PIN, OUTPUT); // set output for AUX LED
 #endif
 }
@@ -855,6 +867,10 @@ void loop() {
 
 #ifdef MISSILE
   monitorMissileButton(); // Monitor when the missile button is pushed...
+#endif
+
+#ifdef ARC_REACTOR
+  arcReactor.handleButton();
 #endif
 
   // Room for future features ;)

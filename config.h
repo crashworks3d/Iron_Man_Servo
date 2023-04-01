@@ -37,13 +37,16 @@ DEVELOPED BY
  */
 
 // Uncomment this line to enable sound for the S.U.E. expansion board
-#define SOUND
+//#define SOUND
 
 // Uncomment this line to enable Walsh3D MK85 CHIN Control (Open/Close)
-#define WALSH85
+//#define WALSH85
 
 // Uncomment this line to enable forearm missile special effects
-#define MISSILE
+//#define MISSILE
+
+// Uncomment this line to enable a NeoPixels arc reactor
+#define ARC_REACTOR
 
 #ifdef SOUND
 
@@ -118,7 +121,7 @@ DEVELOPED BY
 #define LEFT_EYE_PIN  6 // left eye LEDs
 #define RIGHT_EYE_PIN 3 // right eye LEDs
 
-#ifndef MISSILE
+#if !defined(MISSILE) && !defined(ARC_REACTOR)
 #define AUX_LED_PIN 4 // Aux LED non-PWM
 #define AUX_LED_ENABLED true // Set to true if you want to enable the Aux LED
 #endif
@@ -188,3 +191,20 @@ DEVELOPED BY
 
 // Uncomment this line if you want the fade on special effect during setup, comment this line to disable this effect
 #define EYES_FX EYES_FADE_ON
+
+// Configuration section for the arc reactor
+#ifdef ARC_REACTOR
+#define PIXEL1_PIN 4 // Default pin 4
+// Configures which type of pixels
+// See FastLED documentation for more information.
+// WARNING!!! Only clockless pixels are supported!
+#define ARC_REACTOR_PIXEL_TYPE WS2812 // Default WS2812
+#define ARC_REACTOR_PIXELS_NUM 7 // Number of pixels for the arc reactor
+#define ARC_REACTOR_COLOR CRGB(100, 100, 255) // RGB color for the arc reactor
+#define ARC_REACTOR_ALT_COLOR CRGB(0, 255, 0) // Alternate RGB color for the arc reactor
+#define ARC_REACTOR_BRIGHTNESS 128 // Sets the brightness (0-255) for the arc reactor
+// Pin for the button to control the arc reactor 
+// -1 means no pin and the arc reactor will just turn on by default
+// Possible available button pins are D12, D13, A0, A1, A2, A3, A6
+#define ARC_REACTOR_BUTTON_PIN -1
+#endif

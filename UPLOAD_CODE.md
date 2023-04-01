@@ -17,6 +17,22 @@ The purpose of this document is to provide instructions for uploading the code t
 
 4. CH340 driver, installation instructions can be found: [How to Install CH340 Drivers](https://learn.sparkfun.com/tutorials/how-to-install-ch340-drivers/all)
 
+## Install the FastLED library
+
+1. Open the Arduino IDE.
+
+2. Click on "Sketch" in the menu bar.
+
+3. Hover over "Include Library" and click on "Manage Libraries...".
+
+4. In the "Library Manager" window, type "FastLED" into the search bar.
+
+5. Select the FastLED library from the list and click on the "Install" button.
+
+6. Wait for the installation to complete. The progress will be displayed in the status bar at the bottom of the window.
+
+7. Once the installation is complete, click on the "Close" button.
+
 ## Download the code
 
 1. Using your browser, go to the GitHub repository with the Crash Works 3D *"Iron Man Servo"*: https://github.com/crashworks3d/Iron_Man_Servo.
