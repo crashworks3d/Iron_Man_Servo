@@ -99,41 +99,61 @@ The following table is a list of configurable options found in the `config.h` fi
 
 **!!! WARNING !!!** Making changes to the configurations of your board can have unknown side effects and may cause damage. We strongly advise users to exercise caution when making changes to the board's settings, and to only do so if they have a clear understanding of the potential consequences. Improper changes to the board's configurations may result in permanent damage, loss of functionality, or other issues that could impact its performance. If you are unsure about any changes, please contact us on Frankly Built's discord: [https://discord.gg/franklybuilt](https://discord.gg/franklybuilt). 
 
-| Feature   | Parameter               | Default           | Options                                   | Comment                                                                          |
-|-----------|-------------------------|-------------------|-------------------------------------------|----------------------------------------------------------------------------------|
-| Sound     | SOUND                   | Disabled          | Disabled,  Enabled                        | Enables sound                                                                    |
-| Sound     | MP3_TYPE                | DFPLAYER          | DFPLAYER, JQ6500                          | Determines which MP3 player module is being used                                 |
-| Sound     | SND_EFFECT_TYPE         | JARVIS            | JARVIS, FRIDAY                            | Determines which sound effects to use                                            |
-| Sound     | VOLUME                  | 29                | 0-30                                      | Sets the volume of the mp3 player                                                |
-| Servo     | SERVO_TYPE              | TPMG90S           | TPMG90S, GENERIC, MANUAL                  | Sets the type of servos being used to determine the PWM high/low values          |
-| Servo     | PWM_HIGH                | 2000              |                                           | Manual Setting of Duty Cycle                                                     |
-| Servo     | PWM_LOW                 | 1000              |                                           | Manual Setting of Duty Cycle                                                     |
-| Faceplate | SERVO_CLOSE_SPEED       | 100               | 0-255                                     | Sets speed of the servo close function                                           |
-| Faceplate | SERVO_OPEN_SPEED        | 255               | 0-255                                     | Sets speed of the servo opening recommend set to max speed to aid in lift        |
-| Faceplate | SERVO1_OPEN_POS         | 20                | 0-180                                     | Sets open position of servo 1                                                    |
-| Faceplate | SERVO2_OPEN_POS         | 160               | 0-180                                     | Sets open position of servo 2                                                    |
-| Faceplate | SERVO1_CLOSE_POS        | 160               | 0-180                                     | Sets closed position of servo 1                                                  |
-| Faceplate | SERVO2_CLOSE_POS        | 20                | 0-180                                     | Sets closed position of servo 2                                                  |
-| Faceplate | SERVO1_DISABLE_AFTER_OPEN        | true     | true/false                                | Sets whether or not to disable the servo when the faceplate is open. |
-| Faceplate | SERVO2_DISABLE_AFTER_OPEN        | true     | true/false                                | Sets whether or not to disable the servo when the faceplate is open. |
-| Eyes      | EYES_FX                 | EYES_FADE_ON      | EYES_NONE, EYES_MOVIE_BLINK, EYES_FADE_ON | Special effect when faceplate closes                                             |
-| Eyes      | SETUP_FX                | SETUP_MOVIE_BLINK | EYES_NONE, EYES_MOVIE_BLINK, EYES_FADE_ON | Determines which special effect to enable during startup                         |
-| Lighting  | AUX_LED_ENABLED         | TRUE              | TRUE,  FALSE                              | Enables aux led code to run                                                      |
-| Walsh 85  | WALSH85                 | Disabled          | Disabled,  Enabled                        | Walsh3D MK85 Jaw Control (Open/Close)                                            |
-| Walsh 85  | CHIN_CLOSE_SPEED        | 175               | 0-255                                     | Sets speed of the Jaw closing for Walsh85 Helmet                                 |
-| Walsh 85  | CHIN_OPEN_SPEED         | 255               | 0-255                                     | Sets speed of the Jaw opening for Walsh85 Helmet                                 |
-| Walsh 85  | SERVO3_OPEN_POS         | 90                | 0-180                                     | Sets open position of servo 3                                                    |
-| Walsh 85  | SERVO3_CLOSE_POS        | 0                 | 0-180                                     | Sets closed position of servo 3                                                  |
-| Missile   | MISSILE                 | Disabled          | Disabled,  Enabled                        | Enables forearm missile special effects                                          |
-| Missile   | MISSILE_OPEN_SPEED      | 200               | 0-255                                     | Sets speed of the missile moving into launch position                            |
-| Missile   | MISSILE_CLOSE_SPEED     | 60                | 0-255                                     | Sets speed of the missile retracting                                             |
-| Missile   | MISSILE_BAY_OPEN_SPEED  | 200               | 0-255                                     | Sets opening speed of the missile bay                                            |
-| Missile   | MISSILE_BAY_CLOSE_SPEED | 60                | 0-255                                     | Sets closing speed of the missile bay                                            |
-| Missile   | SERVO4_OPEN_POS         | 180               | 0-180                                     | Sets open position of servo 4                                                    |
-| Missile   | SERVO4_CLOSE_POS        | 0                 | 0-180                                     | Sets closed position of servo 4                                                  |
-| Missile   | SERVO5_OPEN_POS         | 180               | 0-180                                     | Sets open position of servo 5                                                    |
-| Missile   | SERVO5_CLOSE_POS        | 0                 | 0-180                                     | Sets closed position of servo 5                                                  |
-| Missile   | MISSILE_BAY_DELAY       | 1000              |                                           | Amount of time (ms) to delay between movement of the missile bay and the missile |
+| Feature     | Parameter                 |       Default       | Options                                                         | Comment                                                                          |
+|-------------|---------------------------|:-------------------:|-----------------------------------------------------------------|----------------------------------------------------------------------------------|
+| Sound       | SOUND                     |       Disabled      | Disabled,  Enabled                                              | Enables sound                                                                    |
+| Sound       | MP3_TYPE                  |       DFPLAYER      | DFPLAYER, JQ6500                                                | Determines which MP3 player module is being used                                 |
+| Sound       | SND_EFFECT_TYPE           |        JARVIS       | JARVIS, FRIDAY                                                  | Determines which sound effects to use                                            |
+| Sound       | VOLUME                    |          29         | 0-30                                                            | Sets the volume of the mp3 player                                                |
+| Servo       | SERVO_TYPE                |       TPMG90S       | TPMG90S, GENERIC, MANUAL                                        | Sets the type of servos being used to determine the PWM high/low values          |
+| Servo       | PWM_HIGH                  |         2000        |                                                                 | Manual Setting of Duty Cycle                                                     |
+| Servo       | PWM_LOW                   |         1000        |                                                                 | Manual Setting of Duty Cycle                                                     |
+| Faceplate   | SERVO_CLOSE_SPEED         |         100         | 0-255                                                           | Sets speed of the servo close function                                           |
+| Faceplate   | SERVO_OPEN_SPEED          |         255         | 0-255                                                           | Sets speed of the servo opening recommend set to max speed to aid in lift        |
+| Faceplate   | SERVO1_OPEN_POS           |          20         | 0-180                                                           | Sets open position of servo 1                                                    |
+| Faceplate   | SERVO2_OPEN_POS           |         160         | 0-180                                                           | Sets open position of servo 2                                                    |
+| Faceplate   | SERVO1_CLOSE_POS          |         160         | 0-180                                                           | Sets closed position of servo 1                                                  |
+| Faceplate   | SERVO2_CLOSE_POS          |          20         | 0-180                                                           | Sets closed position of servo 2                                                  |
+| Faceplate   | SERVO1_DISABLE_AFTER_OPEN |         TRUE        | TRUE/FALSE                                                      | Sets whether or not to disable the servo when the faceplate is open.             |
+| Faceplate   | SERVO2_DISABLE_AFTER_OPEN |         TRUE        | TRUE/FALSE                                                      | Sets whether or not to disable the servo when the faceplate is open.             |
+| Eyes        | EYES_FX                   |     EYES_FADE_ON    | EYES_NONE, EYES_MOVIE_BLINK, EYES_FADE_ON                       | Special effect when faceplate closes                                             |
+| Eyes        | SETUP_FX                  |  SETUP_MOVIE_BLINK  | EYES_NONE, EYES_MOVIE_BLINK, EYES_FADE_ON                       | Determines which special effect to enable during startup                         |
+| Lighting    | AUX_LED_ENABLED           |         TRUE        | TRUE,  FALSE                                                    | Enables aux led code to run                                                      |
+| Walsh 85    | WALSH85                   |       Disabled      | Disabled,  Enabled                                              | Walsh3D MK85 Jaw Control (Open/Close)                                            |
+| Walsh 85    | CHIN_CLOSE_SPEED          |         175         | 0-255                                                           | Sets speed of the Jaw closing for Walsh85 Helmet                                 |
+| Walsh 85    | CHIN_OPEN_SPEED           |         255         | 0-255                                                           | Sets speed of the Jaw opening for Walsh85 Helmet                                 |
+| Walsh 85    | SERVO3_OPEN_POS           |          90         | 0-180                                                           | Sets open position of servo 3                                                    |
+| Walsh 85    | SERVO3_CLOSE_POS          |          0          | 0-180                                                           | Sets closed position of servo 3                                                  |
+| Missile     | MISSILE                   |       Disabled      | Disabled,  Enabled                                              | Enables forearm missile special effects                                          |
+| Missile     | MISSILE_OPEN_SPEED        |         200         | 0-255                                                           | Sets speed of the missile moving into launch position                            |
+| Missile     | MISSILE_CLOSE_SPEED       |          60         | 0-255                                                           | Sets speed of the missile retracting                                             |
+| Missile     | MISSILE_BAY_OPEN_SPEED    |         200         | 0-255                                                           | Sets opening speed of the missile bay                                            |
+| Missile     | MISSILE_BAY_CLOSE_SPEED   |          60         | 0-255                                                           | Sets closing speed of the missile bay                                            |
+| Missile     | SERVO4_OPEN_POS           |         180         | 0-180                                                           | Sets open position of servo 4                                                    |
+| Missile     | SERVO4_CLOSE_POS          |          0          | 0-180                                                           | Sets closed position of servo 4                                                  |
+| Missile     | SERVO5_OPEN_POS           |         180         | 0-180                                                           | Sets open position of servo 5                                                    |
+| Missile     | SERVO5_CLOSE_POS          |          0          | 0-180                                                           | Sets closed position of servo 5                                                  |
+| Missile     | MISSILE_BAY_DELAY         |         1000        |                                                                 | Amount of time (ms) to delay between movement of the missile bay and the missile |
+| Sound       | RX_PIN                    |          7          |                                                                 | Sets pin for receive (RX) communications                                         |
+| Sound       | TX_PIN                    |          8          |                                                                 | Sets pin for transmit (TX) communications                                        |
+| Lighting    | AUX_LED_PIN               |          4          |                                                                 | Sets pin for Aux LED non-PWM                                                     |
+| Multiple    | BUTTON_PIN                |          2          |                                                                 | Sets pin of primary switch                                                       |
+| Eyes        | LEFT_EYE_PIN              |          6          |                                                                 | Sets pin for left eye LED                                                        |
+| Eyes        | RIGHT_EYE_PIN             |          3          |                                                                 | Sets pin for right eye LED                                                       |
+| Faceplate   | SERVO1_PIN                |          9          |                                                                 | Sets pin for servo 1                                                             |
+| Faceplate   | SERVO2_PIN                |          10         |                                                                 | Sets pin for servo 2                                                             |
+| Walsh 85    | SERVO3_PIN                |          5          |                                                                 | Sets pin for servo 3 (Walsh85 Jaw Control)                                       |
+| Missile     | SERVO4_PIN                |          4          |                                                                 | Sets pin for servo 3 (missile bay)                                               |
+| Missile     | SERVO5_PIN                |          11         |                                                                 | Sets pin for servo 4 (missile)                                                   |
+| Missile     | MISSILE_BUTTON_PIN        |          12         |                                                                 | Sets pin for missile button                                                      |
+| Arc Reactor | ARC_REACTOR               |       Disabled      | Disabled,  Enabled                                              | Enables NeoPixel LEDs for an arc reactor                                         |
+| Arc Reactor | PIXEL1_PIN                |          4          |                                                                 | Sets pin for pixels data                                                         |
+| Arc Reactor | ARC_REACTOR_PIXEL_TYPE    |        WS2812       | See FastLED documentation                                       | See FastLED documentation                                                        |
+| Arc Reactor | ARC_REACTOR_PIXELS_NUM    |          1          | See NeoPixel documentation                                      | Sets the number of pixels on a series on the same pin                            |
+| Arc Reactor | ARC_REACTOR_COLOR         | CRGB(100, 100, 255) | Any RGB color combination                                       | Sets the primary color of the arc reactor                                        |
+| Arc Reactor | ARC_REACTOR_ALT_COLOR     |   CRGB(0, 255, 0)   | Any RGB color combination                                       | Sets the alternate color of the arc reactor                                      |
+| Arc Reactor | ARC_REACTOR_BRIGHTNESS    |         128         | 0-255                                                           | Sets the brightness of the arc reactor                                           |
+| Arc Reactor | ARC_REACTOR_BUTTON_PIN    |          -1         | Possible available button pins are D12, D13, A0, A1, A2, A3, A6 | Pin for the button to control the arc reactor                                    |
 
 ## Pin Configurations
 
@@ -154,7 +174,8 @@ The following table is a list of pin configurations found in the `config.h` file
 | Walsh 85  | SERVO3_PIN              | 5                 |                                           | Sets pin for servo 3 (Walsh85 Jaw Control)                                       |
 | Missile   | SERVO4_PIN              | 4                 |                                           | Sets pin for servo 3 (missile bay)                                               |
 | Missile   | SERVO5_PIN              | 11                |                                           | Sets pin for servo 4 (missile)                                                   |
-| Missile   | MISSILE_BUTTON_PIN             | 12                |                                           | Sets pin for missile button                                                      |
+| Missile   | MISSILE_BUTTON_PIN             | 12                |                                           | Sets pin for missile button                                                      
+| Arc Reactor | PIXEL1_PIN                |          4          |                                                                 | Sets pin for pixels data|
 
 ## Built With
 
