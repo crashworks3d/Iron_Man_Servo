@@ -1,3 +1,4 @@
+#ifdef ARC_REACTOR
 #include "ArcReactor.h"
 
 // Constructor with button
@@ -84,3 +85,4 @@ void ArcReactor::handleButton() {
         _button.tick(); // Call this method in the main loop to handle button events
      #endif
 }
+#endif

@@ -46,7 +46,7 @@ DEVELOPED BY
 //#define MISSILE
 
 // Uncomment this line to enable a NeoPixels arc reactor
-#define ARC_REACTOR
+//#define ARC_REACTOR
 
 #ifdef SOUND
 

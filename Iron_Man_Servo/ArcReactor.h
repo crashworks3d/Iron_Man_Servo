@@ -1,3 +1,4 @@
+#ifdef ARC_REACTOR
 #ifndef ARCREACTOR_H
 #define ARCREACTOR_H
 
@@ -48,4 +49,5 @@ private:
     static void callBackDoublePress(void *ptr);
 };
 
+#endif
 #endif
