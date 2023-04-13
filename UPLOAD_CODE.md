@@ -43,9 +43,9 @@ The purpose of this document is to provide instructions for uploading the code t
 
 4. Your browser will begin downloading the zip file containing the code.
 
-5. Once the download is complete, locate the zip file on your computer and extract the contents to a folder of your choice.  Rename the folder from *"Iron_Man_Servo-master"* to *"Iron_Man_Servo"* 
+5. Once the download is complete, locate the zip file on your computer and extract the contents to a folder of your choice. 
 
-### Important!!! Make sure the folder name is "Iron_Man_Servo".
+### Important!!! Make sure there is a folder named "Iron_Man_Servo" with the file "Iron_Man_Servo.ino" inside it.
 
 ## Configure the code for the proper board type and features
 

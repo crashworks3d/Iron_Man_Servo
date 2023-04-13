@@ -1,6 +1,6 @@
 {
     "board": "arduino:avr:nano",
-    "sketch": "Iron_Man_Servo.ino",
+    "sketch": "Iron_Man_Servo/Iron_Man_Servo.ino",
     "port": "/dev/tty.usbserial-1430",
     "configuration": "cpu=atmega328"
 }

@@ -36,7 +36,7 @@ DEVELOPED BY
 
  */
 // Version.  Don't change unless authorized by Cranshark
-#define VERSION "3.2.x"
+#define VERSION "3.2.0.2"
 
 #if defined __AVR_ATtiny85__
   #error Code not compatible with this board type.
