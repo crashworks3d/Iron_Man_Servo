@@ -168,23 +168,23 @@ DEVELOPED BY
 // To use the specific feature below
 // use double slashes "//" to comment, or uncomment (remove double slashes) in the code below
 
-// Uncomment this line if you don't want any special effect during setup, comment this line to disable this effect
+// Uncomment this line if you don't want any special effect during startup, comment this line to disable this effect
 // #define SETUP_FX EYES_NONE
 
-// Uncomment this line if you want the movie blink special effect during setup, comment this line to disable this effect
+// Uncomment this line if you want the movie blink special effect during startup, comment this line to disable this effect
 #define SETUP_FX EYES_MOVIE_BLINK
 
-// Uncomment this line if you want the fade on special effect during setup, comment this line to disable this effect
+// Uncomment this line if you want the fade on special effect during startup, comment this line to disable this effect
 // #define SETUP_FX EYES_FADE_ON
 
 // To use the specific feature below
 // use double slashes "//" to comment, or uncomment (remove double slashes) in the code below
 
-// Uncomment this line if you don't want any special effect during setup, comment this line to disable this effect
+// Uncomment this line if you don't want any special effect during operation, comment this line to disable this effect
 // #define EYES_FX EYES_NONE
 
-// Uncomment this line if you want the movie blink special effect during setup, comment this line to disable this effect
+// Uncomment this line if you want the movie blink special effect during operation, comment this line to disable this effect
 // #define EYES_FX EYES_MOVIE_BLINK
 
-// Uncomment this line if you want the fade on special effect during setup, comment this line to disable this effect
+// Uncomment this line if you want the fade on special effect during operation, comment this line to disable this effect
 #define EYES_FX EYES_FADE_ON
