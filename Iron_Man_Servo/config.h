@@ -63,7 +63,7 @@ DEVELOPED BY
 #define RX_PIN 7 // set pin for receive (RX) communications
 #define TX_PIN 8 // set pin for transmit (TX) communications
 
-#define VOLUME 29 // sound board volume level (30 is max)
+#define VOLUME 27 // sound board volume level (30 is max)
 #endif
 
 // Servo configuration types.  Use one of these values to set the SERVO_TYPE definition below
@@ -73,8 +73,8 @@ DEVELOPED BY
 
 // Defines which servo type is used
 //#define SERVO_TYPE TPMG90S // Uncomment this line if you are using genuine Tower Pro MG90S servos
-#define SERVO_TYPE GENERIC // Uncomment this line if you are using generic servos
-//#define SERVO_TYPE MANUAL // Uncomment this line if you are manually configuring your servos in the manual configuration below
+//#define SERVO_TYPE GENERIC // Uncomment this line if you are using generic servos
+#define SERVO_TYPE MANUAL // Uncomment this line if you are manually configuring your servos in the manual configuration below
 
 #if  (SERVO_TYPE == TPMG90S)
 #define PWM_HIGH 2400 // Authentic Tower Pro MG90s Servo using 12% Duty Cycle
@@ -86,8 +86,8 @@ DEVELOPED BY
 
 // Use these settings for manual configuration of servos
 #elif (SERVO_TYPE == MANUAL)
-#define PWM_HIGH 2450 // Manual Setting of Duty Cycle
-#define PWM_LOW  350 // Manual Setting of Duty Cycle
+#define PWM_HIGH 2500 // Manual Setting of Duty Cycle
+#define PWM_LOW  300 // Manual Setting of Duty Cycle
 #endif
 
 // Declare pin settings
@@ -127,7 +127,7 @@ DEVELOPED BY
 #ifdef WALSH85
 #define SERVO3_PIN 5 // set the pin for servo 3 (Walsh85 chin Control)
 
-#define CHIN_CLOSE_SPEED 180 // set the speed of the chin closing for Walsh85 Helmet
+#define CHIN_CLOSE_SPEED 175 // set the speed of the chin closing for Walsh85 Helmet
 #define CHIN_OPEN_SPEED 255 // set the speed of the chin opening for Walsh85 Helmet
 
 //Servo 3 (Walsh85 chin Control) Open / Close Angle
