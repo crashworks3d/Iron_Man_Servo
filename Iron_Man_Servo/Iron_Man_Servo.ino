@@ -82,7 +82,7 @@ void printDetail(uint8_t type, int value); // header method for implementation b
 #endif
 
 #ifdef ARC_REACTOR
-#include "ArcReactor.h"
+#include "ArcReactor.cpp"
 ArcReactor arcReactor = ArcReactor();
 #endif
 
