@@ -364,8 +364,10 @@ void delayWhilePlaying(){
   //#endif
 
   // Send data to the servos for movement
-  servo1.easeTo(SERVO1_OPEN_POS, SERVO_OPEN_SPEED);
-  servo2.easeTo(SERVO2_OPEN_POS, SERVO_OPEN_SPEED);
+  servo1.startEaseTo(SERVO1_OPEN_POS, SERVO_OPEN_SPEED);
+  servo2.startEaseTo(SERVO2_OPEN_POS, SERVO_OPEN_SPEED);
+
+  //setEaseToForAllServosSynchronizeAndStartInterrupt();
 
   while (ServoEasing::areInterruptsActive()) {
         ; // no delays here to avoid break between forth and back movement
@@ -375,7 +377,7 @@ void delayWhilePlaying(){
   simDelay(500);
   servo3.attach(SERVO3_PIN, PWM_LOW, PWM_HIGH);
   servo3.setEasingType(EASE_LINEAR);
-  servo3.easeTo(SERVO3_OPEN_POS, CHIN_OPEN_SPEED);
+  servo3.startEaseTo(SERVO3_OPEN_POS, CHIN_OPEN_SPEED);
 
   while (ServoEasing::areInterruptsActive()) {
         ; // no delays here to avoid break between forth and back movement
@@ -417,7 +419,7 @@ void delayWhilePlaying(){
   #ifdef WALSH85
   servo3.attach(SERVO3_PIN, PWM_LOW, PWM_HIGH);
   servo3.setEasingType(EASE_LINEAR);
-  servo3.easeTo(SERVO3_CLOSE_POS, CHIN_CLOSE_SPEED);
+  servo3.startEaseTo(SERVO3_CLOSE_POS, CHIN_CLOSE_SPEED);
 
   while (ServoEasing::areInterruptsActive()) {
         ; // no delays here to avoid break between forth and back movement
@@ -425,8 +427,10 @@ void delayWhilePlaying(){
   simDelay(500); // Delay to allow chin to fully close before Faceplate closes
   #endif
   
-  servo1.easeTo(SERVO1_CLOSE_POS, SERVO_CLOSE_SPEED);
-  servo2.easeTo(SERVO2_CLOSE_POS, SERVO_CLOSE_SPEED);
+  servo1.startEaseTo(SERVO1_CLOSE_POS, SERVO_CLOSE_SPEED);
+  servo2.startEaseTo(SERVO2_CLOSE_POS, SERVO_CLOSE_SPEED);
+
+  //setEaseToForAllServosSynchronizeAndStartInterrupt();
 
   while (ServoEasing::areInterruptsActive()) {
         ; // no delays here to avoid break between forth and back movement
@@ -457,14 +461,14 @@ void delayWhilePlaying(){
   servo4.setEasingType(EASE_LINEAR);
   servo5.setEasingType(EASE_LINEAR);
 
-  servo4.easeTo(SERVO4_OPEN_POS, MISSILE_BAY_OPEN_SPEED);
+  servo4.startEaseTo(SERVO4_OPEN_POS, MISSILE_BAY_OPEN_SPEED);
 
   while (ServoEasing::areInterruptsActive()) {
         ; // no delays here to avoid break between forth and back movement
   }
 
   simDelay(MISSILE_BAY_DELAY);
-  servo5.easeTo(SERVO5_OPEN_POS, MISSILE_OPEN_SPEED);
+  servo5.startEaseTo(SERVO5_OPEN_POS, MISSILE_OPEN_SPEED);
 
   while (ServoEasing::areInterruptsActive()) {
         ; // no delays here to avoid break between forth and back movement
@@ -489,14 +493,14 @@ void delayWhilePlaying(){
   servo4.setEasingType(EASE_LINEAR);
   servo5.setEasingType(EASE_LINEAR);
 
-  servo5.easeTo(SERVO5_CLOSE_POS, MISSILE_CLOSE_SPEED);
+  servo5.startEaseTo(SERVO5_CLOSE_POS, MISSILE_CLOSE_SPEED);
 
   while (ServoEasing::areInterruptsActive()) {
         ; // no delays here to avoid break between forth and back movement
   }
 
   simDelay(1000);
-  servo4.easeTo(SERVO4_CLOSE_POS, MISSILE_BAY_CLOSE_SPEED);
+  servo4.startEaseTo(SERVO4_CLOSE_POS, MISSILE_BAY_CLOSE_SPEED);
 
   while (ServoEasing::areInterruptsActive()) {
         ; // no delays here to avoid break between forth and back movement

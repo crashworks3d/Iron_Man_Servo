@@ -37,10 +37,10 @@ DEVELOPED BY
  */
 
 // Uncomment this line to enable sound for the S.U.E. expansion board
-//#define SOUND
+#define SOUND
 
 // Uncomment this line to enable Walsh3D MK85 CHIN Control (Open/Close)
-//#define WALSH85
+#define WALSH85
 
 // Uncomment this line to enable forearm missile special effects
 //#define MISSILE
@@ -53,8 +53,8 @@ DEVELOPED BY
 #define DFPLAYER 0 
 #define JQ6500 1
 
-//#define MP3_TYPE DFPLAYER // Uncomment this line to enable using the DFRobot DFPlayer (or similar) sound module
-#define MP3_TYPE JQ6500 // Uncomment this line to enable using the JQ6500 sound module
+#define MP3_TYPE DFPLAYER // Uncomment this line to enable using the DFRobot DFPlayer (or similar) sound module
+//#define MP3_TYPE JQ6500 // Uncomment this line to enable using the JQ6500 sound module
 
 #define JARVIS 0
 #define FRIDAY 1
@@ -98,8 +98,8 @@ DEVELOPED BY
 #define SERVO2_PIN 10 // set the pin for servo 2
 
 // Declare variables for servo speed control
-#define SERVO_CLOSE_SPEED 175 // set the speed of the servo close function
-#define SERVO_OPEN_SPEED 255 // set the speed of the servo opening recommend set to max speed to aid in lift
+#define SERVO_CLOSE_SPEED 100 // set the speed of the servo close function
+#define SERVO_OPEN_SPEED 330 // set the speed of the servo opening recommend set to max speed to aid in lift
 
 // In Dual Servo Configuration the servos move in opposing directions, so the angles of the servos will be opposite to each other. 
 // Normal Servo range is 0° ~ 180°, for initial setup the range has been adjusted to 20° ~ 160°, this allows for a 20° adjustment at both ends of the servo range.
