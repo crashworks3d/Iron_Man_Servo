@@ -8,3 +8,4 @@ library.json
 library.properties
 
 lib/JQ6500_Serial/docs
+.vscode/arduino.json
