@@ -18,7 +18,7 @@ The purpose of this project is to automate features of the various models of the
 [8.1]: images/youtube-preview_Legends.jpg (Crash Works 3d - Marvel Legends Iron Man / Punisher / War Machine Motorization Kit Test v1)
 [9.1]: images/facebook.png (Facebook - Crash Works)
 [1]: https://www.instagram.com/crashworks3d/
-[2]: https://www.youtube.com/channel/UCxbZNWPNsDoVIHJfYZQF2Jw
+[2]: https://www.youtube.com/@crashworks3d?view_as=subscriber&sub_confirmation=1
 [3]: https://github.com/
 [4]: https://www.thingiverse.com/crashworks3d/designs
 [5]: https://www.youtube.com/watch?v=dDsZCZuzkQU
