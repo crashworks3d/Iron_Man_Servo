@@ -146,6 +146,42 @@ Locate the following code and change values as needed:
 #endif
 ```
 
-### Activating Pixels
+### Activating Pixels or NeoPixels
 
-[TODO...]
+The current code in this repository is designed to light up an arc reactor using an 8x8 NeoPixels or WS2812 panel.  See the [Adafruit NeoPixel Überguide](https://learn.adafruit.com/adafruit-neopixel-uberguide).
+
+The code was developed using the [FastLED](https://fastled.io/) library.  You will want to reference this library if you would like to extend the code for features like Repulsors.
+
+- In the `config.h` file, locate the line of code that has `#define ARC_REACTOR` and make the following changes:
+    From:
+    ```C++
+    // Uncomment this line to enable a NeoPixels arc reactor
+    //#define ARC_REACTOR
+    ```
+
+    To:
+    ```C++
+    // Uncomment this line to enable a NeoPixels arc reactor
+    #define ARC_REACTOR
+    ```
+
+- To make changes to the number of LEDs, color or brightness; In the `config.h` file, locate the following code and change the values:
+
+```C++
+// Configuration section for the arc reactor
+#ifdef ARC_REACTOR
+#define PIXEL1_PIN 4 // Default pin 4
+// Configures which type of pixels
+// See FastLED documentation for more information.
+// WARNING!!! Only clockless pixels are supported!
+#define ARC_REACTOR_PIXEL_TYPE WS2812 // Default WS2812
+#define ARC_REACTOR_PIXELS_NUM 64 // Number of pixels for the arc reactor
+#define ARC_REACTOR_COLOR CRGB(100, 100, 255) // RGB color for the arc reactor
+#define ARC_REACTOR_ALT_COLOR CRGB(0, 255, 0) // Alternate RGB color for the arc reactor
+#define ARC_REACTOR_BRIGHTNESS 128 // Sets the brightness (0-255) for the arc reactor
+// Pin for the button to control the arc reactor 
+// -1 means no pin and the arc reactor will just turn on by default
+// Possible available button pins are D12, D13, A0, A1, A2, A3, A6
+#define ARC_REACTOR_BUTTON_PIN -1
+#endif
+```
