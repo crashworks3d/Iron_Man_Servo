@@ -95,7 +95,7 @@ Most components can be found on [Amazon](https://www.amazon.com) or [AliExpress]
 
 ## Feature Configurations
 
-The following table is a list of configurable options found in the `config.h` file.
+The following table is a list of configurable options found in the `config.h` file.  To make configuation changes see [CONFIGURE_CODE.md](CONFIGURE_CODE.md)
 
 **!!! WARNING !!!** Making changes to the configurations of your board can have unknown side effects and may cause damage. We strongly advise users to exercise caution when making changes to the board's settings, and to only do so if they have a clear understanding of the potential consequences. Improper changes to the board's configurations may result in permanent damage, loss of functionality, or other issues that could impact its performance. If you are unsure about any changes, please contact us on Frankly Built's discord: [https://discord.gg/franklybuilt](https://discord.gg/franklybuilt). 
 

@@ -56,7 +56,7 @@ The purpose of this document is to provide instructions for uploading the code t
 >Global variables use 375 bytes (18%) of dynamic memory, leaving 1673 bytes for local variables. Maximum is 2048 bytes.
 >```
 
-NOTE: If the code fails to compile go back through the instructions and make sure you didn't miss any steps.
+**NOTE**: If the code fails to compile go back through the instructions and make sure you didn't miss any steps.
 
 ## Upload or "Flash" the code onto the Arduino Nano module
 
