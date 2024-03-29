@@ -37,10 +37,10 @@ DEVELOPED BY
  */
 
 // Uncomment this line to enable sound for the S.U.E. expansion board
-#define SOUND
+//#define SOUND
 
 // Uncomment this line to enable Walsh3D MK85 CHIN Control (Open/Close)
-#define WALSH85
+//#define WALSH85
 
 // Uncomment this line to enable forearm missile special effects
 //#define MISSILE
@@ -171,10 +171,10 @@ DEVELOPED BY
 // To use the specific feature below
 // use double slashes "//" to comment, or uncomment (remove double slashes) in the code below
 
-// Uncomment this line if you don't want any special effect during setup, comment this line to disable this effect
+// Uncomment this line if you don't want any special effect during startup, comment this line to disable this effect
 // #define SETUP_FX EYES_NONE
 
-// Uncomment this line if you want the movie blink special effect during setup, comment this line to disable this effect
+// Uncomment this line if you want the movie blink special effect during startup, comment this line to disable this effect
 #define SETUP_FX EYES_MOVIE_BLINK
 
 // Uncomment this line if you want the fade on special effect during setup, comment this line to disable this effect
@@ -183,13 +183,13 @@ DEVELOPED BY
 // To use the specific feature below
 // use double slashes "//" to comment, or uncomment (remove double slashes) in the code below
 
-// Uncomment this line if you don't want any special effect during setup, comment this line to disable this effect
+// Uncomment this line if you don't want any special effect during operation, comment this line to disable this effect
 // #define EYES_FX EYES_NONE
 
 // Uncomment this line if you want the movie blink special effect during setup, comment this line to disable this effect
 // #define EYES_FX EYES_MOVIE_BLINK
 
-// Uncomment this line if you want the fade on special effect during setup, comment this line to disable this effect
+// Uncomment this line if you want the fade on special effect during operation, comment this line to disable this effect
 #define EYES_FX EYES_FADE_ON
 
 // Configuration section for the arc reactor
@@ -199,7 +199,7 @@ DEVELOPED BY
 // See FastLED documentation for more information.
 // WARNING!!! Only clockless pixels are supported!
 #define ARC_REACTOR_PIXEL_TYPE WS2812 // Default WS2812
-#define ARC_REACTOR_PIXELS_NUM 7 // Number of pixels for the arc reactor
+#define ARC_REACTOR_PIXELS_NUM 64 // Number of pixels for the arc reactor
 #define ARC_REACTOR_COLOR CRGB(100, 100, 255) // RGB color for the arc reactor
 #define ARC_REACTOR_ALT_COLOR CRGB(0, 255, 0) // Alternate RGB color for the arc reactor
 #define ARC_REACTOR_BRIGHTNESS 128 // Sets the brightness (0-255) for the arc reactor
