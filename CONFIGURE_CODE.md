@@ -84,13 +84,14 @@ You can change the sound effects to use either the voice of _JARVIS_ or _FRIDAY_
 
 - If you have an ALISHA board with the JQ6500 sound module like the MK X-J:
     - In the `config.h` file locate the lines of code below and make the following changes:
-    From:
+    
+    - Change from:
     ```C++
     #define SND_EFFECT_TYPE JARVIS // Uncomment this line for JARVIS sound effects
     //#define SND_EFFECT_TYPE FRIDAY // Uncomment this line for FRIDAY sound effects
     ```
 
-    To:
+    - To:
     ```C++
     //#define SND_EFFECT_TYPE JARVIS // Uncomment this line for JARVIS sound effects
     #define SND_EFFECT_TYPE FRIDAY // Uncomment this line for FRIDAY sound effects
@@ -153,6 +154,7 @@ The current code in this repository is designed to light up an arc reactor using
 The code was developed using the [FastLED](https://fastled.io/) library.  You will want to reference this library if you would like to extend the code for features like Repulsors.
 
 - In the `config.h` file, locate the line of code that has `#define ARC_REACTOR` and make the following changes:
+    
     From:
     ```C++
     // Uncomment this line to enable a NeoPixels arc reactor
