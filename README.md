@@ -36,7 +36,7 @@ The purpose of this project is to automate features of the various models of the
 
 ## **WARNING!!!**
 
-If you have an AM2, AM3 or AM4 board, _**DO NOT USE THIS CODE!!!**_  Use our code in the GitHub repository here: [Iron_Man_Servo_AM](https://github.com/crashworks3d/Iron_Man_Servo_AM).  Attempting to upload this code will void any support and potentially render your board useless.
+If you have an AM2, AM3 or AM4 board, DO NOT USE THIS CODE!!! Attempting to upload this code will void any support and potentially render your board useless. For a copy of the AM source code, contact us with your order number.
 
 ## Getting Started
 
