@@ -10,12 +10,12 @@ The purpose of this project is to automate features of the various models of the
 
 [1.1]: images/instagram.png (Instagram - Crash Works 3D)
 [2.1]: images/youtube.png (YouTube - Crash Works 3D)
-[3.1]: images/github.png (Github - Crash Works)
-[4.1]: images/Thingiverse.png (Thingiverse - Crash Works)
-[5.1]: images/youtube-preview.jpg (Crash Works 3d - MK85 Helmet Motorization Kit Test v1)
-[6.1]: images/youtube-preview_MK7.JPG (Crash Works 3d - MK7 Helmet Motorization Kit Test v1)
-[7.1]: images/youtube-preview_Mk46_Closed.JPG (Crash Works 3d - MK46 Helmet Motorization Kit Test v1)
-[8.1]: images/youtube-preview_Legends.jpg (Crash Works 3d - Marvel Legends Iron Man / Punisher / War Machine Motorization Kit Test v1)
+[3.1]: images/github.png (Github - Crash Works 3D)
+[4.1]: images/Thingiverse.png (Thingiverse - Crash Works 3D)
+[5.1]: images/youtube-preview.jpg (Crash Works 3D - MK85 Helmet Motorization Kit Test v1)
+[6.1]: images/youtube-preview_MK7.JPG (Crash Works 3D - MK7 Helmet Motorization Kit Test v1)
+[7.1]: images/youtube-preview_Mk46_Closed.JPG (Crash Works 3D - MK46 Helmet Motorization Kit Test v1)
+[8.1]: images/youtube-preview_Legends.jpg (Crash Works 3D - Marvel Legends Iron Man / Punisher / War Machine Motorization Kit Test v1)
 [9.1]: images/facebook.png (Facebook - Crash Works)
 [1]: https://www.instagram.com/crashworks3d/
 [2]: https://www.youtube.com/@crashworks3d?view_as=subscriber&sub_confirmation=1
@@ -36,7 +36,7 @@ The purpose of this project is to automate features of the various models of the
 
 ## **WARNING!!!**
 
-If you have an AM2, AM3 or AM4 board, _**DO NOT USE THIS CODE!!!**_  Use our code in the GitHub repository here: [Iron_Man_Servo_AM](https://github.com/crashworks3d/Iron_Man_Servo_AM).  Attempting to upload this code will void any support and potentially render your board useless.
+If you have an AM2, AM3 or AM4 board, DO NOT USE THIS CODE!!! Attempting to upload this code will void any support and potentially render your board useless. For a copy of the AM source code, contact us with your order number.
 
 ## Getting Started
 
