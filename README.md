@@ -36,6 +36,12 @@ The purpose of this project is to automate features of the various models of the
 
 ## **WARNING!!!**
 
+Attempting to upload this code will void any support and potentially render your board useless.  The following boards are not supported by this code:
+
+- AM2, AM3, AM4, AM6 (discontinued)
+- MKE-Mini, MKE, MKE-D, MKE-J
+
+If you have purchased one of our MKE series boards, you can upload the code directly from our website https://www.crashworks3d.com/upload.  
 If you have an AM2, AM3 or AM4 board, DO NOT USE THIS CODE!!! Attempting to upload this code will void any support and potentially render your board useless. For a copy of the AM source code, contact us with your order number.
 
 ## Getting Started
