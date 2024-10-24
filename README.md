@@ -36,7 +36,7 @@ The purpose of this project is to automate features of the various models of the
 
 ## **WARNING!!!**
 
-Attempting to upload this code will void any support and potentially render your board useless.  The following boards are not supported by this code:
+Attempting to upload this code will void any support and potentially render your board useless.  The following A.L.I.S.H.A. boards are not supported by this code:
 
 - AM2, AM3, AM4, AM6 (discontinued)
 - MKE-Mini, MKE, MKE-D, MKE-J
