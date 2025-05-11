@@ -112,8 +112,8 @@ DEVELOPED BY
 // If the faceplate is dropping down when open due to centrifugal forces, change the following to false.
 // Engaging a single servo may be all that is needed to keep the faceplate open
 // WARNING!!! Leaving the servo(s) enabled may cause servo(s) to stress and overheat
-#define SERVO1_DISABLE_AFTER_OPEN true
-#define SERVO2_DISABLE_AFTER_OPEN true
+#define SERVO1_DISABLE_AFTER_OPEN false
+#define SERVO2_DISABLE_AFTER_OPEN false
 
 #define BUTTON_PIN 2 // the pin that the pushbutton is attached to
 
