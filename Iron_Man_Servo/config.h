@@ -24,9 +24,11 @@ SOFTWARE.
 
 DESCRIPTION
   ====================
-  The purpose of this code is to automate the servos and LED eyes for the Iron Man helmet
+  The purpose of this code is to automate the servos and LED eyes for the Iron
+Man helmet
 
-  Motivation and inspiration comes from the early work by "XL97" of The RPF Community
+  Motivation and inspiration comes from the early work by "XL97" of The RPF
+Community
 
 DEVELOPED BY
   ====================
@@ -40,14 +42,14 @@ DEVELOPED BY
 //#define SOUND
 
 // Uncomment this line to enable Walsh3D MK85 CHIN Control (Open/Close)
-//#define WALSH85
+// #define WALSH85
 
 // Uncomment this line to enable forearm missile special effects
-//#define MISSILE
+// #define MISSILE
 
 #ifdef SOUND
 
-#define DFPLAYER 0 
+#define DFPLAYER 0
 #define JQ6500 1
 
 #define MP3_TYPE DFPLAYER // Uncomment this line to enable using the DFRobot DFPlayer (or similar) sound module
@@ -60,8 +62,8 @@ DEVELOPED BY
 //#define SND_EFFECT_TYPE FRIDAY // Uncomment this line for FRIDAY sound effects
 
 // sound board pins
-#define RX_PIN 7 // set pin for receive (RX) communications
-#define TX_PIN 8 // set pin for transmit (TX) communications
+#define RX_PIN 7  // set pin for receive (RX) communications
+#define TX_PIN 8  // set pin for transmit (TX) communications
 
 #define VOLUME 27 // sound board volume level (30 is max)
 #endif
@@ -70,24 +72,32 @@ DEVELOPED BY
 #define TPMG90S 0
 #define GENERIC 1
 #define MANUAL  2
+#define DS239MG 3
 
 // Defines which servo type is used
-//#define SERVO_TYPE TPMG90S // Uncomment this line if you are using genuine Tower Pro MG90S servos
-//#define SERVO_TYPE GENERIC // Uncomment this line if you are using generic servos
-#define SERVO_TYPE MANUAL // Uncomment this line if you are manually configuring your servos in the manual configuration below
+// #define SERVO_TYPE TPMG90S // Uncomment this line if you are using genuine Tower Pro MG90S servos 
+#define SERVO_TYPE GENERIC // Uncomment this line if you are using generic servos 
+//#define SERVO_TYPE MANUAL // Uncomment this line if you are manually configuring your servos in the manual configuration below
+//#define SERVO_TYPE DS239MG  // Uncomment this line if you are using DS239MG servos
 
-#if  (SERVO_TYPE == TPMG90S)
-#define PWM_HIGH 2400 // Authentic Tower Pro MG90s Servo using 12% Duty Cycle
-#define PWM_LOW  400 // Authentic Tower Pro MG90s Servo using 2% Duty Cycle
+#if (SERVO_TYPE == TPMG90S)
+#define PWM_HIGH 2400  // Authentic Tower Pro MG90s Servo using 12% Duty Cycle
+#define PWM_LOW 400    // Authentic Tower Pro MG90s Servo using 2% Duty Cycle
 
 #elif (SERVO_TYPE == GENERIC)
-#define PWM_HIGH 2600 // Generic MG90s Servo using 13% Duty Cycle
-#define PWM_LOW  200 // Generic MG90s Servo using 1% Duty Cycle
+#define PWM_HIGH 2600  // Generic MG90s Servo using 13% Duty Cycle
+#define PWM_LOW 200    // Generic MG90s Servo using 1% Duty Cycle
 
 // Use these settings for manual configuration of servos
 #elif (SERVO_TYPE == MANUAL)
-#define PWM_HIGH 2500 // Manual Setting of Duty Cycle
-#define PWM_LOW  300 // Manual Setting of Duty Cycle
+#define PWM_HIGH 2450  // Manual Setting of Duty Cycle
+#define PWM_LOW 350    // Manual Setting of Duty Cycle
+
+#elif (SERVO_TYPE == DS239MG)
+#define SERVO1_PWM_HIGH 1900
+#define SERVO1_PWM_LOW 1100
+#define PWM_HIGH 2400  // DS239MG Servo using 12% Duty Cycle
+#define PWM_LOW 400    // DS239MG Servo using 2% Duty Cycle
 #endif
 
 // Declare pin settings
@@ -101,10 +111,16 @@ DEVELOPED BY
 // In Dual Servo Configuration the servos move in opposing directions, so the angles of the servos will be opposite to each other. 
 // Normal Servo range is 0° ~ 180°, for initial setup the range has been adjusted to 20° ~ 160°, this allows for a 20° adjustment at both ends of the servo range.
 // See Helmet tutorial for further information on servo setup.
-#define SERVO1_OPEN_POS 20  // set the open position of servo 1
-#define SERVO2_OPEN_POS 160 // set the open position of servo 2
-#define SERVO1_CLOSE_POS 160 // set the closed position of servo 1
-#define SERVO2_CLOSE_POS 20 // set the closed position of servo 2
+#if (SERVO_TYPE == DS239MG)
+#define SERVO1_OPEN_POS 0    // set the open position of servo 1
+#define SERVO1_CLOSE_POS 180  // set the closed position of servo 1
+#else
+#define SERVO1_OPEN_POS 20    // set the open position of servo 1
+#define SERVO1_CLOSE_POS 160  // set the closed position of servo 1
+#endif
+#define SERVO2_OPEN_POS 160  // set the open position of servo 2
+#define SERVO2_CLOSE_POS 20  // set the closed position of servo 2
+
 
 // If the faceplate is dropping down when open due to centrifugal forces, change the following to false.
 // Engaging a single servo may be all that is needed to keep the faceplate open

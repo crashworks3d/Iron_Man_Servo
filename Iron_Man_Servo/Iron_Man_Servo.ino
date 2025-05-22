@@ -85,7 +85,7 @@ DEVELOPED BY
 
  */
 // Version.  Don't change unless authorized by Cranshark
-#define VERSION "3.1.0.2"
+#define VERSION "3.1.1.2"
 
 #if defined __AVR_ATtiny85__ || defined __SAM3U4E__ || defined __SAM3X8E__ || defined __SAM3X8H__ || defined ARDUINO_SAMD_ZERO || defined __SAMD21G18A__  || defined __SAMD21J18A__ || ARDUINO_AVR_NANO_EVERY
   #error Code not compatible with this board type.
@@ -394,7 +394,11 @@ void delayWhilePlaying(){
   Serial.println(F("Servo Up!")); 
 
   // Re-attach the servos to their pins
+  #if (SERVO_TYPE == DS239MG)
+  servo1.attach(SERVO1_PIN, SERVO1_PWM_LOW, SERVO1_PWM_HIGH);
+  #else
   servo1.attach(SERVO1_PIN, PWM_LOW, PWM_HIGH);
+  #endif
   servo2.attach(SERVO2_PIN, PWM_LOW, PWM_HIGH);
 
   #ifdef WALSH85
@@ -437,7 +441,11 @@ void delayWhilePlaying(){
   Serial.println(F("Servo Down"));  
 
   // Re-attach the servos to their pins
+ #if (SERVO_TYPE == DS239MG)
+  servo1.attach(SERVO1_PIN, SERVO1_PWM_LOW, SERVO1_PWM_HIGH);
+  #else
   servo1.attach(SERVO1_PIN, PWM_LOW, PWM_HIGH);
+  #endif
   servo2.attach(SERVO2_PIN, PWM_LOW, PWM_HIGH);
 
   #ifdef WALSH85
